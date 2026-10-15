@@ -1,0 +1,182 @@
+.overviewGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.9fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.overviewPanelCard {
+  min-height: 295px;
+}
+.chartSummary {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-top: 18px;
+}
+.chartSummary strong {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.45rem;
+  font-weight: 400;
+}
+.chartSummary span,
+.chartSummary small {
+  font-size: 0.63rem;
+}
+.chartSummary small {
+  color: var(--muted);
+}
+.chart {
+  height: 154px;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+.chartYAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 0 20px;
+  color: #9ba39b;
+  font-size: 0.57rem;
+  text-align: right;
+}
+.chartPlot {
+  position: relative;
+  min-width: 0;
+  padding-bottom: 20px;
+}
+.chartGrid {
+  position: absolute;
+  inset: 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.chartGrid i {
+  height: 1px;
+  background: #eff1ed;
+}
+.chartPlot svg {
+  position: absolute;
+  inset: 0 0 20px;
+  width: 100%;
+  height: calc(100% - 20px);
+  overflow: visible;
+}
+.chartXAxis {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  color: #9ba39b;
+  font-size: 0.54rem;
+}
+.occupancyRingWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 26px 0 22px;
+}
+.occupancyRing {
+  width: 137px;
+  height: 137px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: conic-gradient(#4c7456 0 78%, #d5e1d6 78% 93%, #e8c6a8 93% 100%);
+}
+.occupancyRing::before {
+  position: absolute;
+  width: 99px;
+  height: 99px;
+  border-radius: 50%;
+  background: #fff;
+  content: '';
+}
+.occupancyRing > div {
+  z-index: 1;
+  display: grid;
+  gap: 2px;
+  text-align: center;
+}
+.occupancyRing strong {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.55rem;
+  font-weight: 400;
+}
+.occupancyRing span {
+  color: var(--muted);
+  font-size: 0.56rem;
+}
+.legend {
+  display: grid;
+  gap: 13px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.legend li {
+  display: grid;
+  grid-template-columns: 9px auto auto;
+  align-items: center;
+  gap: 7px;
+  color: #758077;
+  font-size: 0.64rem;
+}
+.legend li strong {
+  color: var(--ink);
+  font-size: 0.68rem;
+}
+.legend li i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.legendOccupied {
+  background: #4c7456;
+}
+.legendAvailable {
+  background: #d5e1d6;
+}
+.legendService {
+  background: #e8c6a8;
+}
+.roomNote {
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
+  color: #778177;
+  font-size: 0.64rem;
+}
+.roomNote span {
+  margin-right: 7px;
+  color: #b58763;
+}
+.teamPreview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 18px;
+}
+.teamPreviewMember {
+  padding-block: 5px;
+}
+.teamPreviewStatus {
+  margin-left: auto;
+}
+@media (max-width: 1120px) {
+.overviewGrid {
+    grid-template-columns: 1fr;
+  }
+.overviewPanelCard {
+    min-height: auto;
+  }
+}
+@media (max-width: 540px) {
+.teamPreview {
+    grid-template-columns: 1fr;
+  }
+}

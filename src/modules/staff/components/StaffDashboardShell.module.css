@@ -1,0 +1,255 @@
+/* Shared staff dashboard shell and workspace styles. */
+.dashboard {
+  --ink: #27332c;
+  --muted: #7a847b;
+  --line: #e8ebe5;
+  --green: #345a47;
+  --soft-green: #edf3ee;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 236px minmax(0, 1fr);
+  background: #f7f8f5;
+  color: var(--ink);
+}
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 17px 18px;
+  border-right: 1px solid var(--line);
+  background: #fff;
+}
+.wordmark {
+  align-self: flex-start;
+  margin: 0 0 47px 12px;
+  color: var(--green);
+  font-size: 1.65rem;
+  font-weight: 700;
+  letter-spacing: -0.09em;
+  text-decoration: none;
+}
+.wordmark span {
+  color: #c78e63;
+}
+.sidebarLabel {
+  margin: 0 0 12px 12px;
+  color: #9aa199;
+  font-size: 0.59rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+}
+.sideNav {
+  display: grid;
+  gap: 5px;
+}
+.sideNav a,
+.sideNav button {
+  width: 100%;
+  min-height: 43px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: #747e75;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.79rem;
+  text-align: left;
+  text-decoration: none;
+}
+.sideNav a:hover,
+.sideNav button:hover {
+  background: #f6f7f4;
+  color: var(--ink);
+}
+.sideNav .navActive {
+  background: var(--soft-green);
+  color: var(--green);
+  font-weight: 700;
+}
+.navIcon {
+  width: 19px;
+  color: #7f8a80;
+  font-size: 1rem;
+  text-align: center;
+}
+.navActive .navIcon {
+  color: var(--green);
+}
+.sidebarBottom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding: 15px 5px 2px;
+  border-top: 1px solid var(--line);
+}
+.profileText {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+.profileText strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 0.71rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.profileText span {
+  color: var(--muted);
+  font-size: 0.64rem;
+}
+.logoutButton,
+.iconButton {
+  position: relative;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: #7e877e;
+  cursor: pointer;
+}
+.logoutButton {
+  width: 28px;
+  height: 30px;
+  margin-left: auto;
+  transform: rotate(90deg);
+}
+.mainPanel {
+  min-width: 0;
+}
+.topbar {
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px clamp(22px, 4vw, 60px);
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+.breadcrumb {
+  margin: 0 0 5px;
+  color: #69746b;
+  font-size: 0.72rem;
+}
+.breadcrumb span {
+  padding-inline: 6px;
+  color: #adb4ac;
+}
+.currentDate {
+  margin: 0;
+  color: #a0a69f;
+  font-size: 0.65rem;
+}
+.topbarActions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.liveIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #68756a;
+  font-size: 0.69rem;
+}
+.liveIndicator i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #5c9a6a;
+}
+.iconButton {
+  width: 33px;
+  height: 33px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 0.8rem;
+}
+.notificationDot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #c68a5f;
+}
+@media (max-width: 1120px) {
+.dashboard {
+    grid-template-columns: 205px minmax(0, 1fr);
+  }
+}
+@media (max-width: 760px) {
+.dashboard {
+    display: block;
+  }
+.sidebar {
+    position: static;
+    height: auto;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+.wordmark {
+    margin: 0;
+    font-size: 1.42rem;
+  }
+.sidebarLabel {
+    display: none;
+  }
+.sidebarBottom {
+    display: flex;
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 8px 0 0;
+  }
+.sideNav {
+    display: flex;
+    justify-content: end;
+    gap: 2px;
+  }
+.sideNav a,
+  .sideNav button {
+    width: auto;
+    min-height: 36px;
+    gap: 6px;
+    padding: 0 8px;
+    font-size: 0.67rem;
+  }
+.navIcon {
+    width: auto;
+  }
+.topbar {
+    min-height: 65px;
+    padding-inline: 20px;
+  }
+}
+@media (max-width: 540px) {
+.sideNav a,
+  .sideNav button {
+    gap: 0;
+    font-size: 0.62rem;
+  }
+.navIcon {
+    display: none;
+  }
+.topbarActions {
+    gap: 9px;
+  }
+.liveIndicator {
+    font-size: 0.61rem;
+  }
+}
