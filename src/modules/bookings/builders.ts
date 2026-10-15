@@ -1,15 +1,5 @@
 import type { BookingSummary } from './types'
-
-/**
- * Minimal room fields needed to build a booking summary.
- * Deliberately kept small so the bookings module does not need to import
- * the rooms module — shared code flows shared -> modules, never across modules.
- */
-export type RoomSummary = {
-  roomId: string
-  roomType: string
-  pricePerNight: number
-}
+import type { Room } from '../../types/room'
 
 /**
  * Builds a booking summary from a room and stay defaults.
@@ -17,7 +7,7 @@ export type RoomSummary = {
  * When the backend arrives, this is the only place that changes.
  */
 export function buildBookingSummary(
-  room: RoomSummary,
+  room: Room,
   checkInOffsetDays = 14,
   nights = 3,
 ): BookingSummary {
@@ -35,8 +25,6 @@ export function buildBookingSummary(
     })
 
   return {
-    roomId: room.roomId,
-    roomType: room.roomType,
     checkIn: formatDate(checkIn),
     checkOut: formatDate(checkOut),
     totalPrice: room.pricePerNight * nights,

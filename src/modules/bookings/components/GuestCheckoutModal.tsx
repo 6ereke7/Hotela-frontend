@@ -1,13 +1,16 @@
 import { useState, type FormEvent } from 'react'
+import type { Room } from '../../../types/room'
 import type { BookingSummary } from '../types'
 import styles from './BookingFlow.module.css'
 
 type GuestCheckoutModalProps = {
+  room: Room
   summary: BookingSummary
   onSendVerificationCode: (email: string) => void
 }
 
 export function GuestCheckoutModal({
+  room,
   summary,
   onSendVerificationCode,
 }: GuestCheckoutModalProps) {
@@ -93,10 +96,11 @@ export function GuestCheckoutModal({
         <aside className={styles.summaryCard} aria-labelledby="summary-title">
           <p className={styles.eyebrow}>Your stay</p>
           <h2 id="summary-title">A little time away.</h2>
-          <div className={styles.roomArtwork} role="img" aria-label="A calm and welcoming guest room">
+          <div className={styles.roomArtwork} role="img" aria-label={room.imageAlt}>
+            <img alt="" aria-hidden="true" src={room.image} />
             <span>HOTELA · PRIVATE STAY</span>
           </div>
-          <h3 className={styles.roomName}>{summary.roomType}</h3>
+          <h3 className={styles.roomName}>{room.name}</h3>
           <dl className={styles.stayDetails}>
             <div>
               <dt>Check in</dt>

@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent, type ClipboardEvent } from 'react'
+import type { Room } from '../../../types/room'
 import type { BookingSummary } from '../types'
 import styles from './BookingFlow.module.css'
 
 type OtpVerificationModalProps = {
   email: string
   onBackToDetails: () => void
+  room: Room
   summary: BookingSummary
 }
 
@@ -15,6 +17,7 @@ const MOCK_BOOKING_REFERENCE = 'HTL-482917'
 export function OtpVerificationModal({
   email,
   onBackToDetails,
+  room,
   summary,
 }: OtpVerificationModalProps) {
   const [digits, setDigits] = useState<string[]>(Array(CODE_LENGTH).fill(''))
@@ -106,10 +109,10 @@ export function OtpVerificationModal({
               <span className={styles.confirmedBadge}>Confirmed</span>
             </div>
             <div className={styles.ticketRoom}>
-              <div className={styles.ticketArtwork} aria-hidden="true" />
+              <img alt="" aria-hidden="true" className={styles.ticketArtwork} src={room.image} />
               <div>
                 <p className={styles.ticketLabel}>Your room</p>
-                <h3>{summary.roomType}</h3>
+                <h3>{room.name}</h3>
               </div>
             </div>
             <dl className={styles.ticketDetails}>

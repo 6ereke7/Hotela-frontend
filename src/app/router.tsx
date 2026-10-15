@@ -78,11 +78,11 @@ export function Router() {
   const pathname = getRoutePath(location.pathname)
   const searchParams = new URLSearchParams(location.search)
   const room = resolveRoom(searchParams)
-  const bookingSummary = buildBookingSummary({
-    roomId: room.id,
-    roomType: room.name,
-    pricePerNight: room.pricePerNight,
-  }, DEFAULT_CHECK_IN_OFFSET_DAYS, DEFAULT_NIGHTS)
+  const bookingSummary = buildBookingSummary(
+    room,
+    DEFAULT_CHECK_IN_OFFSET_DAYS,
+    DEFAULT_NIGHTS,
+  )
 
   return (
     <div className="app-shell" onClick={handleNavigation}>
@@ -107,7 +107,7 @@ export function Router() {
           <ReceptionistDashboard staffName={staffUser.name} onLogout={handleStaffLogout} />
         )
       ) : pathname === '/booking' || pathname === '/booking/checkout' ? (
-        <BookingCheckoutScreen summary={bookingSummary} />
+        <BookingCheckoutScreen room={room} summary={bookingSummary} />
       ) : (
         <RoutePlaceholder {...routes[pathname]} />
       )}

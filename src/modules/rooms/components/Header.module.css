@@ -1,0 +1,62 @@
+.header {
+    height: 86px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    width: min(100% - 64px, 1240px);
+    margin-inline: auto;
+}
+
+.wordmark {
+    color: var(--green);
+    font-size: 1.7rem;
+    font-weight: 700;
+    letter-spacing: -0.09em;
+    text-decoration: none;
+}
+
+.wordmark span {
+    color: #c78e63;
+}
+
+.navigation {
+    display: flex;
+    align-items: center;
+    gap: clamp(20px, 3vw, 44px);
+    font-size: 0.84rem;
+}
+
+.navigation a {
+    color: var(--ink);
+    text-decoration: none;
+}
+
+@media (max-width: 700px) {
+    .header {
+        width: min(100% - 36px, 560px);
+        height: 70px;
+    }
+
+    .navigation {
+        gap: 16px;
+        font-size: 0.76rem;
+    }
+
+    .navigation a:nth-child(2) {
+        display: none;
+    }
+
+}
+
+@media (max-width: 420px) {
+    .header {
+        width: min(100% - 28px, 560px);
+    }
+
+    .navigation {
+        gap: 12px;
+    }
+
+
+}

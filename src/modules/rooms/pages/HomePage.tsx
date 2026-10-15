@@ -3,6 +3,7 @@ import Filter from '../components/Filter'
 import RoomCard from '../components/RoomCard'
 import styles from './HomePage.module.css'
 import { getMockRooms } from '../data/mockRooms'
+import Header from '../components/Header'
 
 const rooms = getMockRooms()
 const benefits = [
@@ -29,16 +30,7 @@ const benefits = [
 export function HomePage() {
   return (
     <main className={styles.home}>
-      <header className={styles.header}>
-        <a className={styles.wordmark} href="/" aria-label="Hotela home">
-          hotela<span>.</span>
-        </a>
-        <nav className={styles.navigation} aria-label="Main navigation">
-          <a href="/catalog">Stay</a>
-          <a href="#the-hotela-way">The Hotela way</a>
-        </nav>
-      </header>
-
+      <Header/>
       <section className={styles.hero} aria-labelledby="hero-title">
         <div className={styles.heroCopy}>
           <p className={styles.kicker}>
