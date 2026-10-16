@@ -1,74 +1,112 @@
-import { useState } from 'react'
-import { initialManagedRooms } from '../data/mockOperations'
-import { ManagerOverview } from '../components/ManagerOverview'
-import { ManagerRoomsSection } from '../components/ManagerRoomsSection'
-import { ManagerTeamSection } from '../components/ManagerTeamSection'
-import { StaffDashboardShell } from '../components/StaffDashboardShell'
-import shellStyles from '../components/StaffDashboardShell.module.css'
-import commonStyles from '../components/StaffDashboardCommon.module.css'
-
-const styles = { ...shellStyles, ...commonStyles }
+import { useEffect, useState } from "react";
+import type { GuestBooking, ManagedRoom } from "../types";
+import { ManagerOverview } from "../components/ManagerOverview";
+import { ManagerRoomsSection } from "../components/ManagerRoomsSection";
+import { ManagerTeamSection } from "../components/ManagerTeamSection";
+import { StaffDashboardShell } from "../components/StaffDashboardShell";
+import shellStyles from "../components/StaffDashboardShell.module.css";
+import commonStyles from "../components/StaffDashboardCommon.module.css";
+import {
+  createManagedRoom,
+  getStaffOperations,
+  removeManagedRoom,
+  updateManagedRoomRate,
+} from "../api";
 
 type ManagerDashboardProps = {
-  staffName: string
-  onLogout: () => void
-}
+  staffName: string;
+  onLogout: () => void;
+};
 
-type ManagerSection = 'Overview' | 'Rooms' | 'Team'
+type ManagerSection = "Overview" | "Rooms" | "Team";
+type NewRoomInput = {
+  roomNumber: string;
+  type: string;
+  price: number;
+  capacity: number;
+  bedType: string;
+  floor: number;
+};
 
-const sections: ManagerSection[] = ['Overview', 'Rooms', 'Team']
+const sections: ManagerSection[] = ["Overview", "Rooms", "Team"];
 
-export function ManagerDashboard({ staffName, onLogout }: ManagerDashboardProps) {
-  const [section, setSection] = useState<ManagerSection>('Overview')
-  const [rooms, setRooms] = useState(initialManagedRooms)
-  const [editingRoom, setEditingRoom] = useState<string | null>(null)
+export function ManagerDashboard({
+  staffName,
+  onLogout,
+}: ManagerDashboardProps) {
+  const [section, setSection] = useState<ManagerSection>("Overview");
+  const [rooms, setRooms] = useState<ManagedRoom[]>([]);
+  const [bookings, setBookings] = useState<GuestBooking[]>([]);
+  const [editingRoom, setEditingRoom] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const handleAddRoom = (name: string) => {
-    setRooms((current) => {
-      const roomNumber =
-        Array.from({ length: current.length + 1 }, (_, index) => 101 + index).find(
-          (number) => !current.some((room) => room.name === String(number)),
-        ) ?? 101 + current.length
+  useEffect(() => {
+    getStaffOperations()
+      .then((data) => {
+        setRooms(data.rooms);
+        setBookings(data.bookings);
+      })
+      .catch(() => setError("Hotel data could not be loaded. Please refresh."))
+      .finally(() => setIsLoading(false));
+  }, []);
 
-      return [
-        ...current,
-        {
-          id: `r-${Date.now()}`,
-          name: String(roomNumber),
-          category: name,
-          rate: 200,
-          status: 'Available',
-        },
-      ]
-    })
-  }
+  const handleAddRoom = async (room: NewRoomInput) => {
+    try {
+      const createdRoom = await createManagedRoom(room);
+      setRooms((current) => [...current, createdRoom]);
+      setError("");
+    } catch {
+      setError("Room could not be added. Check the room number and details.");
+    }
+  };
 
-  const handleRateChange = (roomId: string, rate: number) => {
-    setRooms((current) =>
-      current.map((room) => (room.id === roomId ? { ...room, rate } : room)),
-    )
-    setEditingRoom(null)
-  }
+  const handleRateChange = async (roomId: string, rate: number) => {
+    try {
+      await updateManagedRoomRate(roomId, rate);
+      setRooms((current) =>
+        current.map((room) => (room.id === roomId ? { ...room, rate } : room)),
+      );
+      setEditingRoom(null);
+      setError("");
+    } catch {
+      setError("Room rate could not be saved.");
+    }
+  };
+
+  const handleRemoveRoom = async (roomId: string) => {
+    try {
+      await removeManagedRoom(roomId);
+      setRooms((current) => current.filter((room) => room.id !== roomId));
+      setError("");
+    } catch {
+      setError("Room could not be removed.");
+    }
+  };
 
   const toggleRoomEdit = (roomId: string) => {
-    setEditingRoom((current) => (current === roomId ? null : roomId))
-  }
+    setEditingRoom((current) => (current === roomId ? null : roomId));
+  };
 
   const sectionTitle = {
-    Overview: `Good morning, ${staffName.split(' ')[0]}.`,
-    Rooms: 'Room management',
-    Team: 'Your people.',
-  }[section]
+    Overview: `Good morning, ${staffName.split(" ")[0]}.`,
+    Rooms: "Room management",
+    Team: "Your people.",
+  }[section];
 
   const sectionDescription = {
-    Overview: 'A lovely day to make someone feel at home.',
-    Rooms: 'Keep room details and availability up to date.',
-    Team: 'A thoughtful team makes a thoughtful stay.',
-  }[section]
+    Overview: "A lovely day to make someone feel at home.",
+    Rooms: "Keep room details and availability up to date.",
+    Team: "A thoughtful team makes a thoughtful stay.",
+  }[section];
 
   return (
     <StaffDashboardShell
-      breadcrumb={<>Workspace <span>/</span> {section}</>}
+      breadcrumb={
+        <>
+          Workspace <span>/</span> {section}
+        </>
+      }
       liveStatus="Hotel is open"
       navigationLabel="Manager sections"
       onLogout={onLogout}
@@ -79,14 +117,14 @@ export function ManagerDashboard({ staffName, onLogout }: ManagerDashboardProps)
         <>
           {sections.map((item) => (
             <button
-              aria-current={section === item ? 'page' : undefined}
-              className={section === item ? styles.navActive : ''}
+              aria-current={section === item ? "page" : undefined}
+              className={section === item ? shellStyles.navActive : ""}
               key={item}
               onClick={() => setSection(item)}
               type="button"
             >
-              <span className={styles.navIcon} aria-hidden="true">
-                {item === 'Overview' ? '◫' : item === 'Rooms' ? '⌂' : '♧'}
+              <span className={shellStyles.navIcon} aria-hidden="true">
+                {item === "Overview" ? "◫" : item === "Rooms" ? "⌂" : "♧"}
               </span>
               {item}
             </button>
@@ -94,41 +132,47 @@ export function ManagerDashboard({ staffName, onLogout }: ManagerDashboardProps)
         </>
       }
     >
-      <div className={styles.dashboardContent}>
-        <div className={styles.pageTitleRow}>
+      <div className={commonStyles.dashboardContent}>
+        <div className={commonStyles.pageTitleRow}>
           <div>
-            <p className={styles.eyebrow}>
-              {section === 'Overview' ? 'YOUR HOTEL AT A GLANCE' : 'HOTEL OPERATIONS'}
+            <p className={commonStyles.eyebrow}>
+              {section === "Overview"
+                ? "YOUR HOTEL AT A GLANCE"
+                : "HOTEL OPERATIONS"}
             </p>
             <h1>{sectionTitle}</h1>
-            <p className={styles.subtitle}>{sectionDescription}</p>
+            <p className={commonStyles.subtitle}>{sectionDescription}</p>
           </div>
           <button
-            className={styles.outlineButton}
-            onClick={() => setSection('Rooms')}
+            className={commonStyles.outlineButton}
+            onClick={() => setSection("Rooms")}
             type="button"
           >
             <span aria-hidden="true">＋</span> Add a room
           </button>
         </div>
 
-        {section === 'Overview' && (
-          <ManagerOverview onNavigate={setSection} />
+        {error && <p role="alert">{error}</p>}
+        {isLoading ? <p role="status">Loading hotel data...</p> : null}
+        {!isLoading && section === "Overview" && (
+          <ManagerOverview
+            bookings={bookings}
+            onNavigate={setSection}
+            rooms={rooms}
+          />
         )}
-        {section === 'Rooms' && (
+        {section === "Rooms" && (
           <ManagerRoomsSection
             editingRoom={editingRoom}
             onAddRoom={handleAddRoom}
-            onDeleteRoom={(roomId) => setRooms((current) =>
-              current.filter((room) => room.id !== roomId),
-            )}
+            onDeleteRoom={handleRemoveRoom}
             onSaveRate={handleRateChange}
             onToggleEdit={toggleRoomEdit}
             rooms={rooms}
           />
         )}
-        {section === 'Team' && <ManagerTeamSection />}
+        {section === "Team" && <ManagerTeamSection />}
       </div>
     </StaffDashboardShell>
-  )
+  );
 }

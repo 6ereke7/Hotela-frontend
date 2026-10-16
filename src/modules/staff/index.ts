@@ -1,3 +1,3 @@
-export { ManagerDashboard } from './pages/ManagerDashboard'
-export { ReceptionistDashboard } from './pages/ReceptionistDashboard'
-export type { GuestBooking, ManagedRoom } from './data/mockOperations'
+export { ManagerDashboard } from "./pages/ManagerDashboard";
+export { ReceptionistDashboard } from "./pages/ReceptionistDashboard";
+export type { GuestBooking, ManagedRoom, Receptionist } from "./types";

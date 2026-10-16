@@ -1,40 +1,33 @@
-import { useState, type FormEvent } from 'react'
-import { verifyMockStaffLogin } from '../data/mockStaff'
-import type { StaffRole, StaffUser } from '../types'
-import styles from './StaffLoginPage.module.css'
+import { useState, type FormEvent } from "react";
+import type { StaffUser } from "../types";
+import styles from "./StaffLoginPage.module.css";
+
+import * as api from "../api";
 
 type StaffLoginPageProps = {
-  onLogin: (user: StaffUser) => void
-}
+  onLogin: (user: StaffUser) => void;
+};
 
 export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
-  const [email, setEmail] = useState('manager@hotel.com')
-  const [password, setPassword] = useState('welcome123')
-  const [error, setError] = useState('')
-  const role: StaffRole = email.toLowerCase().startsWith('receptionist@')
-    ? 'receptionist'
-    : 'manager'
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const user = verifyMockStaffLogin(email, password)
-    if (!user) {
-      setError('That email and password do not match our demo staff accounts.')
-      return
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError("");
+    setIsSubmitting(true);
+    try {
+      onLogin(await api.login({ email: email.trim(), password }));
+    } catch {
+      setError(
+        "Sign-in failed. Check your email and password, then try again.",
+      );
+    } finally {
+      setIsSubmitting(false);
     }
-    setError('')
-    onLogin(user)
-  }
-
-  const selectDemoRole = (selectedRole: StaffRole) => {
-    setEmail(
-      selectedRole === 'manager'
-        ? 'manager@hotel.com'
-        : 'receptionist@hotel.com',
-    )
-    setPassword('welcome123')
-    setError('')
-  }
+  };
 
   return (
     <main className={styles.loginPage}>
@@ -48,31 +41,14 @@ export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
       </header>
 
       <section className={styles.loginCard} aria-labelledby="login-title">
-        <div className={styles.loginMark} aria-hidden="true">h.</div>
+        <div className={styles.loginMark} aria-hidden="true">
+          h.
+        </div>
         <p className={styles.eyebrow}>The team at Hotela</p>
         <h1 id="login-title">Welcome back.</h1>
         <p className={styles.description}>
           Sign in to your workspace and make someone’s stay.
         </p>
-
-        <div className={styles.rolePicker} aria-label="Demo role selection">
-          <button
-            aria-pressed={role === 'manager'}
-            className={role === 'manager' ? styles.roleActive : ''}
-            onClick={() => selectDemoRole('manager')}
-            type="button"
-          >
-            Manager
-          </button>
-          <button
-            aria-pressed={role === 'receptionist'}
-            className={role === 'receptionist' ? styles.roleActive : ''}
-            onClick={() => selectDemoRole('receptionist')}
-            type="button"
-          >
-            Receptionist
-          </button>
-        </div>
 
         <form className={styles.loginForm} onSubmit={handleSubmit}>
           <label className={styles.field}>
@@ -95,18 +71,20 @@ export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
               value={password}
             />
           </label>
-          {error && <p className={styles.error} role="alert">{error}</p>}
+          {error && (
+            <p className={styles.error} role="alert">
+              {error}
+            </p>
+          )}
           <button className={styles.submitButton} type="submit">
-            Sign in to workspace <span aria-hidden="true">↗</span>
+            {isSubmitting ? "Signing in..." : "Sign in to workspace"}{" "}
+            <span aria-hidden="true">↗</span>
           </button>
         </form>
-
-        <p className={styles.demoHint}>
-          Demo access · {role === 'manager' ? 'manager' : 'receptionist'}
-          @hotel.com · password <code>welcome123</code>
-        </p>
       </section>
-      <footer className={styles.footer}>Thoughtful stays start with a thoughtful team.</footer>
+      <footer className={styles.footer}>
+        Thoughtful stays start with a thoughtful team.
+      </footer>
     </main>
-  )
+  );
 }

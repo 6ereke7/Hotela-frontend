@@ -1,21 +1,19 @@
-import type { ReactNode } from 'react'
-import shellStyles from './StaffDashboardShell.module.css'
-import commonStyles from './StaffDashboardCommon.module.css'
-
-const styles = { ...shellStyles, ...commonStyles }
-import { LucideLogOut } from 'lucide-react'
+import type { ReactNode } from "react";
+import { LucideLogOut } from "lucide-react";
+import shellStyles from "./StaffDashboardShell.module.css";
+import commonStyles from "./StaffDashboardCommon.module.css";
 
 type StaffDashboardShellProps = {
-  staffName: string
-  staffTitle: string
-  sidebarLabel: string
-  navigationLabel: string
-  breadcrumb: ReactNode
-  liveStatus: string
-  navigation: ReactNode
-  onLogout: () => void
-  children: ReactNode
-}
+  staffName: string;
+  staffTitle: string;
+  sidebarLabel: string;
+  navigationLabel: string;
+  breadcrumb: ReactNode;
+  liveStatus: string;
+  navigation: ReactNode;
+  onLogout: () => void;
+  children: ReactNode;
+};
 
 export function StaffDashboardShell({
   staffName,
@@ -28,55 +26,65 @@ export function StaffDashboardShell({
   onLogout,
   children,
 }: StaffDashboardShellProps) {
+  const currentDate = new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date());
   const initials = staffName
-    .split(' ')
+    .split(" ")
     .map((part) => part[0])
-    .join('')
+    .join("");
 
   return (
-    <main className={styles.dashboard}>
-      <aside className={styles.sidebar}>
-        <a className={styles.wordmark} href="/" aria-label="Hotela home">
+    <main className={shellStyles.dashboard}>
+      <aside className={shellStyles.sidebar}>
+        <a className={shellStyles.wordmark} href="/" aria-label="Hotela home">
           hotela<span>.</span>
         </a>
-        <p className={styles.sidebarLabel}>{sidebarLabel}</p>
-        <nav className={styles.sideNav} aria-label={navigationLabel}>
+        <p className={shellStyles.sidebarLabel}>{sidebarLabel}</p>
+        <nav className={shellStyles.sideNav} aria-label={navigationLabel}>
           {navigation}
         </nav>
-        <div className={styles.sidebarBottom}>
-          <div className={styles.profileAvatar}>{initials}</div>
-          <div className={styles.profileText}>
+        <div className={shellStyles.sidebarBottom}>
+          <div className={commonStyles.profileAvatar}>{initials}</div>
+          <div className={shellStyles.profileText}>
             <strong>{staffName}</strong>
             <span>{staffTitle}</span>
           </div>
           <button
-            className={styles.logoutButton}
+            className={shellStyles.logoutButton}
             onClick={onLogout}
             type="button"
             aria-label="Sign out"
           >
-            <LucideLogOut/>
+            <LucideLogOut />
           </button>
         </div>
       </aside>
 
-      <section className={styles.mainPanel}>
-        <header className={styles.topbar}>
+      <section className={shellStyles.mainPanel}>
+        <header className={shellStyles.topbar}>
           <div>
-            <p className={styles.breadcrumb}>{breadcrumb}</p>
-            <p className={styles.currentDate}>Monday, October 13, 2026</p>
+            <p className={shellStyles.breadcrumb}>{breadcrumb}</p>
+            <p className={shellStyles.currentDate}>{currentDate}</p>
           </div>
-          <div className={styles.topbarActions}>
-            <span className={styles.liveIndicator}>
+          <div className={shellStyles.topbarActions}>
+            <span className={shellStyles.liveIndicator}>
               <i /> {liveStatus}
             </span>
-            <button className={styles.iconButton} type="button" aria-label="Notifications">
-              ♧<span className={styles.notificationDot} />
+            <button
+              className={shellStyles.iconButton}
+              type="button"
+              aria-label="Notifications"
+            >
+              ♧<span className={shellStyles.notificationDot} />
             </button>
           </div>
         </header>
         {children}
       </section>
     </main>
-  )
+  );
 }

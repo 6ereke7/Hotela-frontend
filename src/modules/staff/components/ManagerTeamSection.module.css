@@ -1,0 +1,147 @@
+.receptionistForm {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  background: #fbfcfa;
+}
+
+.receptionistForm h3 {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.field input {
+  min-width: 0;
+  min-height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+}
+
+.formActions {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cancelButton {
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.7rem;
+}
+
+.receptionistList {
+  display: grid;
+  margin-top: 18px;
+}
+
+.receptionistRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 76px;
+  padding: 12px 4px;
+  border-top: 1px solid var(--line);
+}
+
+.receptionistIdentity {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+  color: var(--ink);
+  font-size: 0.72rem;
+}
+
+.receptionistIdentity span,
+.receptionistIdentity small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.65rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activeStatus,
+.inactiveStatus {
+  padding: 5px 8px;
+  border-radius: 20px;
+  font-size: 0.62rem;
+  font-weight: 600;
+}
+
+.activeStatus {
+  background: #edf4ee;
+  color: #477451;
+}
+
+.inactiveStatus {
+  background: #f1f1ef;
+  color: #70766f;
+}
+
+.rowActions {
+  display: flex;
+  gap: 12px;
+}
+
+.emptyState,
+.error {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.error {
+  color: #a33b31;
+}
+
+@media (max-width: 680px) {
+  .receptionistRow {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .receptionistRow > .activeStatus,
+  .receptionistRow > .inactiveStatus {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .rowActions {
+    grid-column: 2 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .receptionistForm {
+    grid-template-columns: 1fr;
+    padding: 13px;
+  }
+
+  .receptionistForm h3,
+  .formActions {
+    grid-column: auto;
+  }
+}

@@ -1,1 +1,1 @@
-export type { Room } from '../../types/room'
+export type { Room } from "@/types/room";

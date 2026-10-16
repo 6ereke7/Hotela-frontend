@@ -1,5 +1,5 @@
-export { BookingCheckoutScreen } from './pages/BookingCheckoutScreen'
-export { GuestCheckoutModal } from './components/GuestCheckoutModal'
-export { OtpVerificationModal } from './components/OtpVerificationModal'
-export type { BookingSummary } from './types'
-export { buildBookingSummary } from './builders'
+export { BookingCheckoutScreen } from "./pages/BookingCheckoutScreen";
+export { GuestCheckoutStep } from "./components/GuestCheckoutStep";
+export { OtpVerificationStep } from "./components/OtpVerificationStep";
+export type { BookingDetail } from "./types";
+export { buildBookingSummary } from "./builders";

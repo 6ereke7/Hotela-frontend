@@ -4,10 +4,7 @@ Guidance for AI coding agents working in this React codebase. Follow these conve
 
 ## Project status
 
-This project was created with `npm create vite@latest` and is currently **UI design and implementation only**. There is no backend integration yet. It will scale later to talk to a backend, so structure code to make that transition easy, but do not build backend plumbing now.
-
-- Use mock/static data (local constants or JSON files) for anything that will later come from an API.
-- Do not add data-fetching, state, or testing libraries unless asked. Prefer plain React (`useState`, `useReducer`, Context) for now.
+The frontend is integrated with the hotel API through the shared Axios client in `src/lib/api.ts`. Use feature API modules for server data, and reserve mock/static data for isolated previews or tests. Do not add data-fetching or state libraries unless asked; prefer the existing React hooks and API client.
 
 ## Stack
 
@@ -31,7 +28,7 @@ src/
 │   │   ├── components/
 │   │   ├── pages/
 │   │   ├── hooks/
-│   │   ├── data/       # Mock data for now
+│   │   ├── data/       # Fixture data only when needed
 │   │   ├── types.ts
 │   │   └── index.ts    # Public API of the module
 │   └── orders/
@@ -61,7 +58,7 @@ Dependencies flow in one direction: **shared -> modules -> app**.
 - Create a new module only for a distinct business domain. Do not create a module for a single component.
 - Put route-level screens in a module's `pages/` folder; keep supporting and reusable UI in `components/`. Create these folders only when needed.
 - Colocate styles and types with the code they belong to (`Button.tsx` and `Button.module.css` side by side).
-- Keep mock data inside the module's `data/` folder and access it through a small function (e.g., `getOrders()`), not by importing the constant everywhere. When the backend arrives, only that function changes.
+- Keep fixture data inside the module's `data/` folder and access it through a small function; do not use fixture data as the production source when an API endpoint exists.
 - Route-level screens are composed in `app/router.tsx`. Keep them thin: they compose module components and contain no business logic.
 
 ## Code style

@@ -359,6 +359,26 @@
   gap: 24px;
 }
 
+.priceQuote {
+  margin: -15px 0 28px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.priceQuote strong {
+  color: var(--ink);
+}
+
+.priceChangedMessage {
+  margin: -10px 0 22px;
+  color: var(--green);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
 .codeFieldset {
   margin: 0;
   padding: 0;

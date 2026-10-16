@@ -1,15 +1,22 @@
 .addRoomForm {
-  display: flex;
+  display: grid;
+  flex: 1;
+  width: min(100%, 680px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 .addRoomForm input {
-  width: 150px;
+  width: 100%;
+  min-height: 38px;
   padding: 0 10px;
   min-width: 0;
   border: 1px solid var(--line);
   color: var(--ink);
   font: inherit;
   font-size: 0.7rem;
+}
+.addRoomForm button {
+  grid-column: 1 / -1;
 }
 .manageRoomGrid {
   display: grid;
@@ -18,18 +25,19 @@
   margin-top: 22px;
 }
 @media (max-width: 1120px) {
-.manageRoomGrid {
+  .manageRoomGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (max-width: 540px) {
-.manageRoomGrid {
+  .manageRoomGrid {
     grid-template-columns: 1fr;
   }
-.addRoomForm {
+  .addRoomForm {
     width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-.addRoomForm input {
-    flex: 1;
+  .addRoomForm button {
+    grid-column: 1 / -1;
   }
 }

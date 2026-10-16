@@ -1,125 +1,124 @@
-import { mockStaffMembers } from '../data/mockOperations'
-import styles from './ManagerOverview.module.css'
-import commonStyles from './StaffDashboardCommon.module.css'
-
-const dashboardStyles = { ...commonStyles, ...styles }
+import type { GuestBooking, ManagedRoom } from "../types";
+import styles from "./StaffDashboardCommon.module.css";
 
 type ManagerOverviewProps = {
-  onNavigate: (section: 'Rooms' | 'Team') => void
-}
+  rooms: ManagedRoom[];
+  bookings: GuestBooking[];
+  onNavigate: (section: "Rooms" | "Team") => void;
+};
 
-export function ManagerOverview({ onNavigate }: ManagerOverviewProps) {
+export function ManagerOverview({
+  rooms,
+  bookings,
+  onNavigate,
+}: ManagerOverviewProps) {
+  const inHouse = bookings.filter(
+    (booking) => booking.bookingStatus === "In house",
+  ).length;
+  const arrivals = bookings.filter(
+    (booking) => booking.bookingStatus === "Arriving",
+  ).length;
+  const occupancy = rooms.length
+    ? Math.round((inHouse / rooms.length) * 100)
+    : 0;
+
   return (
     <>
-      <div className={dashboardStyles.statsGrid}>
-        <article className={dashboardStyles.statCard}>
-          <div className={dashboardStyles.statCardTop}><span>Occupancy</span><span aria-hidden="true">↗</span></div>
-          <strong>78<span>%</span></strong>
-          <p><span className={dashboardStyles.positive}>↑ 6.2%</span> compared to last week</p>
-          <div className={dashboardStyles.miniProgress}><span style={{ width: '78%' }} /></div>
-        </article>
-        <article className={dashboardStyles.statCard}>
-          <div className={dashboardStyles.statCardTop}><span>Rooms occupied</span><span aria-hidden="true">⌂</span></div>
-          <strong>31<span className={dashboardStyles.statUnit}>/ 40</span></strong>
-          <p>9 rooms available tonight</p>
-          <div className={dashboardStyles.miniProgress}><span style={{ width: '78%' }} /></div>
-        </article>
-        <article className={dashboardStyles.statCard}>
-          <div className={dashboardStyles.statCardTop}><span>Revenue this month</span><span aria-hidden="true">$</span></div>
-          <strong className={dashboardStyles.revenue}>$42,860</strong>
-          <p><span className={dashboardStyles.positive}>↑ 12.8%</span> compared to last month</p>
-          <div className={dashboardStyles.miniProgress}><span style={{ width: '65%' }} /></div>
-        </article>
-        <article className={dashboardStyles.statCard}>
-          <div className={dashboardStyles.statCardTop}><span>Today’s arrivals</span><span aria-hidden="true">↘</span></div>
-          <strong>8</strong>
-          <p>4 check-ins still expected</p>
-          <div className={dashboardStyles.arrivalAvatars} aria-label="Four guests arriving">
-            <span>AP</span><span>JL</span><span>+2</span>
+      <div className={styles.statsGrid}>
+        <article className={styles.statCard}>
+          <div className={styles.statCardTop}>
+            <span>Active rooms</span>
+            <span aria-hidden="true">⌂</span>
           </div>
+          <strong>{rooms.length}</strong>
+          <p>Rooms in the property inventory</p>
+        </article>
+        <article className={styles.statCard}>
+          <div className={styles.statCardTop}>
+            <span>In-house bookings</span>
+            <span aria-hidden="true">♧</span>
+          </div>
+          <strong>{inHouse}</strong>
+          <p>Based on current booking status</p>
+        </article>
+        <article className={styles.statCard}>
+          <div className={styles.statCardTop}>
+            <span>Occupancy</span>
+            <span aria-hidden="true">↗</span>
+          </div>
+          <strong>
+            {occupancy}
+            <span>%</span>
+          </strong>
+          <p>In-house bookings compared with active rooms</p>
+        </article>
+        <article className={styles.statCard}>
+          <div className={styles.statCardTop}>
+            <span>Upcoming arrivals</span>
+            <span aria-hidden="true">↘</span>
+          </div>
+          <strong>{arrivals}</strong>
+          <p>Confirmed bookings not yet checked in</p>
         </article>
       </div>
 
-      <div className={styles.overviewGrid}>
-        <section
-          className={`${dashboardStyles.panelCard} ${styles.overviewPanelCard}`}
-          aria-labelledby="revenue-title"
-        >
-          <div className={dashboardStyles.panelHeading}>
-            <div><p className={dashboardStyles.eyebrow}>PERFORMANCE</p><h2 id="revenue-title">Revenue overview</h2></div>
-            <select aria-label="Revenue chart period" defaultValue="7 days">
-              <option>7 days</option><option>30 days</option>
-            </select>
+      <section className={styles.panelCard} aria-labelledby="revenue-title">
+        <div className={styles.panelHeading}>
+          <div>
+            <p className={styles.eyebrow}>PERFORMANCE</p>
+            <h2 id="revenue-title">Revenue overview</h2>
           </div>
-          <div className={styles.chartSummary}>
-            <strong>$12,480</strong><span className={dashboardStyles.positive}>↑ 8.4%</span><small>vs previous period</small>
-          </div>
-          <div className={styles.chart} role="img" aria-label="Revenue chart placeholder showing a generally rising weekly trend">
-            <div className={styles.chartYAxis}><span>$4k</span><span>$3k</span><span>$2k</span><span>$1k</span></div>
-            <div className={styles.chartPlot}>
-              <div className={styles.chartGrid}><i /><i /><i /><i /></div>
-              <svg viewBox="0 0 600 190" preserveAspectRatio="none" aria-hidden="true">
-                <defs>
-                  <linearGradient id="chart-fill" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="#527b62" stopOpacity=".22" />
-                    <stop offset="100%" stopColor="#527b62" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-                <path d="M0 146 C34 135 48 127 82 134 S139 111 170 119 S225 80 260 99 S315 90 344 72 S392 88 428 63 S479 72 514 42 S566 54 600 21 L600 190 L0 190 Z" fill="url(#chart-fill)" />
-                <path d="M0 146 C34 135 48 127 82 134 S139 111 170 119 S225 80 260 99 S315 90 344 72 S392 88 428 63 S479 72 514 42 S566 54 600 21" fill="none" stroke="#527b62" strokeWidth="3" vectorEffect="non-scaling-stroke" />
-              </svg>
-              <div className={styles.chartXAxis}>
-                <span>Oct 07</span><span>Oct 08</span><span>Oct 09</span><span>Oct 10</span><span>Oct 11</span><span>Oct 12</span><span>Oct 13</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section
-          className={`${dashboardStyles.panelCard} ${styles.overviewPanelCard}`}
-          aria-labelledby="rooms-glance"
-        >
-          <div className={dashboardStyles.panelHeading}>
-            <div><p className={dashboardStyles.eyebrow}>ROOM STATUS</p><h2 id="rooms-glance">Rooms at a glance</h2></div>
-            <button className={dashboardStyles.panelLink} onClick={() => onNavigate('Rooms')} type="button">View rooms ↗</button>
-          </div>
-          <div className={styles.occupancyRingWrap}>
-            <div className={styles.occupancyRing}><div><strong>78%</strong><span>occupied</span></div></div>
-            <ul className={styles.legend}>
-              <li><i className={styles.legendOccupied} /> Occupied <strong>31</strong></li>
-              <li><i className={styles.legendAvailable} /> Available <strong>6</strong></li>
-              <li><i className={styles.legendService} /> Needs service <strong>3</strong></li>
-            </ul>
-          </div>
-          <div className={styles.roomNote}><span>✳</span> 3 rooms are waiting for a little care.</div>
-        </section>
-      </div>
-
-      <section
-        className={`${dashboardStyles.panelCard} ${styles.overviewPanelCard}`}
-        aria-labelledby="team-today"
-      >
-        <div className={dashboardStyles.panelHeading}>
-          <div><p className={dashboardStyles.eyebrow}>THE PEOPLE MAKING IT HAPPEN</p><h2 id="team-today">On the team today</h2></div>
-          <button className={dashboardStyles.panelLink} onClick={() => onNavigate('Team')} type="button">Meet the team ↗</button>
         </div>
-        <div className={styles.teamPreview}>
-          {mockStaffMembers.map((member) => (
-            <div
-              className={`${dashboardStyles.teamMember} ${styles.teamPreviewMember}`}
-              key={member.name}
-            >
-              <span className={dashboardStyles.profileAvatar}>{member.initials}</span>
-              <span className={dashboardStyles.teamMemberInfo}><strong>{member.name}</strong><small>{member.role}</small></span>
-              <span
-                className={`${member.status === 'On property' ? dashboardStyles.staffPresent : dashboardStyles.staffAbsent} ${styles.teamPreviewStatus}`}
-              >
-                <i />{member.status}
+        <p>Revenue reporting is not available from the current backend.</p>
+      </section>
+
+      <section className={styles.panelCard} aria-labelledby="rooms-glance">
+        <div className={styles.panelHeading}>
+          <div>
+            <p className={styles.eyebrow}>PROPERTY INVENTORY</p>
+            <h2 id="rooms-glance">Rooms at a glance</h2>
+          </div>
+          <button
+            className={styles.panelLink}
+            onClick={() => onNavigate("Rooms")}
+            type="button"
+          >
+            View rooms ↗
+          </button>
+        </div>
+        <div className={styles.teamList}>
+          {rooms.slice(0, 5).map((room) => (
+            <div className={styles.teamMember} key={room.id}>
+              <span className={styles.teamMemberInfo}>
+                <strong>Room {room.name}</strong>
+                <small>{room.category}</small>
               </span>
+              <span>${room.rate} / night</span>
             </div>
           ))}
+          {rooms.length === 0 && <p>No active rooms found.</p>}
         </div>
       </section>
+
+      <section className={styles.panelCard} aria-labelledby="team-today">
+        <div className={styles.panelHeading}>
+          <div>
+            <p className={styles.eyebrow}>PEOPLE & PERMISSIONS</p>
+            <h2 id="team-today">Team management</h2>
+          </div>
+          <button
+            className={styles.panelLink}
+            onClick={() => onNavigate("Team")}
+            type="button"
+          >
+            View team ↗
+          </button>
+        </div>
+        <p>
+          Staff directory and invitations are not available from the current
+          backend.
+        </p>
+      </section>
     </>
-  )
+  );
 }

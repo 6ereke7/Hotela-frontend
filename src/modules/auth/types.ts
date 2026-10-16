@@ -1,7 +1,12 @@
-export type StaffRole = 'manager' | 'receptionist'
+export type StaffRole = "manager" | "receptionist";
 
 export type StaffUser = {
-  name: string
-  email: string
-  role: StaffRole
-}
+  id: string;
+  name: string;
+  email: string;
+  role: StaffRole;
+};
+export type LoginParams = {
+  email: string;
+  password: string;
+};

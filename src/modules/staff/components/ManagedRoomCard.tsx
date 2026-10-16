@@ -1,17 +1,15 @@
-import { useState, type FormEvent } from 'react'
-import type { ManagedRoom } from '../data/mockOperations'
-import roomStyles from './ManagedRoomCard.module.css'
-import commonStyles from './StaffDashboardCommon.module.css'
-
-const styles = { ...commonStyles, ...roomStyles }
+import { useState, type FormEvent } from "react";
+import type { ManagedRoom } from "../types";
+import roomStyles from "./ManagedRoomCard.module.css";
+import commonStyles from "./StaffDashboardCommon.module.css";
 
 type ManagedRoomCardProps = {
-  room: ManagedRoom
-  editing: boolean
-  onEdit: () => void
-  onSave: (rate: number) => void
-  onDelete: () => void
-}
+  room: ManagedRoom;
+  editing: boolean;
+  onEdit: () => void;
+  onSave: (rate: number) => void;
+  onDelete: () => void;
+};
 
 export function ManagedRoomCard({
   room,
@@ -20,46 +18,46 @@ export function ManagedRoomCard({
   onSave,
   onDelete,
 }: ManagedRoomCardProps) {
-  const [rate, setRate] = useState(String(room.rate))
+  const [rate, setRate] = useState(String(room.rate));
 
   const handleSave = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const parsedRate = Number(rate)
-    if (Number.isFinite(parsedRate) && parsedRate > 0) onSave(parsedRate)
-  }
+    event.preventDefault();
+    const parsedRate = Number(rate);
+    if (Number.isFinite(parsedRate) && parsedRate > 0) onSave(parsedRate);
+  };
 
   return (
-    <article className={styles.managedRoomCard}>
-      <div className={styles.roomCardArtwork}>
+    <article className={roomStyles.managedRoomCard}>
+      <div className={roomStyles.roomCardArtwork}>
         <span>ROOM {room.name}</span>
         <button
           aria-label={`More actions for room ${room.name}`}
-          className={`${styles.moreButton} ${roomStyles.roomCardMoreButton}`}
+          className={`${commonStyles.moreButton} ${roomStyles.roomCardMoreButton}`}
           type="button"
         >
           ···
         </button>
       </div>
-      <div className={styles.managedRoomBody}>
-        <div className={styles.managedRoomTitle}>
+      <div className={roomStyles.managedRoomBody}>
+        <div className={roomStyles.managedRoomTitle}>
           <div>
             <h3>{room.category}</h3>
             <p>Room {room.name}</p>
           </div>
           <span
             className={
-              room.status === 'Available'
-                ? styles.statusReady
-                : room.status === 'Occupied'
-                  ? styles.statusOccupied
-                  : styles.statusNeedsService
+              room.status === "Available"
+                ? commonStyles.statusReady
+                : room.status === "Occupied"
+                  ? commonStyles.statusOccupied
+                  : commonStyles.statusNeedsService
             }
           >
             {room.status}
           </span>
         </div>
         {editing ? (
-          <form className={styles.rateEditForm} onSubmit={handleSave}>
+          <form className={roomStyles.rateEditForm} onSubmit={handleSave}>
             <label>
               Nightly rate <span>$</span>
               <input
@@ -70,24 +68,28 @@ export function ManagedRoomCard({
                 value={rate}
               />
             </label>
-            <button className={styles.smallPrimaryButton} type="submit">
+            <button className={commonStyles.smallPrimaryButton} type="submit">
               Save rate
             </button>
           </form>
         ) : (
-          <p className={styles.rateLine}>
+          <p className={roomStyles.rateLine}>
             <strong>${room.rate}</strong> <span>/ night</span>
           </p>
         )}
-        <div className={styles.roomCardActions}>
+        <div className={roomStyles.roomCardActions}>
           <button onClick={onEdit} type="button">
-            {editing ? 'Cancel' : 'Edit room'}
+            {editing ? "Cancel" : "Edit room"}
           </button>
-          <button className={styles.deleteAction} onClick={onDelete} type="button">
+          <button
+            className={roomStyles.deleteAction}
+            onClick={onDelete}
+            type="button"
+          >
             Remove
           </button>
         </div>
       </div>
     </article>
-  )
+  );
 }
