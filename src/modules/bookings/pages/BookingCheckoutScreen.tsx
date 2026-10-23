@@ -7,6 +7,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { confirmBooking, requestOtp } from "../api";
 import { getRoomById } from "@/lib/roomsApi";
 
+// TODO:change from /room/:id to /room/:roomNo
 export function BookingCheckoutScreen() {
   const location = useLocation();
   const { roomId } = useParams();

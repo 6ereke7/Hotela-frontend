@@ -18,6 +18,7 @@ export function ManagerOverview({
   bookings,
   onNavigate,
 }: ManagerOverviewProps) {
+  onNavigate;
   const inHouse = bookings.filter(
     (booking) => booking.bookingStatus === "In house",
   ).length;

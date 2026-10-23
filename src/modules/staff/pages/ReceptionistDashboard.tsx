@@ -69,7 +69,9 @@ function BookingTable({
             const missedCheckIn = isMissedCheckIn(booking, today);
             return (
               <tr
-                className={missedCheckIn ? receptionStyles.missedBookingRow : ""}
+                className={
+                  missedCheckIn ? receptionStyles.missedBookingRow : ""
+                }
                 key={booking.id}
               >
                 <td data-label="Guest">
@@ -240,6 +242,7 @@ export function ReceptionistDashboard({
   const missedCheckIns = bookings.filter((booking) =>
     isMissedCheckIn(booking, today),
   ).length;
+  missedCheckIns;
   const readyRooms = Math.max(roomCount - inHouse, 0);
   const todayLabel = new Date().toLocaleDateString("en-US", {
     weekday: "long",
@@ -290,7 +293,9 @@ export function ReceptionistDashboard({
       }
     >
       <div className={`${commonStyles.dashboardContent} container-fluid py-4`}>
-        <div className={`${commonStyles.pageTitleRow} d-flex align-items-center justify-content-between gap-3 mb-4`}>
+        <div
+          className={`${commonStyles.pageTitleRow} d-flex align-items-center justify-content-between gap-3 mb-4`}
+        >
           <div>
             <p className={commonStyles.eyebrow}>{todayLabel}</p>
             <h1>Good morning, {staffName.split(" ")[0]}.</h1>
@@ -348,7 +353,9 @@ export function ReceptionistDashboard({
         >
           <div className={commonStyles.panelHeading}>
             <div>
-              <p className={commonStyles.eyebrow}>THE PEOPLE ARRIVING & STAYING</p>
+              <p className={commonStyles.eyebrow}>
+                THE PEOPLE ARRIVING & STAYING
+              </p>
               <h2 id="guest-activity-title">
                 Guest activity{" "}
                 <span className={commonStyles.countBadge}>
@@ -357,7 +364,9 @@ export function ReceptionistDashboard({
               </h2>
             </div>
             <label className="input-group input-group-sm w-auto">
-              <span className="input-group-text" aria-hidden="true">⌕</span>
+              <span className="input-group-text" aria-hidden="true">
+                ⌕
+              </span>
               <input
                 aria-label="Search guests, rooms, or booking ID"
                 className="form-control"
@@ -371,9 +380,15 @@ export function ReceptionistDashboard({
           {error && <p role="alert">{error}</p>}
           {isLoading && <p role="status">Loading guest activity...</p>}
 
-          <div className="d-flex align-items-center gap-3 my-3" id="room-status">
+          <div
+            className="d-flex align-items-center gap-3 my-3"
+            id="room-status"
+          >
             <span>Room status</span>
-            <div className="d-flex flex-wrap gap-2" aria-label="Filter by room status">
+            <div
+              className="d-flex flex-wrap gap-2"
+              aria-label="Filter by room status"
+            >
               {filters.map((item) => (
                 <button
                   aria-pressed={filter === item}
@@ -418,7 +433,9 @@ export function ReceptionistDashboard({
         >
           <div className={commonStyles.panelHeading}>
             <div>
-              <p className={commonStyles.eyebrow}>CHECKED-IN & COMPLETED STAYS</p>
+              <p className={commonStyles.eyebrow}>
+                CHECKED-IN & COMPLETED STAYS
+              </p>
               <h2 id="booking-history-title">
                 Booking history{" "}
                 <span className={commonStyles.countBadge}>
