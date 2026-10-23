@@ -12,6 +12,7 @@ import Header from "../components/Header";
 import { getRooms } from "../api";
 import type { Room } from "../types";
 import { useSearchParams } from "react-router-dom";
+import { CarouselHero } from "../components/CarouselHero";
 
 const benefits = [
   {
@@ -71,34 +72,9 @@ export function HomePage() {
     <main className={`${styles.home} min-vh-100`}>
       <Header />
       <section className={styles.hero} aria-labelledby="hero-title">
-        <div className="container-xl">
-          <div className="row align-items-center g-4">
-            <div className="col-lg-5">
-              <h1 className={styles.heroTitle} id="hero-title">
-                Make yourself
-                <br />
-                <em>at somewhere.</em>
-              </h1>
-              <p className="text-secondary lh-lg mt-4 mb-3">
-                A thoughtful stay, a softer pace, and a place that feels like it
-                was waiting just for you.
-              </p>
-              <a
-                className="text-success fw-semibold text-decoration-none"
-                href="#stays"
-              >
-                Find your kind of stay <span aria-hidden="true">↓</span>
-              </a>
-            </div>
-            <div
-              className={`${styles.heroImage} col-lg-7`}
-              role="img"
-              aria-label="Sunlit, serene hotel suite"
-            />
-          </div>
+        <div className="">
+          <CarouselHero />
         </div>
-
-        {/* quick filter */}
       </section>
 
       <section
