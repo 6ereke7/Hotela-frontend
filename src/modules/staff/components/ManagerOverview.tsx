@@ -1,4 +1,5 @@
 import type { GuestBooking, ManagedRoom } from "../types";
+import ManagerRevenue from "./ManagerRevenue";
 import styles from "./StaffDashboardCommon.module.css";
 
 type ManagerOverviewProps = {
@@ -6,7 +7,12 @@ type ManagerOverviewProps = {
   bookings: GuestBooking[];
   onNavigate: (section: "Rooms" | "Team") => void;
 };
-
+/* 
+TODO:finish the manager dashboard
+  - fix backend wiring
+  - add a revenue section(recharts)
+  - room managment
+*/
 export function ManagerOverview({
   rooms,
   bookings,
@@ -62,62 +68,11 @@ export function ManagerOverview({
         </article>
       </div>
 
-      <section className={`${styles.panelCard} card p-3 mb-3`} aria-labelledby="revenue-title">
-        <div className={styles.panelHeading}>
-          <div>
-            <p className={styles.eyebrow}>PERFORMANCE</p>
-            <h2 id="revenue-title">Revenue overview</h2>
-          </div>
-        </div>
-        <p>Revenue reporting is not available from the current backend.</p>
-      </section>
-
-      <section className={`${styles.panelCard} card p-3 mb-3`} aria-labelledby="rooms-glance">
-        <div className={styles.panelHeading}>
-          <div>
-            <p className={styles.eyebrow}>PROPERTY INVENTORY</p>
-            <h2 id="rooms-glance">Rooms at a glance</h2>
-          </div>
-          <button
-            className={styles.panelLink}
-            onClick={() => onNavigate("Rooms")}
-            type="button"
-          >
-            View rooms ↗
-          </button>
-        </div>
-        <div className={styles.teamList}>
-          {rooms.slice(0, 5).map((room) => (
-            <div className={styles.teamMember} key={room.id}>
-              <span className={styles.teamMemberInfo}>
-                <strong>Room {room.name}</strong>
-                <small>{room.category}</small>
-              </span>
-              <span>${room.rate} / night</span>
-            </div>
-          ))}
-          {rooms.length === 0 && <p>No active rooms found.</p>}
-        </div>
-      </section>
-
-      <section className={`${styles.panelCard} card p-3`} aria-labelledby="team-today">
-        <div className={styles.panelHeading}>
-          <div>
-            <p className={styles.eyebrow}>PEOPLE & PERMISSIONS</p>
-            <h2 id="team-today">Team management</h2>
-          </div>
-          <button
-            className={styles.panelLink}
-            onClick={() => onNavigate("Team")}
-            type="button"
-          >
-            View team ↗
-          </button>
-        </div>
-        <p>
-          Staff directory and invitations are not available from the current
-          backend.
-        </p>
+      <section
+        className={`${styles.panelCard} card p-3 mb-3`}
+        aria-labelledby="revenue-title"
+      >
+        <ManagerRevenue />
       </section>
     </>
   );
