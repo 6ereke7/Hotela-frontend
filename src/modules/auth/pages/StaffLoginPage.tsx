@@ -30,8 +30,8 @@ export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
   };
 
   return (
-    <main className={styles.loginPage}>
-      <header className={styles.header}>
+    <main className={`${styles.loginPage} container-xl d-flex flex-column min-vh-100`}>
+      <header className="d-flex align-items-center justify-content-between border-bottom py-3">
         <a className={styles.wordmark} href="/" aria-label="Hotela home">
           hotela<span>.</span>
         </a>
@@ -40,7 +40,7 @@ export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
         </a>
       </header>
 
-      <section className={styles.loginCard} aria-labelledby="login-title">
+      <section className={`${styles.loginCard} card w-100 align-self-center my-auto p-4 p-md-5`} aria-labelledby="login-title">
         <div className={styles.loginMark} aria-hidden="true">
           h.
         </div>
@@ -50,11 +50,12 @@ export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
           Sign in to your workspace and make someone’s stay.
         </p>
 
-        <form className={styles.loginForm} onSubmit={handleSubmit}>
+        <form className="d-grid gap-3" onSubmit={handleSubmit}>
           <label className={styles.field}>
             <span>Work email</span>
             <input
               autoComplete="username"
+              className="form-control"
               onChange={(event) => setEmail(event.target.value)}
               required
               type="email"
@@ -65,6 +66,7 @@ export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
             <span>Password</span>
             <input
               autoComplete="current-password"
+              className="form-control"
               onChange={(event) => setPassword(event.target.value)}
               required
               type="password"
@@ -72,17 +74,17 @@ export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
             />
           </label>
           {error && (
-            <p className={styles.error} role="alert">
+            <p className="alert alert-danger py-2 mb-0" role="alert">
               {error}
             </p>
           )}
-          <button className={styles.submitButton} type="submit">
+          <button className="btn btn-success w-100 py-3" type="submit">
             {isSubmitting ? "Signing in..." : "Sign in to workspace"}{" "}
             <span aria-hidden="true">↗</span>
           </button>
         </form>
       </section>
-      <footer className={styles.footer}>
+      <footer className="py-3 text-center small text-secondary">
         Thoughtful stays start with a thoughtful team.
       </footer>
     </main>

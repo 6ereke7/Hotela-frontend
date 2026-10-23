@@ -3,6 +3,8 @@ import type { Room } from "../../../types/room";
 import type { GuestBookingDetails } from "../types";
 import { buildBookingSummary } from "../builders";
 import styles from "./BookingFlow.module.css";
+import Header from "@/modules/rooms/components/Header";
+import { MessageCircleMore } from "lucide-react";
 
 function dateOffset(days: number) {
   const date = new Date();
@@ -75,43 +77,38 @@ export function GuestCheckoutStep({
   const today = dateOffset(0);
 
   return (
-    <main className={styles.page}>
-      <header className={styles.header}>
-        <a className={styles.wordmark} href="/" aria-label="Hotela home">
-          hotela<span>.</span>
-        </a>
-        <span className={styles.secureLabel}>
-          <span aria-hidden="true">◇</span> Your stay, just a few steps away
-        </span>
-      </header>
+    <main className={`${styles.page} container-xl px-3`}>
+      <Header />
 
-      <div className={styles.content}>
-        <section className={styles.formPanel} aria-labelledby="checkout-title">
+      <div className="row g-4 g-xl-5 py-5">
+        <section className="col-lg-7" aria-labelledby="checkout-title">
           <a className={styles.backLink} href="/">
             <span aria-hidden="true">←</span> Back to stays
           </a>
           <p className={styles.eyebrow}>Guest checkout · Step 1 of 2</p>
           <h1 id="checkout-title">Let’s make it yours.</h1>
           <p className={styles.intro}>
-            Tell us who’s joining us. No account needed — just a quick email
+            Tell us who’s joining us. No account needed. just a quick email
             verification.
           </p>
 
-          <form className={styles.guestForm} onSubmit={handleSubmit}>
-            <label className={styles.field}>
+          <form className="row g-3 align-items-center" onSubmit={handleSubmit}>
+            <label className={`${styles.field} col-md-6`}>
               <span>First name</span>
               <input
                 autoComplete="given-name"
+                className="form-control"
                 name="firstName"
                 onChange={(event) => setFirstName(event.target.value)}
                 required
                 value={firstName}
               />
             </label>
-            <label className={styles.field}>
+            <label className={`${styles.field} col-md-6`}>
               <span>Last name</span>
               <input
                 autoComplete="family-name"
+                className="form-control"
                 name="lastName"
                 onChange={(event) => setLastName(event.target.value)}
                 required
@@ -119,10 +116,11 @@ export function GuestCheckoutStep({
               />
             </label>
 
-            <label className={styles.field}>
+            <label className={`${styles.field} col-md-6`}>
               <span>Email address</span>
               <input
                 autoComplete="email"
+                className="form-control"
                 name="email"
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder="you@example.com"
@@ -130,13 +128,13 @@ export function GuestCheckoutStep({
                 type="email"
                 value={email}
               />
-              <small>We’ll send your verification code here.</small>
             </label>
 
-            <label className={styles.field}>
+            <label className={`${styles.field} col-md-6`}>
               <span>Phone number</span>
               <input
                 autoComplete="tel"
+                className="form-control"
                 name="phoneNumber"
                 onChange={(event) => setPhoneNumber(event.target.value)}
                 required
@@ -144,41 +142,21 @@ export function GuestCheckoutStep({
                 value={phoneNumber}
               />
             </label>
-            <label className={styles.field}>
+            <label className={`${styles.field} col-md-6`}>
               <span>
                 Fayda ID <span className={styles.optional}>(optional)</span>
               </span>
               <input
+                className="form-control"
                 name="fayda"
                 onChange={(event) => setFayda(event.target.value)}
                 value={fayda}
               />
             </label>
-            <label className={styles.field}>
-              <span>Check in</span>
-              <input
-                min={today}
-                name="checkInDate"
-                onChange={(event) => setCheckInDate(event.target.value)}
-                required
-                type="date"
-                value={checkInDate}
-              />
-            </label>
-            <label className={styles.field}>
-              <span>Check out</span>
-              <input
-                min={checkInDate || today}
-                name="checkOutDate"
-                onChange={(event) => setCheckOutDate(event.target.value)}
-                required
-                type="date"
-                value={checkOutDate}
-              />
-            </label>
-            <label className={styles.field}>
+            <label className={`${styles.field} col-md-6`}>
               <span>Guests</span>
               <select
+                className="form-select"
                 name="numberOfGuests"
                 onChange={(event) =>
                   setNumberOfGuests(Number(event.target.value))
@@ -195,13 +173,38 @@ export function GuestCheckoutStep({
                 ))}
               </select>
             </label>
+            <label className={`${styles.field} col-md-6`}>
+              <span>Check in</span>
+              <input
+                className="form-control"
+                min={today}
+                name="checkInDate"
+                onChange={(event) => setCheckInDate(event.target.value)}
+                required
+                type="date"
+                value={checkInDate}
+              />
+            </label>
+            <label className={`${styles.field} col-md-6`}>
+              <span>Check out</span>
+              <input
+                className="form-control"
+                min={checkInDate || today}
+                name="checkOutDate"
+                onChange={(event) => setCheckOutDate(event.target.value)}
+                required
+                type="date"
+                value={checkOutDate}
+              />
+            </label>
 
-            <label className={styles.field}>
+            <label className={`${styles.field} col-12`}>
               <span>
                 Special requests{" "}
                 <span className={styles.optional}>(optional)</span>
               </span>
               <textarea
+                className="form-control"
                 name="specialRequests"
                 onChange={(event) => setSpecialRequests(event.target.value)}
                 placeholder="Anything that would make your stay more comfortable?"
@@ -211,27 +214,29 @@ export function GuestCheckoutStep({
             </label>
 
             {error && (
-              <p className={styles.errorMessage} role="alert">
+              <p className="alert alert-danger py-2 col-12 mb-0" role="alert">
                 {error}
               </p>
             )}
             <button
-              className={styles.primaryButton}
+              className="btn btn-success w-100 py-3"
               disabled={isSubmitting}
               type="submit"
             >
               {isSubmitting ? "Requesting code..." : "Send verification code"}{" "}
-              <span aria-hidden="true">↗</span>
+              <MessageCircleMore size={20} />
             </button>
-            <p className={styles.privacyNote}>
+            <p className="text-center text-secondary small col-12">
               Your details are only used to manage this reservation.
             </p>
           </form>
         </section>
 
-        <aside className={styles.summaryCard} aria-labelledby="summary-title">
+        <aside
+          className={`${styles.summaryCard} card p-3 p-md-4 col-lg-5 align-self-start sticky-lg-top`}
+          aria-labelledby="summary-title"
+        >
           <p className={styles.eyebrow}>Your stay</p>
-          <h2 id="summary-title">A little time away.</h2>
           <div className={styles.roomArtwork} role="img">
             <img alt="" aria-hidden="true" src={room.images[0]} />
             <span>HOTELA · PRIVATE STAY</span>

@@ -118,7 +118,7 @@ export function ManagerDashboard({
           {sections.map((item) => (
             <button
               aria-current={section === item ? "page" : undefined}
-              className={section === item ? shellStyles.navActive : ""}
+              className={`btn text-start ${section === item ? `btn-success ${shellStyles.navActive}` : "btn-light"}`}
               key={item}
               onClick={() => setSection(item)}
               type="button"
@@ -132,8 +132,8 @@ export function ManagerDashboard({
         </>
       }
     >
-      <div className={commonStyles.dashboardContent}>
-        <div className={commonStyles.pageTitleRow}>
+      <div className={`${commonStyles.dashboardContent} container-fluid py-4`}>
+        <div className={`${commonStyles.pageTitleRow} d-flex align-items-center justify-content-between gap-3 mb-4`}>
           <div>
             <p className={commonStyles.eyebrow}>
               {section === "Overview"
@@ -144,7 +144,7 @@ export function ManagerDashboard({
             <p className={commonStyles.subtitle}>{sectionDescription}</p>
           </div>
           <button
-            className={commonStyles.outlineButton}
+            className="btn btn-outline-success btn-sm"
             onClick={() => setSection("Rooms")}
             type="button"
           >

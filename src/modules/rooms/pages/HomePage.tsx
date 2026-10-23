@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { BadgePercent, Headset, UserRoundCheck } from "lucide-react";
+import {
+  ArrowRight,
+  BadgePercent,
+  Headset,
+  UserRoundCheck,
+} from "lucide-react";
 import Filter from "../components/Filter";
 import RoomCard from "../components/RoomCard";
 import styles from "./HomePage.module.css";
@@ -63,52 +68,55 @@ export function HomePage() {
   }, [checkIn, checkOut, guests, searchKey]);
 
   return (
-    <main className={styles.home}>
+    <main className={`${styles.home} min-vh-100`}>
       <Header />
       <section className={styles.hero} aria-labelledby="hero-title">
-        <div className={styles.heroCopy}>
-          <p className={styles.kicker}>
-            <span aria-hidden="true" /> A little more room to be
-          </p>
-          <h1 id="hero-title">
-            Make yourself
-            <br />
-            <em>at somewhere.</em>
-          </h1>
-          <p className={styles.heroDescription}>
-            A thoughtful stay, a softer pace, and a place that feels like it was
-            waiting just for you.
-          </p>
-          <a className={styles.textLink} href="#stays">
-            Find your kind of stay <span aria-hidden="true">↓</span>
-          </a>
+        <div className="container-xl">
+          <div className="row align-items-center g-4">
+            <div className="col-lg-5">
+              <h1 className={styles.heroTitle} id="hero-title">
+                Make yourself
+                <br />
+                <em>at somewhere.</em>
+              </h1>
+              <p className="text-secondary lh-lg mt-4 mb-3">
+                A thoughtful stay, a softer pace, and a place that feels like it
+                was waiting just for you.
+              </p>
+              <a
+                className="text-success fw-semibold text-decoration-none"
+                href="#stays"
+              >
+                Find your kind of stay <span aria-hidden="true">↓</span>
+              </a>
+            </div>
+            <div
+              className={`${styles.heroImage} col-lg-7`}
+              role="img"
+              aria-label="Sunlit, serene hotel suite"
+            />
+          </div>
         </div>
-        <div
-          className={styles.heroImage}
-          role="img"
-          aria-label="Sunlit, serene hotel suite"
-        />
 
         {/* quick filter */}
-        <Filter key={searchKey} />
       </section>
 
       <section
-        className={styles.roomsSection}
+        className="container-xl py-5"
         id="stays"
         aria-labelledby="rooms-title"
       >
-        <div className={styles.sectionHeading}>
-          <div>
-            <p className={styles.kicker}>A place for every pace</p>
-            <h2 id="rooms-title">Find your room to exhale.</h2>
-          </div>
-          <a className={styles.textLink} href="#stays">
-            Explore all stays <span aria-hidden="true">↗</span>
+        <Filter key={searchKey} />
+        <div className="d-flex align-items-end justify-content-end gap-3 mb-4">
+          <a
+            className="text-success fw-semibold text-decoration-none"
+            href="#stays"
+          >
+            Explore all stays <ArrowRight size={20} />
           </a>
         </div>
 
-        <div className={styles.roomGrid}>
+        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 align-items-center g-0">
           {isLoading ? (
             <p role="status">Loading available rooms...</p>
           ) : loadError ? (
@@ -117,13 +125,15 @@ export function HomePage() {
             </p>
           ) : rooms.length ? (
             rooms.map((room, index) => (
-              <RoomCard
-                checkInDate={checkIn}
-                checkOutDate={checkOut}
-                room={room}
-                index={index}
-                key={room.id}
-              />
+              <div className="p-2">
+                <RoomCard
+                  checkInDate={checkIn}
+                  checkOutDate={checkOut}
+                  room={room}
+                  index={index}
+                  key={room.id}
+                />
+              </div>
             ))
           ) : (
             <p>No rooms are available right now.</p>
@@ -132,40 +142,47 @@ export function HomePage() {
       </section>
 
       <section
-        className={styles.valuesSection}
+        className="container-xl bg-success-subtle  p-4 p-lg-5 rounded"
         id="the-hotela-way"
         aria-labelledby="values-title"
       >
-        <div className={styles.valuesIntro}>
-          <p className={styles.kicker}>Good to know</p>
-          <h2 id="values-title">The details make the difference.</h2>
-        </div>
-        <div className={styles.benefits}>
+        <div className="d-flex flex-row align-items-center justify-content-evenly">
           {benefits.map((benefit) => {
             const BenefitIcon = benefit.icon;
 
             return (
-              <article className={styles.benefit} key={benefit.number}>
-                <div className={styles.benefitMeta}>
-                  <span className={styles.benefitNumber}>{benefit.number}</span>
-                  <span className={styles.benefitIcon} aria-hidden="true">
-                    <BenefitIcon size={20} strokeWidth={1.5} />
+              <article className="flex-fill gap-3" key={benefit.number}>
+                <div className="d-flex align-items-center justify-content-center mb-3">
+                  <span
+                    className="  border rounded-circle p-2 text-success"
+                    aria-hidden="true"
+                  >
+                    <BenefitIcon size={40} strokeWidth={1.5} />
                   </span>
                 </div>
-                <h3>{benefit.title}</h3>
-                <p>{benefit.description}</p>
+
+                <h3 className="h5 text-center">{benefit.title}</h3>
+                <p className="small text-secondary  text-center mb-0">
+                  {benefit.description}
+                </p>
               </article>
             );
           })}
         </div>
       </section>
 
-      <footer className={styles.footer}>
-        <a className={styles.wordmark} href="/" aria-label="Hotela home">
+      <footer className="container-xl d-flex align-items-center justify-content-between gap-3 py-4">
+        <a
+          className="text-success fs-3 fw-bold text-decoration-none"
+          href="/"
+          aria-label="Hotela home"
+        >
           hotela<span>.</span>
         </a>
-        <p>A softer place to land.</p>
-        <a href="/#stays">book now</a>
+        <p className="text-secondary small mb-0">A softer place to land.</p>
+        <a className="text-body text-decoration-none small" href="/#stays">
+          book now
+        </a>
       </footer>
     </main>
   );

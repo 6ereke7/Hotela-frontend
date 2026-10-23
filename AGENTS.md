@@ -9,6 +9,7 @@ The frontend is integrated with the hotel API through the shared Axios client in
 ## Stack
 
 - React + TypeScript
+- bootstrap
 - Vite
 - ESLint (from the Vite template)
 - lucid-react

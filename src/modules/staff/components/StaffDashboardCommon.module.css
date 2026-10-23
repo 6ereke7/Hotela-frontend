@@ -44,16 +44,7 @@
   background: #5c9a6a;
 }
 .dashboardContent {
-  width: min(100%, 1450px);
-  margin: 0 auto;
-  padding: 38px clamp(22px, 4vw, 60px) 55px;
-}
-.pageTitleRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 26px;
+  max-width: 1450px;
 }
 .eyebrow {
   margin: 0 0 9px;
@@ -75,8 +66,7 @@
   color: var(--muted);
   font-size: 0.79rem;
 }
-.outlineButton,
-.smallPrimaryButton {
+.outlineButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -96,12 +86,6 @@
 }
 .outlineButton:hover {
   background: #f2f6f2;
-}
-.statsGrid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
-  margin-bottom: 18px;
 }
 .statCard,
 .panelCard {
@@ -183,9 +167,6 @@
   background: #e9eee7;
   color: #536b57;
   font-size: 0.5rem;
-}
-.panelCard {
-  padding: 19px 20px;
 }
 .panelHeading {
   display: flex;
@@ -270,16 +251,6 @@
   font-size: 0.64rem;
   vertical-align: 3px;
 }
-.smallPrimaryButton {
-  min-height: 34px;
-  padding: 0 11px;
-  border-color: var(--green);
-  background: var(--green);
-  color: #fff;
-}
-.smallPrimaryButton:hover {
-  background: #294838;
-}
 .statusReady,
 .statusOccupied,
 .statusNeedsService,
@@ -322,14 +293,9 @@
   min-height: 30px;
   font-size: 1.2rem;
 }
-@media (max-width: 1120px) {
-.statsGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
 @media (max-width: 760px) {
-.dashboardContent {
-    padding: 27px 20px 40px;
+  .dashboardContent {
+    padding-inline: 1rem;
   }
 }
 @media (max-width: 540px) {
@@ -340,9 +306,6 @@
     min-height: 34px;
     padding-inline: 9px;
     font-size: 0.62rem;
-  }
-.statsGrid {
-    gap: 9px;
   }
 .statCard {
     min-height: 127px;

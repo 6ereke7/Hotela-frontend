@@ -146,8 +146,8 @@ export function OtpVerificationStep({
     const bookingReference = confirmedBooking.id.slice(0, 8).toUpperCase();
     const total = Number(confirmedBooking.totalAmount);
     return (
-      <main className={styles.page}>
-        <header className={styles.header}>
+      <main className={`${styles.page} container-xl px-3`}>
+        <header className="d-flex align-items-center justify-content-between border-bottom py-3">
           <a className={styles.wordmark} href="/" aria-label="Hotela home">
             hotela<span>.</span>
           </a>
@@ -155,7 +155,7 @@ export function OtpVerificationStep({
         </header>
 
         <section
-          className={styles.confirmation}
+          className={`${styles.confirmation} mx-auto`}
           aria-labelledby="confirmation-title"
         >
           <div className={styles.successMark} aria-hidden="true">
@@ -217,8 +217,8 @@ export function OtpVerificationStep({
   }
 
   return (
-    <main className={styles.page}>
-      <header className={styles.header}>
+    <main className={`${styles.page} container-xl px-3`}>
+      <header className="d-flex align-items-center justify-content-between border-bottom py-3">
         <a className={styles.wordmark} href="/" aria-label="Hotela home">
           hotela<span>.</span>
         </a>
@@ -271,6 +271,7 @@ export function OtpVerificationStep({
                 <input
                   aria-label={`Verification code digit ${index + 1}`}
                   autoComplete={index === 0 ? "one-time-code" : "off"}
+                  className="form-control text-center"
                   inputMode="numeric"
                   key={index}
                   maxLength={CODE_LENGTH}
@@ -286,7 +287,7 @@ export function OtpVerificationStep({
             </div>
           </fieldset>
           {error && (
-            <p className={styles.errorMessage} role="alert">
+            <p className="alert alert-danger py-2" role="alert">
               {error}
             </p>
           )}
@@ -312,7 +313,7 @@ export function OtpVerificationStep({
           </p>
 
           <button
-            className={styles.primaryButton}
+            className="btn btn-success w-100 py-3"
             disabled={isSubmitting}
             type="submit"
           >

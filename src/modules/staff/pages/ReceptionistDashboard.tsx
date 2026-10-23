@@ -24,6 +24,130 @@ function getTodayDate() {
   return `${year}-${month}-${day}`;
 }
 
+function isMissedCheckIn(booking: GuestBooking, today: string) {
+  return (
+    booking.bookingStatus === "Arriving" &&
+    booking.checkInDate.slice(0, 10) < today
+  );
+}
+
+type BookingTableProps = {
+  bookings: GuestBooking[];
+  today: string;
+  onUpdateBooking: (
+    bookingId: string,
+    nextStatus: "In house" | "Departed",
+  ) => void;
+  emptyMessage: string;
+};
+
+function BookingTable({
+  bookings,
+  today,
+  onUpdateBooking,
+  emptyMessage,
+}: BookingTableProps) {
+  return (
+    <div className={receptionStyles.tableWrap}>
+      <table
+        className={`${receptionStyles.bookingTable} table table-hover align-middle mb-0`}
+      >
+        <thead>
+          <tr>
+            <th>Guest</th>
+            <th>Room</th>
+            <th>Stay</th>
+            <th>Booking</th>
+            <th>Room status</th>
+            <th>
+              <span className={receptionStyles.visuallyHidden}>Actions</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {bookings.map((booking) => {
+            const missedCheckIn = isMissedCheckIn(booking, today);
+            return (
+              <tr
+                className={missedCheckIn ? receptionStyles.missedBookingRow : ""}
+                key={booking.id}
+              >
+                <td data-label="Guest">
+                  <strong>{booking.guest}</strong>
+                  <small>{booking.id}</small>
+                </td>
+                <td data-label="Room">{booking.room}</td>
+                <td data-label="Stay">
+                  <strong>{booking.arrival}</strong>
+                  <small>Until {booking.departure}</small>
+                </td>
+                <td data-label="Booking">
+                  <span
+                    className={
+                      missedCheckIn
+                        ? receptionStyles.statusMissed
+                        : booking.bookingStatus === "In house"
+                          ? commonStyles.statusOccupied
+                          : booking.bookingStatus === "Departed"
+                            ? commonStyles.statusNeedsService
+                            : commonStyles.statusArriving
+                    }
+                  >
+                    {missedCheckIn ? "Missed check-in" : booking.bookingStatus}
+                  </span>
+                </td>
+                <td data-label="Room status">
+                  <span
+                    className={
+                      booking.roomStatus === "Ready"
+                        ? commonStyles.statusReady
+                        : booking.roomStatus === "Occupied"
+                          ? commonStyles.statusOccupied
+                          : commonStyles.statusNeedsService
+                    }
+                  >
+                    {booking.roomStatus}
+                  </span>
+                </td>
+                <td className={receptionStyles.actionCell}>
+                  {booking.bookingStatus === "Arriving" && !missedCheckIn ? (
+                    <button
+                      className="btn btn-success btn-sm"
+                      onClick={() => onUpdateBooking(booking.id, "In house")}
+                      type="button"
+                    >
+                      Check in
+                    </button>
+                  ) : booking.bookingStatus === "In house" ? (
+                    <button
+                      className="btn btn-outline-success btn-sm"
+                      onClick={() => onUpdateBooking(booking.id, "Departed")}
+                      type="button"
+                    >
+                      Check out
+                    </button>
+                  ) : missedCheckIn ? (
+                    <span className={receptionStyles.completedText}>
+                      Check-in expired
+                    </span>
+                  ) : (
+                    <span className={receptionStyles.completedText}>
+                      Complete ✓
+                    </span>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      {bookings.length === 0 && (
+        <p className={receptionStyles.emptyState}>{emptyMessage}</p>
+      )}
+    </div>
+  );
+}
+
 export function ReceptionistDashboard({
   staffName,
   onLogout,
@@ -34,6 +158,7 @@ export function ReceptionistDashboard({
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const today = getTodayDate();
 
   useEffect(() => {
     getStaffOperations()
@@ -46,25 +171,36 @@ export function ReceptionistDashboard({
       )
       .finally(() => setIsLoading(false));
   }, []);
-  const filteredBookings = useMemo(
+  const query = search.trim().toLowerCase();
+  const matchesSearch = (booking: GuestBooking) =>
+    !query ||
+    booking.guest.toLowerCase().includes(query) ||
+    booking.room.toLowerCase().includes(query) ||
+    booking.id.toLowerCase().includes(query);
+  const activeBookings = useMemo(
     () =>
-      bookings.filter((booking) => {
-        const matchesFilter =
-          filter === "All rooms" || booking.roomStatus === filter;
-        const query = search.trim().toLowerCase();
-        const matchesSearch =
-          !query ||
-          booking.guest.toLowerCase().includes(query) ||
-          booking.room.toLowerCase().includes(query) ||
-          booking.id.toLowerCase().includes(query);
-        return matchesFilter && matchesSearch;
-      }),
-    [bookings, filter, search],
+      bookings.filter(
+        (booking) =>
+          booking.bookingStatus === "Arriving" &&
+          (filter === "All rooms" || booking.roomStatus === filter) &&
+          matchesSearch(booking),
+      ),
+    [bookings, filter, query],
+  );
+  const historyBookings = useMemo(
+    () =>
+      bookings.filter(
+        (booking) =>
+          (booking.bookingStatus === "In house" ||
+            booking.bookingStatus === "Departed") &&
+          matchesSearch(booking),
+      ),
+    [bookings, query],
   );
 
   const updateBooking = async (
     bookingId: string,
-    nextStatus: GuestBooking["bookingStatus"],
+    nextStatus: "In house" | "Departed",
   ) => {
     try {
       await updateGuestBooking(
@@ -91,7 +227,7 @@ export function ReceptionistDashboard({
   const arrivalsToday = bookings.filter(
     (booking) =>
       booking.bookingStatus === "Arriving" &&
-      booking.checkInDate === getTodayDate(),
+      booking.checkInDate.slice(0, 10) === today,
   ).length;
   const departuresToday = bookings.filter(
     (booking) =>
@@ -100,6 +236,9 @@ export function ReceptionistDashboard({
   ).length;
   const inHouse = bookings.filter(
     (booking) => booking.bookingStatus === "In house",
+  ).length;
+  const missedCheckIns = bookings.filter((booking) =>
+    isMissedCheckIn(booking, today),
   ).length;
   const readyRooms = Math.max(roomCount - inHouse, 0);
   const todayLabel = new Date().toLocaleDateString("en-US", {
@@ -141,11 +280,17 @@ export function ReceptionistDashboard({
             </span>
             Arrivals & departures
           </a>
+          <a href="#booking-history">
+            <span className={shellStyles.navIcon} aria-hidden="true">
+              ↺
+            </span>
+            Booking history
+          </a>
         </>
       }
     >
-      <div className={commonStyles.dashboardContent}>
-        <div className={commonStyles.pageTitleRow}>
+      <div className={`${commonStyles.dashboardContent} container-fluid py-4`}>
+        <div className={`${commonStyles.pageTitleRow} d-flex align-items-center justify-content-between gap-3 mb-4`}>
           <div>
             <p className={commonStyles.eyebrow}>{todayLabel}</p>
             <h1>Good morning, {staffName.split(" ")[0]}.</h1>
@@ -158,8 +303,8 @@ export function ReceptionistDashboard({
           </Link>
         </div>
 
-        <div className={commonStyles.statsGrid}>
-          <article className={commonStyles.statCard}>
+        <div className="row row-cols-2 row-cols-xl-4 g-3 mb-3">
+          <article className={`${commonStyles.statCard} card`}>
             <div className={commonStyles.statCardTop}>
               <span>Arrivals today</span>
               <span aria-hidden="true">↘</span>
@@ -167,7 +312,7 @@ export function ReceptionistDashboard({
             <strong>{arrivalsToday}</strong>
             <p>Confirmed reservations</p>
           </article>
-          <article className={commonStyles.statCard}>
+          <article className={`${commonStyles.statCard} card`}>
             <div className={commonStyles.statCardTop}>
               <span>Departures today</span>
               <span aria-hidden="true">↗</span>
@@ -175,7 +320,7 @@ export function ReceptionistDashboard({
             <strong>{departuresToday}</strong>
             <p>Guests marked in house</p>
           </article>
-          <article className={commonStyles.statCard}>
+          <article className={`${commonStyles.statCard} card`}>
             <div className={commonStyles.statCardTop}>
               <span>Rooms not occupied</span>
               <span aria-hidden="true">⌂</span>
@@ -186,7 +331,7 @@ export function ReceptionistDashboard({
             </strong>
             <p>Based on active room inventory</p>
           </article>
-          <article className={commonStyles.statCard}>
+          <article className={`${commonStyles.statCard} card`}>
             <div className={commonStyles.statCardTop}>
               <span>In-house bookings</span>
               <span aria-hidden="true">♧</span>
@@ -197,7 +342,7 @@ export function ReceptionistDashboard({
         </div>
 
         <section
-          className={commonStyles.panelCard}
+          className={`${commonStyles.panelCard} card p-3 mb-3`}
           id="guest-activity"
           aria-labelledby="guest-activity-title"
         >
@@ -207,14 +352,15 @@ export function ReceptionistDashboard({
               <h2 id="guest-activity-title">
                 Guest activity{" "}
                 <span className={commonStyles.countBadge}>
-                  {filteredBookings.length}
+                  {activeBookings.length}
                 </span>
               </h2>
             </div>
-            <label className={receptionStyles.searchInput}>
-              <span aria-hidden="true">⌕</span>
+            <label className="input-group input-group-sm w-auto">
+              <span className="input-group-text" aria-hidden="true">⌕</span>
               <input
                 aria-label="Search guests, rooms, or booking ID"
+                className="form-control"
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder="Find a guest or room..."
                 value={search}
@@ -225,16 +371,13 @@ export function ReceptionistDashboard({
           {error && <p role="alert">{error}</p>}
           {isLoading && <p role="status">Loading guest activity...</p>}
 
-          <div className={receptionStyles.filterRow} id="room-status">
+          <div className="d-flex align-items-center gap-3 my-3" id="room-status">
             <span>Room status</span>
-            <div
-              className={receptionStyles.filterButtons}
-              aria-label="Filter by room status"
-            >
+            <div className="d-flex flex-wrap gap-2" aria-label="Filter by room status">
               {filters.map((item) => (
                 <button
                   aria-pressed={filter === item}
-                  className={filter === item ? receptionStyles.filterActive : ""}
+                  className={`btn btn-sm ${filter === item ? "btn-success" : "btn-outline-success"}`}
                   key={item}
                   onClick={() => setFilter(item)}
                   type="button"
@@ -245,99 +388,16 @@ export function ReceptionistDashboard({
             </div>
           </div>
 
-          <div className={receptionStyles.tableWrap}>
-            <table className={receptionStyles.bookingTable}>
-              <thead>
-                <tr>
-                  <th>Guest</th>
-                  <th>Room</th>
-                  <th>Stay</th>
-                  <th>Booking</th>
-                  <th>Room status</th>
-                  <th>
-                    <span className={receptionStyles.visuallyHidden}>Actions</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {!isLoading &&
-                  filteredBookings.map((booking) => (
-                    <tr key={booking.id}>
-                      <td data-label="Guest">
-                        <strong>{booking.guest}</strong>
-                        <small>{booking.id}</small>
-                      </td>
-                      <td data-label="Room">{booking.room}</td>
-                      <td data-label="Stay">
-                        <strong>{booking.arrival}</strong>
-                        <small>Until {booking.departure}</small>
-                      </td>
-                      <td data-label="Booking">
-                        <span
-                          className={
-                            booking.bookingStatus === "In house"
-                              ? commonStyles.statusOccupied
-                              : booking.bookingStatus === "Departed"
-                                ? commonStyles.statusNeedsService
-                                : commonStyles.statusArriving
-                          }
-                        >
-                          {booking.bookingStatus}
-                        </span>
-                      </td>
-                      <td data-label="Room status">
-                        <span
-                          className={
-                            booking.roomStatus === "Ready"
-                              ? commonStyles.statusReady
-                              : booking.roomStatus === "Occupied"
-                                ? commonStyles.statusOccupied
-                                : commonStyles.statusNeedsService
-                          }
-                        >
-                          {booking.roomStatus}
-                        </span>
-                      </td>
-                      <td className={receptionStyles.actionCell}>
-                        {booking.bookingStatus === "Arriving" ? (
-                          <button
-                            className={receptionStyles.tableAction}
-                            onClick={() =>
-                              updateBooking(booking.id, "In house")
-                            }
-                            type="button"
-                          >
-                            Check in
-                          </button>
-                        ) : booking.bookingStatus === "In house" ? (
-                          <button
-                            className={receptionStyles.tableActionSecondary}
-                            onClick={() =>
-                              updateBooking(booking.id, "Departed")
-                            }
-                            type="button"
-                          >
-                            Check out
-                          </button>
-                        ) : (
-                          <span className={receptionStyles.completedText}>
-                            Complete ✓
-                          </span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-            {!isLoading && filteredBookings.length === 0 && (
-              <p className={receptionStyles.emptyState}>
-                No guest bookings match. Try another room status or search.
-              </p>
-            )}
-          </div>
+          {!isLoading && (
+            <BookingTable
+              bookings={activeBookings}
+              emptyMessage="No active or missed bookings match. Try another room status or search."
+              onUpdateBooking={updateBooking}
+              today={today}
+            />
+          )}
           <div className={receptionStyles.tableFooter}>
-            Showing <strong>{filteredBookings.length}</strong> of{" "}
-            <strong>{bookings.length}</strong> bookings
+            Showing <strong>{activeBookings.length}</strong> active bookings
             <button
               className={`${commonStyles.panelLink} ${receptionStyles.tableFooterLink}`}
               type="button"
@@ -349,6 +409,35 @@ export function ReceptionistDashboard({
               Clear filters
             </button>
           </div>
+        </section>
+
+        <section
+          className={`${commonStyles.panelCard} card p-3 mb-3`}
+          id="booking-history"
+          aria-labelledby="booking-history-title"
+        >
+          <div className={commonStyles.panelHeading}>
+            <div>
+              <p className={commonStyles.eyebrow}>CHECKED-IN & COMPLETED STAYS</p>
+              <h2 id="booking-history-title">
+                Booking history{" "}
+                <span className={commonStyles.countBadge}>
+                  {historyBookings.length}
+                </span>
+              </h2>
+            </div>
+          </div>
+          {error && <p role="alert">{error}</p>}
+          {isLoading ? (
+            <p role="status">Loading booking history...</p>
+          ) : (
+            <BookingTable
+              bookings={historyBookings}
+              emptyMessage="No checked-in or completed bookings found."
+              onUpdateBooking={updateBooking}
+              today={today}
+            />
+          )}
         </section>
 
         <div className={receptionStyles.deskNote}>

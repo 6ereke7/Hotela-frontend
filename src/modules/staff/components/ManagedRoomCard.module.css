@@ -1,8 +1,3 @@
-.managedRoomCard {
-  min-width: 0;
-  border: 1px solid var(--line);
-  background: #fff;
-}
 .roomCardArtwork {
   height: 126px;
   display: flex;
@@ -20,9 +15,6 @@
 }
 .roomCardArtwork:nth-child(2n) {
   background-position: 60% center;
-}
-.managedRoomBody {
-  padding: 14px;
 }
 .managedRoomTitle {
   display: flex;
@@ -57,19 +49,6 @@
   padding-top: 10px;
   border-top: 1px solid var(--line);
 }
-.roomCardActions button {
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--green);
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.65rem;
-  font-weight: 600;
-}
-.roomCardActions .deleteAction {
-  color: #a36f60;
-}
 .rateEditForm {
   display: flex;
   align-items: end;
@@ -87,14 +66,4 @@
   grid-column: 1;
   grid-row: 2;
   padding-left: 6px;
-}
-.rateEditForm input {
-  width: 80px;
-  min-height: 31px;
-  grid-column: 1 / -1;
-  grid-row: 2;
-  padding: 0 5px 0 17px;
-  border: 1px solid var(--line);
-  font: inherit;
-  font-size: 0.7rem;
 }

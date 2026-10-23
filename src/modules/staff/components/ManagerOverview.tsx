@@ -24,8 +24,8 @@ export function ManagerOverview({
 
   return (
     <>
-      <div className={styles.statsGrid}>
-        <article className={styles.statCard}>
+      <div className="row row-cols-2 row-cols-xl-4 g-3 mb-3">
+        <article className={`${styles.statCard} card`}>
           <div className={styles.statCardTop}>
             <span>Active rooms</span>
             <span aria-hidden="true">⌂</span>
@@ -33,7 +33,7 @@ export function ManagerOverview({
           <strong>{rooms.length}</strong>
           <p>Rooms in the property inventory</p>
         </article>
-        <article className={styles.statCard}>
+        <article className={`${styles.statCard} card`}>
           <div className={styles.statCardTop}>
             <span>In-house bookings</span>
             <span aria-hidden="true">♧</span>
@@ -41,7 +41,7 @@ export function ManagerOverview({
           <strong>{inHouse}</strong>
           <p>Based on current booking status</p>
         </article>
-        <article className={styles.statCard}>
+        <article className={`${styles.statCard} card`}>
           <div className={styles.statCardTop}>
             <span>Occupancy</span>
             <span aria-hidden="true">↗</span>
@@ -52,7 +52,7 @@ export function ManagerOverview({
           </strong>
           <p>In-house bookings compared with active rooms</p>
         </article>
-        <article className={styles.statCard}>
+        <article className={`${styles.statCard} card`}>
           <div className={styles.statCardTop}>
             <span>Upcoming arrivals</span>
             <span aria-hidden="true">↘</span>
@@ -62,7 +62,7 @@ export function ManagerOverview({
         </article>
       </div>
 
-      <section className={styles.panelCard} aria-labelledby="revenue-title">
+      <section className={`${styles.panelCard} card p-3 mb-3`} aria-labelledby="revenue-title">
         <div className={styles.panelHeading}>
           <div>
             <p className={styles.eyebrow}>PERFORMANCE</p>
@@ -72,7 +72,7 @@ export function ManagerOverview({
         <p>Revenue reporting is not available from the current backend.</p>
       </section>
 
-      <section className={styles.panelCard} aria-labelledby="rooms-glance">
+      <section className={`${styles.panelCard} card p-3 mb-3`} aria-labelledby="rooms-glance">
         <div className={styles.panelHeading}>
           <div>
             <p className={styles.eyebrow}>PROPERTY INVENTORY</p>
@@ -100,7 +100,7 @@ export function ManagerOverview({
         </div>
       </section>
 
-      <section className={styles.panelCard} aria-labelledby="team-today">
+      <section className={`${styles.panelCard} card p-3`} aria-labelledby="team-today">
         <div className={styles.panelHeading}>
           <div>
             <p className={styles.eyebrow}>PEOPLE & PERMISSIONS</p>

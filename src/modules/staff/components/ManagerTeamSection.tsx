@@ -118,7 +118,7 @@ export function ManagerTeamSection() {
   };
 
   return (
-    <section className={commonStyles.panelCard} aria-labelledby="team-list-title">
+    <section className={`${commonStyles.panelCard} card p-3`} aria-labelledby="team-list-title">
       <div className={commonStyles.panelHeading}>
         <div>
           <p className={commonStyles.eyebrow}>PEOPLE & PERMISSIONS</p>
@@ -128,7 +128,7 @@ export function ManagerTeamSection() {
           </h2>
         </div>
         <button
-          className={commonStyles.smallPrimaryButton}
+          className="btn btn-success btn-sm"
           onClick={openCreateForm}
           type="button"
         >
@@ -143,12 +143,13 @@ export function ManagerTeamSection() {
       )}
 
       {isFormOpen && (
-        <form className={teamStyles.receptionistForm} onSubmit={handleSubmit}>
-          <h3>{editingId ? "Edit receptionist" : "Create receptionist"}</h3>
-          <label className={teamStyles.field}>
+        <form className="row g-3 my-3 p-3 border bg-light" onSubmit={handleSubmit}>
+          <h3 className="col-12 h5 mb-0">{editingId ? "Edit receptionist" : "Create receptionist"}</h3>
+          <label className="col-md-6">
             <span>First name</span>
             <input
               autoComplete="given-name"
+              className="form-control form-control-sm"
               maxLength={100}
               onChange={(event) =>
                 setForm({ ...form, firstName: event.target.value })
@@ -157,10 +158,11 @@ export function ManagerTeamSection() {
               value={form.firstName}
             />
           </label>
-          <label className={teamStyles.field}>
+          <label className="col-md-6">
             <span>Last name</span>
             <input
               autoComplete="family-name"
+              className="form-control form-control-sm"
               maxLength={100}
               onChange={(event) =>
                 setForm({ ...form, lastName: event.target.value })
@@ -169,10 +171,11 @@ export function ManagerTeamSection() {
               value={form.lastName}
             />
           </label>
-          <label className={teamStyles.field}>
+          <label className="col-md-6">
             <span>Work email</span>
             <input
               autoComplete="email"
+              className="form-control form-control-sm"
               onChange={(event) =>
                 setForm({ ...form, email: event.target.value })
               }
@@ -181,10 +184,11 @@ export function ManagerTeamSection() {
               value={form.email}
             />
           </label>
-          <label className={teamStyles.field}>
+          <label className="col-md-6">
             <span>Phone number</span>
             <input
               autoComplete="tel"
+              className="form-control form-control-sm"
               maxLength={20}
               onChange={(event) =>
                 setForm({ ...form, phoneNumber: event.target.value })
@@ -194,12 +198,13 @@ export function ManagerTeamSection() {
               value={form.phoneNumber}
             />
           </label>
-          <label className={teamStyles.field}>
+          <label className="col-md-6">
             <span>
               {editingId ? "New password (optional)" : "Temporary password"}
             </span>
             <input
               autoComplete="new-password"
+              className="form-control form-control-sm"
               minLength={8}
               onChange={(event) =>
                 setForm({ ...form, password: event.target.value })
@@ -209,9 +214,9 @@ export function ManagerTeamSection() {
               value={form.password}
             />
           </label>
-          <div className={teamStyles.formActions}>
+          <div className="col-12 d-flex align-items-center gap-2">
             <button
-              className={commonStyles.smallPrimaryButton}
+              className="btn btn-success btn-sm"
               disabled={isSaving}
               type="submit"
             >
@@ -222,7 +227,7 @@ export function ManagerTeamSection() {
                   : "Create account"}
             </button>
             <button
-              className={teamStyles.cancelButton}
+              className="btn btn-outline-secondary btn-sm"
               onClick={closeForm}
               type="button"
             >

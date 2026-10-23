@@ -27,7 +27,7 @@ export function ManagedRoomCard({
   };
 
   return (
-    <article className={roomStyles.managedRoomCard}>
+    <article className="card h-100">
       <div className={roomStyles.roomCardArtwork}>
         <span>ROOM {room.name}</span>
         <button
@@ -38,7 +38,7 @@ export function ManagedRoomCard({
           ···
         </button>
       </div>
-      <div className={roomStyles.managedRoomBody}>
+      <div className="card-body">
         <div className={roomStyles.managedRoomTitle}>
           <div>
             <h3>{room.category}</h3>
@@ -62,13 +62,14 @@ export function ManagedRoomCard({
               Nightly rate <span>$</span>
               <input
                 aria-label={`Nightly rate for ${room.category}`}
+                className="form-control form-control-sm"
                 min="1"
                 onChange={(event) => setRate(event.target.value)}
                 type="number"
                 value={rate}
               />
             </label>
-            <button className={commonStyles.smallPrimaryButton} type="submit">
+            <button className="btn btn-success btn-sm" type="submit">
               Save rate
             </button>
           </form>
@@ -78,11 +79,11 @@ export function ManagedRoomCard({
           </p>
         )}
         <div className={roomStyles.roomCardActions}>
-          <button onClick={onEdit} type="button">
+          <button className="btn btn-outline-success btn-sm" onClick={onEdit} type="button">
             {editing ? "Cancel" : "Edit room"}
           </button>
           <button
-            className={roomStyles.deleteAction}
+            className="btn btn-outline-danger btn-sm"
             onClick={onDelete}
             type="button"
           >

@@ -43,79 +43,74 @@ export default function Filter() {
   }
 
   return (
-    <form className={styles.searchBar} onSubmit={handleSubmit}>
-      <div className={styles.searchIntro}>
-        <div>
-          <p>Make room for a getaway</p>
-          <span>Find a stay that feels just right.</span>
-        </div>
-        <span className={styles.searchNote}>Your next stay starts here</span>
-      </div>
-
-      <div className={styles.searchFields}>
-        <label className={styles.searchField}>
+    <form
+      className={`${styles.searchBar} card shadow-sm p-3 p-lg-4`}
+      onSubmit={handleSubmit}
+    >
+      <div className="row g-2 align-items-stretch">
+        <label className="col-12 col-md-6 col-xl-3">
           <CalendarDays
-            className={styles.searchIcon}
+            className="text-success me-2"
             size={20}
             aria-hidden="true"
           />
-          <span className={styles.searchFieldContent}>
-            <span>Check in</span>
-            <input
-              type="date"
-              name="checkIn"
-              aria-label="Check-in date"
-              min={minDate}
-              value={checkIn}
-              onChange={(event) => handleCheckInChange(event.target.value)}
-              required
-            />
-          </span>
+          <span className="small fw-semibold text-secondary">Check in</span>
+          <input
+            className="form-control form-control-sm mt-1"
+            type="date"
+            name="checkIn"
+            aria-label="Check-in date"
+            min={minDate}
+            value={checkIn}
+            onChange={(event) => handleCheckInChange(event.target.value)}
+            required
+          />
         </label>
 
-        <label className={styles.searchField}>
+        <label className="col-12 col-md-6 col-xl-3">
           <CalendarDays
-            className={styles.searchIcon}
+            className="text-success me-2"
             size={20}
             aria-hidden="true"
           />
-          <span className={styles.searchFieldContent}>
-            <span>Check out</span>
-            <input
-              type="date"
-              name="checkOut"
-              aria-label="Check-out date"
-              min={formatDate(minCheckOutDate)}
-              value={checkOut}
-              onChange={(event) => setCheckOut(event.target.value)}
-              required
-            />
-          </span>
+          <span className="small fw-semibold text-secondary">Check out</span>
+          <input
+            className="form-control form-control-sm mt-1"
+            type="date"
+            name="checkOut"
+            aria-label="Check-out date"
+            min={formatDate(minCheckOutDate)}
+            value={checkOut}
+            onChange={(event) => setCheckOut(event.target.value)}
+            required
+          />
         </label>
 
-        <label className={styles.searchField}>
+        <label className="col-12 col-md-6 col-xl-3">
           <UsersRound
-            className={styles.searchIcon}
+            className="text-success me-2"
             size={20}
             aria-hidden="true"
           />
-          <span className={styles.searchFieldContent}>
-            <span>Guests</span>
-            <select
-              name="guests"
-              onChange={(event) => setGuests(event.target.value)}
-              value={guests}
-              aria-label="Number of guests"
-            >
-              <option value="1">1 guest</option>
-              <option value="2">2 guests</option>
-              <option value="3">3 guests</option>
-              <option value="4">4 guests</option>
-            </select>
-          </span>
+          <span className="small fw-semibold text-secondary">Guests</span>
+          <select
+            className="form-select form-select-sm mt-1"
+            name="guests"
+            onChange={(event) => setGuests(event.target.value)}
+            value={guests}
+            aria-label="Number of guests"
+          >
+            <option value="1">1 guest</option>
+            <option value="2">2 guests</option>
+            <option value="3">3 guests</option>
+            <option value="4">4 guests</option>
+          </select>
         </label>
 
-        <button className={styles.searchButton} type="submit">
+        <button
+          className="col-12 col-md-6 col-xl-3 btn btn-success d-flex align-items-center justify-content-center gap-3"
+          type="submit"
+        >
           <span>Find a room</span>
           <Search size={18} aria-hidden="true" />
         </button>

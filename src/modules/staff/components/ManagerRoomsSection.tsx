@@ -52,7 +52,7 @@ export function ManagerRoomsSection({
   };
 
   return (
-    <section className={commonStyles.panelCard} aria-labelledby="room-list-title">
+    <section className={`${commonStyles.panelCard} card p-3`} aria-labelledby="room-list-title">
       <div className={commonStyles.panelHeading}>
         <div>
           <p className={commonStyles.eyebrow}>PROPERTY INVENTORY</p>
@@ -60,9 +60,10 @@ export function ManagerRoomsSection({
             All rooms <span className={commonStyles.countBadge}>{rooms.length}</span>
           </h2>
         </div>
-        <form className={sectionStyles.addRoomForm} onSubmit={handleAddRoom}>
+        <form className={`${sectionStyles.addRoomForm} row g-2`} onSubmit={handleAddRoom}>
           <input
             aria-label="Room number"
+            className="form-control form-control-sm col-6 col-xl-4"
             onChange={(event) =>
               setNewRoom({ ...newRoom, roomNumber: event.target.value })
             }
@@ -72,6 +73,7 @@ export function ManagerRoomsSection({
           />
           <input
             aria-label="Room type"
+            className="form-control form-control-sm col-6 col-xl-4"
             onChange={(event) =>
               setNewRoom({ ...newRoom, type: event.target.value })
             }
@@ -81,6 +83,7 @@ export function ManagerRoomsSection({
           />
           <input
             aria-label="Nightly rate"
+            className="form-control form-control-sm col-6 col-xl-4"
             min="1"
             onChange={(event) =>
               setNewRoom({ ...newRoom, price: event.target.value })
@@ -91,6 +94,7 @@ export function ManagerRoomsSection({
           />
           <input
             aria-label="Capacity"
+            className="form-control form-control-sm col-6 col-xl-4"
             min="1"
             onChange={(event) =>
               setNewRoom({ ...newRoom, capacity: event.target.value })
@@ -101,6 +105,7 @@ export function ManagerRoomsSection({
           />
           <input
             aria-label="Bed type"
+            className="form-control form-control-sm col-6 col-xl-4"
             onChange={(event) =>
               setNewRoom({ ...newRoom, bedType: event.target.value })
             }
@@ -110,6 +115,7 @@ export function ManagerRoomsSection({
           />
           <input
             aria-label="Floor"
+            className="form-control form-control-sm col-6 col-xl-4"
             min="1"
             onChange={(event) =>
               setNewRoom({ ...newRoom, floor: event.target.value })
@@ -118,21 +124,22 @@ export function ManagerRoomsSection({
             type="number"
             value={newRoom.floor}
           />
-          <button className={commonStyles.smallPrimaryButton} type="submit">
+          <button className="btn btn-success btn-sm col-12" type="submit">
             ＋ Add room
           </button>
         </form>
       </div>
-      <div className={sectionStyles.manageRoomGrid}>
+      <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 mt-2">
         {rooms.map((room) => (
-          <ManagedRoomCard
-            editing={editingRoom === room.id}
-            key={room.id}
-            onDelete={() => onDeleteRoom(room.id)}
-            onEdit={() => onToggleEdit(room.id)}
-            onSave={(rate) => onSaveRate(room.id, rate)}
-            room={room}
-          />
+          <div className="col" key={room.id}>
+            <ManagedRoomCard
+              editing={editingRoom === room.id}
+              onDelete={() => onDeleteRoom(room.id)}
+              onEdit={() => onToggleEdit(room.id)}
+              onSave={(rate) => onSaveRate(room.id, rate)}
+              room={room}
+            />
+          </div>
         ))}
       </div>
     </section>

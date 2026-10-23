@@ -38,13 +38,13 @@ export function StaffDashboardShell({
     .join("");
 
   return (
-    <main className={shellStyles.dashboard}>
-      <aside className={shellStyles.sidebar}>
-        <a className={shellStyles.wordmark} href="/" aria-label="Hotela home">
+    <main className={`${shellStyles.dashboard} d-flex flex-column flex-md-row min-vh-100`}>
+      <aside className={`${shellStyles.sidebar} d-flex flex-column p-3 bg-white`}>
+        <a className={`${shellStyles.wordmark} text-success fs-3 fw-bold text-decoration-none`} href="/" aria-label="Hotela home">
           hotela<span>.</span>
         </a>
         <p className={shellStyles.sidebarLabel}>{sidebarLabel}</p>
-        <nav className={shellStyles.sideNav} aria-label={navigationLabel}>
+        <nav className={`${shellStyles.sideNav} d-grid gap-1`} aria-label={navigationLabel}>
           {navigation}
         </nav>
         <div className={shellStyles.sidebarBottom}>
@@ -64,8 +64,8 @@ export function StaffDashboardShell({
         </div>
       </aside>
 
-      <section className={shellStyles.mainPanel}>
-        <header className={shellStyles.topbar}>
+      <section className={`${shellStyles.mainPanel} flex-grow-1`}>
+        <header className={`${shellStyles.topbar} d-flex align-items-center justify-content-between bg-white border-bottom`}>
           <div>
             <p className={shellStyles.breadcrumb}>{breadcrumb}</p>
             <p className={shellStyles.currentDate}>{currentDate}</p>

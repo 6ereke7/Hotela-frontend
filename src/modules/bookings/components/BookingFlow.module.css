@@ -1,21 +1,7 @@
 .page {
-  --ink: #26332c;
-  --muted: #788078;
-  --line: #e7e8e2;
-  --green: #355b49;
-  --paper: #fbfaf7;
   min-height: 100vh;
-  padding: 0 max(24px, calc((100vw - 1160px) / 2));
   background: var(--paper);
   color: var(--ink);
-}
-
-.header {
-  min-height: 82px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--line);
 }
 
 .wordmark {
@@ -40,18 +26,6 @@
 
 .secureLabel > span {
   color: var(--green);
-}
-
-.content {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(300px, 0.8fr);
-  align-items: start;
-  gap: clamp(40px, 9vw, 120px);
-  padding: 62px 0 90px;
-}
-
-.formPanel {
-  max-width: 600px;
 }
 
 .backLink,
@@ -96,7 +70,7 @@
 .confirmation h1 {
   margin: 0;
   color: var(--ink);
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 400;
   letter-spacing: -0.06em;
@@ -109,11 +83,6 @@
   color: var(--muted);
   font-size: 0.94rem;
   line-height: 1.75;
-}
-
-.guestForm {
-  display: grid;
-  gap: 23px;
 }
 
 .field {
@@ -132,75 +101,15 @@
   font-weight: 400;
 }
 
-.field input,
-.field textarea {
-  width: 100%;
-  padding: 14px 15px;
-  border: 1px solid #dfe3dc;
-  border-radius: 2px;
-  background: #fff;
-  color: var(--ink);
-  font: inherit;
-  font-size: 0.85rem;
-  resize: vertical;
-}
-
-.field input::placeholder,
-.field textarea::placeholder {
-  color: #a0a79f;
-}
-
-.field input:focus,
-.field textarea:focus {
-  border-color: #78917f;
-  outline: 2px solid rgb(120 145 127 / 18%);
-}
-
 .field small {
   color: var(--muted);
   font-size: 0.72rem;
 }
 
-.primaryButton {
-  min-height: 55px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  padding: 0 22px;
-  border: 0;
-  background: var(--green);
-  color: #fff;
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.83rem;
-  font-weight: 600;
-  transition: background-color 150ms ease;
-}
-
-.primaryButton:hover {
-  background: #294838;
-}
-
-.privacyNote {
-  margin: -10px 0 0;
-  color: var(--muted);
-  font-size: 0.71rem;
-  text-align: center;
-}
-
-.summaryCard {
-  position: sticky;
-  top: 30px;
-  padding: 27px;
-  border: 1px solid var(--line);
-  background: #fff;
-}
-
 .summaryCard h2 {
   margin: 0 0 20px;
   color: var(--ink);
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 1.65rem;
   font-weight: 400;
   letter-spacing: -0.04em;
@@ -220,7 +129,7 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(180deg, transparent 45%, rgb(24 34 27 / 38%));
-  content: '';
+  content: "";
 }
 
 .roomArtwork img {
@@ -243,7 +152,7 @@
 .roomName {
   margin: 19px 0 17px;
   color: var(--ink);
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 1.3rem;
   font-weight: 400;
 }
@@ -398,7 +307,7 @@
   background: #fff;
   color: var(--ink);
   font: inherit;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 1.65rem;
   text-align: center;
 }
@@ -532,7 +441,7 @@
 
 .ticketRoom h3 {
   margin: 0;
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 1.17rem;
   font-weight: 400;
 }
