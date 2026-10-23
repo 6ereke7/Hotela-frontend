@@ -1,6 +1,7 @@
 import { Router } from "./router";
 import { useEffect, useState } from "react";
 import { api, type StaffUser } from "@/modules/auth";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export function App() {
   const [staff, setStaff] = useState<StaffUser | null>();
@@ -21,11 +22,13 @@ export function App() {
   };
 
   return (
-    <Router
-      staffUser={staff ?? null}
-      authLoading={staff === undefined}
-      onLogout={handleLogout}
-      onLogin={setStaff}
-    />
+    <ThemeProvider>
+      <Router
+        staffUser={staff ?? null}
+        authLoading={staff === undefined}
+        onLogout={handleLogout}
+        onLogin={setStaff}
+      />
+    </ThemeProvider>
   );
 }
