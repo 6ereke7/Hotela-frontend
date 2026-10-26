@@ -1,25 +1,37 @@
-import { useState, type FormEvent } from "react";
-import type { StaffUser } from "../types";
+import { useContext, useEffect, useRef, useState } from "react";
 import styles from "./StaffLoginPage.module.css";
 
 import * as api from "../api";
+import { useNavigate } from "react-router-dom";
+import { authContext } from "@/app/providers";
 
-type StaffLoginPageProps = {
-  onLogin: (user: StaffUser) => void;
-};
-
-export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export function StaffLoginPage() {
+  const context = useContext(authContext);
+  const { staff, loading, onLogin } = context ?? {};
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log(staff);
+    if (loading) return;
+    if (!staff) return;
+    if (staff.role === "manager") navigate("/staff/manager");
+    if (staff.role === "receptionist") navigate("/staff/reception");
+  }, [staff, loading, navigate]);
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     setError("");
     setIsSubmitting(true);
     try {
-      onLogin(await api.login({ email: email.trim(), password }));
+      if (email.current && password.current) {
+        const staff = await api.login({
+          email: email.current?.value.trim(),
+          password: password.current?.value,
+        });
+        onLogin?.(staff);
+      }
     } catch {
       setError(
         "Sign-in failed. Check your email and password, then try again.",
@@ -37,16 +49,15 @@ export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
         className={`${styles.loginCard} card w-100 align-self-center my-auto p-4 p-md-5`}
         aria-labelledby="login-title"
       >
-        <form className="d-grid gap-3" onSubmit={handleSubmit}>
+        <div className="d-grid gap-3">
           <label className={styles.field}>
             <span>Work email</span>
             <input
               autoComplete="username"
               className="form-control"
-              onChange={(event) => setEmail(event.target.value)}
               required
               type="email"
-              value={email}
+              ref={email}
             />
           </label>
           <label className={styles.field}>
@@ -54,10 +65,9 @@ export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
             <input
               autoComplete="current-password"
               className="form-control"
-              onChange={(event) => setPassword(event.target.value)}
               required
               type="password"
-              value={password}
+              ref={password}
             />
           </label>
           {error && (
@@ -65,11 +75,11 @@ export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
               {error}
             </p>
           )}
-          <button className="btn btn-success w-100 py-3" type="submit">
+          <button onClick={handleSubmit} className="btn btn-success w-100 py-3">
             {isSubmitting ? "Signing in..." : "Sign in to workspace"}{" "}
             <span aria-hidden="true">↗</span>
           </button>
-        </form>
+        </div>
       </section>
     </main>
   );

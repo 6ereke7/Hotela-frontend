@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import style from "./Header.module.css";
 import { useContext } from "react";
-import { ThemeContext } from "@/components/ThemeProvider";
+import { ThemeContext } from "@/app/ThemeProvider";
 
 const navLinks = [
   {

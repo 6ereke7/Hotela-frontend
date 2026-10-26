@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import type { GuestBooking, ManagedRoom } from "../types";
 import { ManagerOverview } from "../components/ManagerOverview";
 import { ManagerRoomsSection } from "../components/ManagerRoomsSection";
@@ -12,11 +12,8 @@ import {
   removeManagedRoom,
   updateManagedRoomRate,
 } from "../api";
-
-type ManagerDashboardProps = {
-  staffName: string;
-  onLogout: () => void;
-};
+import { authContext } from "@/app/providers";
+import { useNavigate } from "react-router-dom";
 
 type ManagerSection = "Overview" | "Rooms" | "Team";
 type NewRoomInput = {
@@ -30,10 +27,12 @@ type NewRoomInput = {
 
 const sections: ManagerSection[] = ["Overview", "Rooms", "Team"];
 
-export function ManagerDashboard({
-  staffName,
-  onLogout,
-}: ManagerDashboardProps) {
+export function ManagerDashboard() {
+  const auth = useContext(authContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (auth?.staff === null) navigate("/staff");
+  }, [auth?.staff?.id, navigate]);
   const [section, setSection] = useState<ManagerSection>("Overview");
   const [rooms, setRooms] = useState<ManagedRoom[]>([]);
   const [bookings, setBookings] = useState<GuestBooking[]>([]);
@@ -88,6 +87,7 @@ export function ManagerDashboard({
     setEditingRoom((current) => (current === roomId ? null : roomId));
   };
 
+  const staffName = auth?.staff?.name || "";
   const sectionTitle = {
     Overview: `Good morning, ${staffName.split(" ")[0]}.`,
     Rooms: "Room management",
@@ -109,9 +109,7 @@ export function ManagerDashboard({
       }
       liveStatus="Hotel is open"
       navigationLabel="Manager sections"
-      onLogout={onLogout}
       sidebarLabel="HOTEL OPERATIONS"
-      staffName={staffName}
       staffTitle="Hotel manager"
       navigation={
         <>
@@ -133,7 +131,9 @@ export function ManagerDashboard({
       }
     >
       <div className={`${commonStyles.dashboardContent} container-fluid py-4`}>
-        <div className={`${commonStyles.pageTitleRow} d-flex align-items-center justify-content-between gap-3 mb-4`}>
+        <div
+          className={`${commonStyles.pageTitleRow} d-flex align-items-center justify-content-between gap-3 mb-4`}
+        >
           <div>
             <p className={commonStyles.eyebrow}>
               {section === "Overview"

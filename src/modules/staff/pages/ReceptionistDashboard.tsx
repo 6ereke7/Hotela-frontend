@@ -1,16 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import type { GuestBooking } from "../types";
 import { StaffDashboardShell } from "../components/StaffDashboardShell";
 import shellStyles from "../components/StaffDashboardShell.module.css";
 import commonStyles from "../components/StaffDashboardCommon.module.css";
 import receptionStyles from "../components/ReceptionistDashboard.module.css";
 import { getStaffOperations, updateGuestBooking } from "../api";
-import { Link } from "react-router-dom";
-
-type ReceptionistDashboardProps = {
-  staffName: string;
-  onLogout: () => void;
-};
+import { useNavigate, Link } from "react-router-dom";
+import { authContext } from "@/app/providers";
 
 type RoomFilter = "All rooms" | GuestBooking["roomStatus"];
 
@@ -150,10 +146,13 @@ function BookingTable({
   );
 }
 
-export function ReceptionistDashboard({
-  staffName,
-  onLogout,
-}: ReceptionistDashboardProps) {
+export function ReceptionistDashboard() {
+  const auth = useContext(authContext);
+  const navigate = useNavigate();
+  const staffName = auth?.staff?.name;
+  useEffect(() => {
+    if (auth?.staff === null) navigate("/staff");
+  }, [auth?.staff?.id, navigate]);
   const [bookings, setBookings] = useState<GuestBooking[]>([]);
   const [roomCount, setRoomCount] = useState(0);
   const [filter, setFilter] = useState<RoomFilter>("All rooms");
@@ -259,9 +258,7 @@ export function ReceptionistDashboard({
       }
       liveStatus="Desk is open"
       navigationLabel="Reception navigation"
-      onLogout={onLogout}
       sidebarLabel="FRONT DESK"
-      staffName={staffName}
       staffTitle="Front desk"
       navigation={
         <>
@@ -298,7 +295,7 @@ export function ReceptionistDashboard({
         >
           <div>
             <p className={commonStyles.eyebrow}>{todayLabel}</p>
-            <h1>Good morning, {staffName.split(" ")[0]}.</h1>
+            <h1>Good morning, {staffName?.split(" ")[0]}.</h1>
             <p className={commonStyles.subtitle}>
               A smooth arrival makes the whole stay.
             </p>
