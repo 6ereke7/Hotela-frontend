@@ -30,26 +30,13 @@ export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
   };
 
   return (
-    <main className={`${styles.loginPage} container-xl d-flex flex-column min-vh-100`}>
-      <header className="d-flex align-items-center justify-content-between border-bottom py-3">
-        <a className={styles.wordmark} href="/" aria-label="Hotela home">
-          hotela<span>.</span>
-        </a>
-        <a className={styles.guestLink} href="/">
-          Back to guest site <span aria-hidden="true">↗</span>
-        </a>
-      </header>
-
-      <section className={`${styles.loginCard} card w-100 align-self-center my-auto p-4 p-md-5`} aria-labelledby="login-title">
-        <div className={styles.loginMark} aria-hidden="true">
-          h.
-        </div>
-        <p className={styles.eyebrow}>The team at Hotela</p>
-        <h1 id="login-title">Welcome back.</h1>
-        <p className={styles.description}>
-          Sign in to your workspace and make someone’s stay.
-        </p>
-
+    <main
+      className={`${styles.loginPage} container-xl d-flex flex-column min-vh-100`}
+    >
+      <section
+        className={`${styles.loginCard} card w-100 align-self-center my-auto p-4 p-md-5`}
+        aria-labelledby="login-title"
+      >
         <form className="d-grid gap-3" onSubmit={handleSubmit}>
           <label className={styles.field}>
             <span>Work email</span>
@@ -84,9 +71,6 @@ export function StaffLoginPage({ onLogin }: StaffLoginPageProps) {
           </button>
         </form>
       </section>
-      <footer className="py-3 text-center small text-secondary">
-        Thoughtful stays start with a thoughtful team.
-      </footer>
     </main>
   );
 }
