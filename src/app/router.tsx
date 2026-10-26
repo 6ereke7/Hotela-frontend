@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { FallBackRoute } from "./FallBackRoute";
 import { BookingCheckoutScreen } from "@/modules/bookings";
 import { HomePage } from "@/modules/rooms";
-import { AuthProvider } from "./AuthProvider";
+import { AuthProvider } from "@/app/providers";
 import { StaffLoginPage } from "@/modules/auth";
 import { ManagerDashboard, ReceptionistDashboard } from "@/modules/staff";
 

@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import style from "./Header.module.css";
 import { useContext } from "react";
-import { ThemeContext } from "@/app/ThemeProvider";
+import { ThemeContext } from "@/app/providers";
 
 const navLinks = [
   {
@@ -27,7 +27,8 @@ const navLinks = [
   },
 ];
 export default function Header() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const themeCtx = useContext(ThemeContext);
+  const { theme, setTheme } = themeCtx ?? {};
   return (
     <header
       className={`container-xl d-flex align-items-center justify-content-between border-bottom py-2 rounded-4 ${style.header}`}
