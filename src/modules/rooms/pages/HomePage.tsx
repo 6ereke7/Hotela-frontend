@@ -8,7 +8,6 @@ import {
 import Filter from "../components/Filter";
 import RoomCard from "../components/RoomCard";
 import styles from "./HomePage.module.css";
-import Header from "../components/Header";
 import { getRooms } from "../api";
 import type { Room } from "../types";
 import { useSearchParams } from "react-router-dom";
@@ -70,13 +69,11 @@ export function HomePage() {
 
   return (
     <main className={`${styles.home} min-vh-100`}>
-      <Header />
       <section className={styles.hero} aria-labelledby="hero-title">
         <div className="">
           <CarouselHero />
         </div>
       </section>
-
       <section
         className="container-xl py-5"
         id="stays"
@@ -116,7 +113,6 @@ export function HomePage() {
           )}
         </div>
       </section>
-
       <section
         className="container-xl bg-success-subtle  p-4 p-lg-5 rounded"
         id="the-hotela-way"
@@ -146,7 +142,6 @@ export function HomePage() {
           })}
         </div>
       </section>
-
       <footer className="container-xl d-flex align-items-center justify-content-between gap-3 py-4">
         <a
           className="text-success fs-3 fw-bold text-decoration-none"

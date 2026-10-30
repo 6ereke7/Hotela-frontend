@@ -1,24 +1,38 @@
 :root {
-  --ink: #26332c;
-  --muted: #788078;
+  --bg: #fbfaf7; /* paper */
+  --bg-elevated: #ffffff; /* cards/modals */
+  --surface: #ffffff;
+  --ink: #26332c; /* base text */
+  --ink-muted: #788078;
+  --ink-dim: #5b6560; /* captions inside elevated panels */
   --line: #e7e8e2;
-  --green: #355b49;
-  --paper: #fbfaf7;
-  --soft-green: #edf3ee;
+  --border: #a8a9a0;
+  --accent: #355b49; /* brand green */
+  --accent-fg: #edf3ee;
 
-  --bs-body-font-family: Inter, ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --bs-body-font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
   --bs-body-color: var(--ink);
   --bs-body-bg: var(--paper);
-  --bs-primary: var(--green);
-  --bs-primary-rgb: 53, 91, 73;
-  --bs-success: var(--green);
-  --bs-success-rgb: 53, 91, 73;
+  --bs-primary: var(--accent);
+  --bs-success: var(--accent);
   --bs-focus-ring-color: rgb(53 91 73 / 25%);
+}
+[data-theme="dark"] {
+  --bg: #14161c;
+  --bg-elevated: #1d2128;
+  --surface: #1d2128;
+  --ink: #eee9d9;
+  --ink-muted: #9a958c;
+  --ink-dim: #6f6a62;
+  --line: #3a4047;
+  --border: #3a4047;
+  --accent: #5fa689;
+  --accent-fg: #1d2820;
 }
 
 body {
-  min-width: 320px;
   min-height: 100vh;
   margin: 0;
   color: var(--ink);
@@ -28,25 +42,29 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.btn-success {
-  --bs-btn-bg: var(--green);
-  --bs-btn-border-color: var(--green);
-  --bs-btn-hover-bg: #294838;
-  --bs-btn-hover-border-color: #294838;
-  --bs-btn-active-bg: #294838;
-  --bs-btn-active-border-color: #294838;
+button,
+input,
+select {
+  color: var(--ink);
+  background-color: var(--bg-elevated);
+  border: var(--border) solid 1px;
+  border-radius: 1em;
+  padding-inline: 1em;
+  padding-block: 0.2em;
+  margin: 0.2em 0;
+  width: auto;
 }
-
-.btn-outline-success {
-  --bs-btn-color: var(--green);
-  --bs-btn-border-color: var(--green);
-  --bs-btn-hover-bg: var(--green);
-  --bs-btn-hover-border-color: var(--green);
-  --bs-btn-active-bg: var(--green);
-  --bs-btn-active-border-color: var(--green);
+select:hover,
+button:hover {
+  filter: brightness(0.85);
 }
-
+input:focus {
+  outline: var(--accent) solid 1.5px;
+}
+.active {
+  background-color: var(--accent);
+  color: var(--ink);
+}
 a {
   color: inherit;
 }
