@@ -1,30 +1,41 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { Room } from "../types";
 import styles from "./RoomCard.module.css";
 import { ArrowRight } from "lucide-react";
+import { useContext } from "react";
+import { mainContext } from "@/app/providers";
+
+type RoomCard = {
+  room: Room;
+  index?: number;
+  checkInDate?: string;
+  checkOutDate?: string;
+};
 
 export default function RoomCard({
   room,
   index,
   checkInDate,
   checkOutDate,
-}: {
-  room: Room;
-  index: number;
-  checkInDate?: string;
-  checkOutDate?: string;
-}) {
+}: RoomCard) {
   const bookingState = { room, checkInDate, checkOutDate };
+  const { setRoom } = useContext(mainContext) ?? {};
+  const navigate = useNavigate();
+
   return (
     <article
-      className=" card h-100 border-0 rounded-3 shadow-sm overflow-hidden"
+      className={`card h-100 border-0 rounded-3 shadow-sm overflow-hidden ${styles.roomcard}`}
       key={room.id}
     >
-      <Link
-        to={`/booking/${room.id}`}
-        state={bookingState}
+      <div
         className={`position-relative d-block overflow-hidden ${styles.roomImageLink}`}
         aria-label={`Book ${room.roomNumber}`}
+        onClick={() => {
+          if (setRoom) {
+            setRoom(room);
+            navigate("/book");
+          }
+        }}
       >
         <img
           className={`card-img-top ${styles.roomImage}`}
@@ -32,7 +43,7 @@ export default function RoomCard({
           alt={`${room.type} room ${room.roomNumber}`}
           loading={index === 0 ? "eager" : "lazy"}
         />
-      </Link>
+      </div>
       <div className="card-body p-3">
         <div className="d-flex align-items-start justify-content-between gap-2">
           <h3 className="h5 mb-0">{room.roomNumber}</h3>
@@ -50,7 +61,7 @@ export default function RoomCard({
         >
           {room.amenities.map((amenity) => (
             <li
-              className="badge bg-secondary-subtle text-secondary-emphasis rounded-pill fw-normal"
+              className={`badge rounded-pill fw-normal ${styles.amenties} `}
               key={amenity}
             >
               {amenity}

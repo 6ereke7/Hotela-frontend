@@ -1,7 +1,11 @@
-@media (max-width: 767.98px) {
-  .searchBar {
-    position: relative;
-    inset: auto;
-    margin-top: -2rem;
-  }
+.filterBar {
+  background-color: var(--bg-elevated);
+  overflow-x: scroll;
+}
+.filterBar > * {
+  margin-inline: 0.2em;
+}
+.filterBar > select.active {
+  background-color: red;
+  color: var(--accent-fg);
 }

@@ -1,6 +1,9 @@
+.roomcard {
+  background: var(--bg-elevated);
+}
 .roomImageLink {
   aspect-ratio: 1.3;
-  background: #e2e6de;
+  background: var(--bg-elevated);
 }
 
 .roomImage {
@@ -22,6 +25,10 @@
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.2rem;
   text-shadow: 0 1px 6px rgb(0 0 0 / 45%);
+}
+.amenties {
+  background-color: var(--bg);
+  color: var(--ink-muted);
 }
 
 @media (prefers-reduced-motion: reduce) {

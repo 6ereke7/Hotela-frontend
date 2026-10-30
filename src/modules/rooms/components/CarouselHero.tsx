@@ -31,8 +31,8 @@ export const CarouselHero = () => {
       onSelect={setIndex}
       className="w-70 mx-auto"
     >
-      {heros.map((hero) => (
-        <Carousel.Item>
+      {heros.map((hero, i) => (
+        <Carousel.Item key={i}>
           <img
             className="d-block w-100 object-fit-cover"
             src={hero.img}
