@@ -1,0 +1,10 @@
+.header {
+  position: sticky;
+  z-index: 1000;
+  top: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+[data-theme="dark"] .header {
+  background: rgba(38, 42, 50);
+}

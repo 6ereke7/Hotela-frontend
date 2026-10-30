@@ -9,3 +9,8 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+export type ApiResponse<T> = {
+  success: boolean;
+  data: T;
+  msg?: string;
+};

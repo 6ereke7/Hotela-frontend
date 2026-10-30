@@ -1,0 +1,551 @@
+.page {
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.wordmark {
+  color: var(--green);
+  font-size: 1.65rem;
+  font-weight: 700;
+  letter-spacing: -0.09em;
+  text-decoration: none;
+}
+
+.wordmark span {
+  color: #c78e63;
+}
+
+.secureLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.secureLabel > span {
+  color: var(--green);
+}
+
+.backLink,
+.secondaryLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--green);
+  font-size: 0.81rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.backLink {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.backLink {
+  margin-bottom: 45px;
+}
+
+.backLink:hover,
+.secondaryLink:hover {
+  color: #9e6848;
+}
+
+.eyebrow {
+  margin: 0 0 13px;
+  color: var(--green);
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.formPanel h1,
+.otpPanel h1,
+.confirmation h1 {
+  margin: 0;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 400;
+  letter-spacing: -0.06em;
+  line-height: 1.06;
+}
+
+.intro {
+  max-width: 470px;
+  margin: 17px 0 34px;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.75;
+}
+
+.field {
+  display: grid;
+  gap: 9px;
+}
+
+.field > span {
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.optional {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.field small {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.summaryCard h2 {
+  margin: 0 0 20px;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.65rem;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+
+.roomArtwork {
+  position: relative;
+  height: 182px;
+  display: flex;
+  align-items: end;
+  padding: 14px;
+  overflow: hidden;
+  background-color: #c4c9be;
+}
+
+.roomArtwork::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgb(24 34 27 / 38%));
+  content: "";
+}
+
+.roomArtwork img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.roomArtwork span {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font-size: 0.59rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+}
+
+.roomName {
+  margin: 19px 0 17px;
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+
+.stayDetails {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 17px 12px;
+  margin: 0;
+  padding: 0 0 21px;
+  border-bottom: 1px solid var(--line);
+}
+
+.stayDetails div,
+.ticketDetails div {
+  display: grid;
+  gap: 5px;
+}
+
+.stayDetails dt,
+.ticketDetails dt {
+  color: var(--muted);
+  font-size: 0.67rem;
+}
+
+.stayDetails dd,
+.ticketDetails dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.81rem;
+  font-weight: 600;
+}
+
+.priceBreakdown {
+  padding-top: 9px;
+}
+
+.priceBreakdown p {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 5px;
+  margin: 12px 0;
+  color: var(--ink);
+  font-size: 0.78rem;
+}
+
+.priceBreakdown p > span {
+  color: var(--muted);
+}
+
+.priceBreakdown strong {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-size: 0.83rem;
+}
+
+.priceBreakdown .totalLine {
+  align-items: center;
+  margin-top: 17px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 0.91rem;
+  font-weight: 700;
+}
+
+.priceBreakdown .totalLine > span {
+  grid-column: 1;
+  grid-row: 2;
+  font-size: 0.68rem;
+  font-weight: 400;
+}
+
+.priceBreakdown .totalLine strong {
+  font-size: 1rem;
+}
+
+.summaryFootnote {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.summaryFootnote span {
+  margin-right: 6px;
+  color: #ac825c;
+}
+
+.otpPanel {
+  width: min(100%, 540px);
+  margin: 54px auto 100px;
+}
+
+.mailMark,
+.successMark {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 28px;
+  border-radius: 50%;
+  background: #eef2ec;
+  color: var(--green);
+  font-size: 1.35rem;
+}
+
+.otpPanel .backLink {
+  margin-bottom: 44px;
+}
+
+.otpForm {
+  display: grid;
+  gap: 24px;
+}
+
+.priceQuote {
+  margin: -15px 0 28px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.priceQuote strong {
+  color: var(--ink);
+}
+
+.priceChangedMessage {
+  margin: -10px 0 22px;
+  color: var(--green);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.codeFieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.codeInputs {
+  display: flex;
+  gap: clamp(8px, 2vw, 14px);
+}
+
+.codeInputs input {
+  width: min(64px, calc((100vw - 96px) / 6));
+  height: 68px;
+  border: 1px solid #dfe3dc;
+  border-radius: 2px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.65rem;
+  text-align: center;
+}
+
+.codeInputs input:focus {
+  border-color: #78917f;
+  outline: 2px solid rgb(120 145 127 / 18%);
+}
+
+.resendText {
+  margin: -5px 0 0;
+  color: var(--muted);
+  font-size: 0.79rem;
+  text-align: center;
+}
+
+.resendText > span {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.inlineButton {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--green);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.errorMessage {
+  margin: -15px 0 0;
+  color: #a23932;
+  font-size: 0.77rem;
+  text-align: center;
+}
+
+.confirmation {
+  width: min(100%, 650px);
+  margin: 60px auto 100px;
+  text-align: center;
+}
+
+.successMark {
+  margin: 0 auto 24px;
+  background: #e6efe8;
+  font-size: 1.5rem;
+}
+
+.confirmation .eyebrow {
+  justify-content: center;
+}
+
+.confirmation h1 {
+  max-width: 620px;
+  margin-inline: auto;
+  font-size: clamp(2.4rem, 5vw, 3.65rem);
+}
+
+.confirmationIntro {
+  max-width: 470px;
+  margin: 17px auto 32px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.confirmationIntro strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.ticket {
+  padding: 26px 30px;
+  border: 1px solid var(--line);
+  background: #fff;
+  text-align: left;
+}
+
+.ticketTop {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed #d9ddd5;
+}
+
+.ticketTop .eyebrow {
+  margin-bottom: 8px;
+}
+
+.ticketTop h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.22rem;
+  letter-spacing: 0.05em;
+}
+
+.confirmedBadge {
+  padding: 7px 10px;
+  border-radius: 30px;
+  background: #e9f2eb;
+  color: var(--green);
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.ticketRoom {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 0;
+}
+
+.ticketArtwork {
+  width: 74px;
+  height: 64px;
+  flex: 0 0 auto;
+  object-fit: cover;
+}
+
+.ticketLabel {
+  margin: 0 0 5px;
+  color: var(--muted);
+  font-size: 0.67rem;
+}
+
+.ticketRoom h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.17rem;
+  font-weight: 400;
+}
+
+.ticketDetails {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 18px 0;
+  border-top: 1px dashed #d9ddd5;
+  border-bottom: 1px dashed #d9ddd5;
+}
+
+.ticketNote {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.secondaryLink {
+  margin-top: 24px;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding-inline: 22px;
+  }
+
+  .header {
+    min-height: 72px;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 44px;
+    padding-top: 40px;
+  }
+
+  .backLink {
+    margin-bottom: 34px;
+  }
+
+  .summaryCard {
+    position: static;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding-inline: 16px;
+  }
+
+  .secureLabel {
+    max-width: 170px;
+    font-size: 0.68rem;
+    text-align: right;
+  }
+
+  .content {
+    padding-top: 30px;
+  }
+
+  .summaryCard {
+    padding: 20px;
+  }
+
+  .otpPanel {
+    margin-top: 32px;
+  }
+
+  .codeInputs {
+    justify-content: space-between;
+    gap: 7px;
+  }
+
+  .codeInputs input {
+    width: min(52px, calc((100vw - 70px) / 6));
+    height: 58px;
+  }
+
+  .ticket {
+    padding: 20px;
+  }
+
+  .ticketDetails {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryButton {
+    transition: none;
+  }
+}

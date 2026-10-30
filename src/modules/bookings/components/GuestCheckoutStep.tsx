@@ -1,9 +1,8 @@
 import { useState, type FormEvent } from "react";
 import type { Room } from "../../../types/room";
 import type { GuestBookingDetails } from "../types";
-import { buildBookingSummary } from "../builders";
+import { buildBookingSummary } from "../utils";
 import styles from "./BookingFlow.module.css";
-import Header from "@/modules/rooms/components/Header";
 import { MessageCircleMore } from "lucide-react";
 
 function dateOffset(days: number) {
@@ -78,7 +77,7 @@ export function GuestCheckoutStep({
 
   return (
     <main className={`${styles.page} container-xl px-3`}>
-      <Header />
+
 
       <div className="row g-4 g-xl-5 py-5">
         <section className="col-lg-7" aria-labelledby="checkout-title">
