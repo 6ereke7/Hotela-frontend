@@ -3,22 +3,14 @@ import type { Room } from "../types";
 import styles from "./RoomCard.module.css";
 import { ArrowRight } from "lucide-react";
 import { useContext } from "react";
-import { mainContext } from "@/app/providers";
+import { mainContext } from "@/app/contexts";
 
 type RoomCard = {
   room: Room;
   index?: number;
-  checkInDate?: string;
-  checkOutDate?: string;
 };
 
-export default function RoomCard({
-  room,
-  index,
-  checkInDate,
-  checkOutDate,
-}: RoomCard) {
-  const bookingState = { room, checkInDate, checkOutDate };
+export default function RoomCard({ room, index }: RoomCard) {
   const { setRoom } = useContext(mainContext) ?? {};
   const navigate = useNavigate();
 
@@ -71,7 +63,12 @@ export default function RoomCard({
         <Link
           className="d-flex justify-content-between border-top pt-3 text-success fw-semibold small text-decoration-none"
           to={`/booking/${room.id}`}
-          state={bookingState}
+          onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+            e.preventDefault();
+            if (setRoom) {
+              setRoom(room);
+            }
+          }}
         >
           Book this room <ArrowRight size={20} />
         </Link>

@@ -1,41 +1,12 @@
 import Wraper from "@/components/Wraper";
 import { api, type StaffUser } from "@/modules/auth";
 import type { Room } from "@/types/room";
-import { createContext, useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Outlet } from "react-router-dom";
+import { ThemeContext, authContext, mainContext, type theme, type Guest } from "./contexts";
 
 // TODO: use the theme provider fr :o (make the css theme compatable)
-type theme = "dark" | "light";
-interface ThemeContext {
-  theme: "dark" | "light";
-  setTheme: (theme: "dark" | "light") => void;
-}
-interface AuthContext {
-  staff: StaffUser | null;
-  loading: boolean;
-  onLogin: (staff: StaffUser) => void;
-  onLogout: () => void;
-}
-export type Guest = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  fayda?: string;
-  guest: number;
-  checkIn: Date;
-  checkOut: Date;
-};
-interface MainContext {
-  room: Room | undefined;
-  setRoom: (room: Room) => void;
-  guest: Guest | undefined;
-  setGuest: (guest: Guest) => void;
-}
 
-export const ThemeContext = createContext<ThemeContext | null>(null);
-export const authContext = createContext<AuthContext | null>(null);
-export const mainContext = createContext<MainContext | null>(null);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<theme>(

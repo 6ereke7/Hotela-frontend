@@ -1,3 +1,3 @@
-export { ManagerDashboard } from "./pages/ManagerDashboard";
-export { ReceptionistDashboard } from "./pages/ReceptionistDashboard";
+export { ManagerDashboard } from "./manager/pages/ManagerDashboard";
+export { ReceptionistDashboard } from "./reception/ReceptionistDashboard";
 export type { GuestBooking, ManagedRoom, Receptionist } from "./types";

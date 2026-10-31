@@ -1,25 +1,20 @@
-import React, { useState, type Dispatch, type ReactNode } from "react";
+import { type Dispatch } from "react";
 import style from "./Filter.module.css";
+import type { RoomFilter } from "../api";
+import type { Action } from "../pages/HomePage";
 type SelectProps = {
-  title?: String;
   data: object;
-  val: String;
-  setVal: Dispatch<React.SetStateAction<string>>;
+  filter: RoomFilter;
+  dispatchFilter: Dispatch<Action>;
 };
-function Select({ title, data, val, setVal }: SelectProps) {
+function Select({ data, filter, dispatchFilter }: SelectProps) {
   return (
     <select
       onChange={(e) => {
-        setVal(e.target.value);
+        dispatchFilter({ type: "bedType", value: e.target.value });
       }}
-      className={val ? "active" : ""}
+      className={filter.bedType !== "all" ? "active" : ""}
     >
-      {title ? (
-        <option value="all" disabled selected hidden>
-          {title}
-        </option>
-      ) : null}
-
       {Object.entries(data).map((op, i) => {
         return (
           <option value={op[0]} key={i}>
@@ -31,36 +26,72 @@ function Select({ title, data, val, setVal }: SelectProps) {
   );
 }
 type CheckProps = {
-  title: ReactNode;
-  setVal: Dispatch<React.SetStateAction<boolean>>;
-  val: Boolean;
+  name: string;
+  dispatchFilter: Dispatch<Action>;
+  filter: RoomFilter;
 };
-function Check({ title, setVal, val = false }: CheckProps) {
+function Check({ name, dispatchFilter, filter }: CheckProps) {
   return (
-    <>
-      <button
-        className={val ? "active" : ""}
-        onClick={() => setVal((val) => !val)}
-      >
-        {title}
-      </button>
-    </>
+    <button
+      className={filter.amenities?.includes(name) ? "active" : ""}
+      onClick={() => dispatchFilter({ type: "amenities", value: name })}
+    >
+      {name}
+      {filter.amenities?.includes(name) && <span>✓</span>}
+    </button>
   );
 }
 const roomTypes = {
+  all: "room",
   normal: "normal",
   standard: "standard",
   family: "family",
   delux: "delux",
   vip: "vip",
 };
-export default function Filter() {
-  const [c, setC] = useState(false);
-  const [s, setS] = useState("");
+const bedTypes = {
+  all: "bed",
+  single: "Single",
+  double: "Double",
+  queen: "Queen",
+  king: "King",
+};
+const amenities = {
+  wifi: "WiFi",
+  breakfast: "Breakfast",
+  parking: "Parking",
+  pool: "Swimming Pool",
+};
+
+export default function Filter({
+  filter,
+  dispatchFilter,
+}: {
+  filter: RoomFilter;
+  dispatchFilter: Dispatch<Action>;
+}) {
   return (
     <div className={style.filterBar}>
-      <Select title="rooms" data={roomTypes} val={s} setVal={setS} />
-      <Check title="ha" val={c} setVal={setC} />
+      <Select data={bedTypes} filter={filter} dispatchFilter={dispatchFilter} />
+      <Select
+        data={roomTypes}
+        filter={filter}
+        dispatchFilter={dispatchFilter}
+      />
+      {Object.entries(amenities).map(([key, value]) => (
+        <Check
+          key={key}
+          name={value}
+          filter={filter}
+          dispatchFilter={dispatchFilter}
+        />
+      ))}
+      <button
+        onClick={() => dispatchFilter({ type: "reset" })}
+        className="reset-btn"
+      >
+        Reset
+      </button>
     </div>
   );
 }

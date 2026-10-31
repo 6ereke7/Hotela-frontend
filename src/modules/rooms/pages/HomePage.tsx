@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import {
   ArrowRight,
   BadgePercent,
@@ -8,9 +8,8 @@ import {
 import Filter from "../components/Filter";
 import RoomCard from "../components/RoomCard";
 import styles from "./HomePage.module.css";
-import { getRooms } from "../api";
+import { getRooms, type RoomFilter } from "../api";
 import type { Room } from "../types";
-import { useSearchParams } from "react-router-dom";
 import { CarouselHero } from "../components/CarouselHero";
 
 const benefits = [
@@ -37,35 +36,59 @@ const benefits = [
   },
 ];
 
-export function HomePage() {
-  const [searchParams] = useSearchParams();
-  const [rooms, setRooms] = useState<Room[]>([]);
-  const [loadedSearchKey, setLoadedSearchKey] = useState<string | null>(null);
-  const [loadError, setLoadError] = useState(false);
-  const checkIn = searchParams.get("checkIn") ?? undefined;
-  const checkOut = searchParams.get("checkOut") ?? undefined;
-  const guests = Number(searchParams.get("guests")) || undefined;
-  const searchKey = `${checkIn ?? ""}|${checkOut ?? ""}|${guests ?? ""}`;
-  const isLoading = loadedSearchKey !== searchKey;
+export type Action =
+  | { type: "bedType"; value: string }
+  | { type: "roomNumber"; value: string }
+  | { type: "floor"; value: number }
+  | { type: "capacity"; value: number }
+  | { type: "amenities"; value: string }
+  | { type: "roomType"; value: string }
+  | { type: "reset" };
 
+function filterReducer(state: RoomFilter, action: Action) {
+  switch (action.type) {
+    case "bedType":
+      return { ...state, bedType: action.value };
+    case "roomType":
+      return { ...state, roomType: action.value };
+    case "roomNumber":
+      return { ...state, roomNumber: action.value };
+    case "floor":
+      return { ...state, floor: action.value };
+    case "capacity":
+      return { ...state, capacity: action.value };
+    case "amenities":
+      return {
+        ...state,
+        amenities: state.amenities?.includes(action.value)
+          ? state.amenities.filter((a) => a !== action.value)
+          : [...(state.amenities || []), action.value],
+      };
+    case "reset":
+      return {
+        bedType: "all",
+        roomType: "all",
+        amenities: [],
+      };
+    default:
+      return state;
+  }
+}
+export function HomePage() {
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [filter, dispatchFilter] = useReducer(filterReducer, {} as RoomFilter);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   useEffect(() => {
-    let isCurrent = true;
-    getRooms({ checkIn, checkOut, capacity: guests })
-      .then((loadedRooms) => {
-        if (!isCurrent) return;
-        setRooms(loadedRooms);
-        setLoadError(false);
-      })
-      .catch(() => {
-        if (isCurrent) setLoadError(true);
-      })
-      .finally(() => {
-        if (isCurrent) setLoadedSearchKey(searchKey);
-      });
-    return () => {
-      isCurrent = false;
-    };
-  }, [checkIn, checkOut, guests, searchKey]);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsLoading(true);
+    setLoadError(false);
+
+    getRooms({ ...filter })
+      .then((rooms) => setRooms(rooms ?? []))
+      .catch(() => setLoadError(true))
+      .finally(() => setIsLoading(false));
+  }, [filter]);
 
   return (
     <main className={`${styles.home} min-vh-100`}>
@@ -79,7 +102,7 @@ export function HomePage() {
         id="stays"
         aria-labelledby="rooms-title"
       >
-        <Filter key={searchKey} />
+        <Filter filter={filter} dispatchFilter={dispatchFilter} />
         <div className="d-flex align-items-end justify-content-end gap-3 mb-4">
           <a
             className="text-success fw-semibold text-decoration-none"
@@ -99,13 +122,7 @@ export function HomePage() {
           ) : rooms.length ? (
             rooms.map((room, index) => (
               <div className="p-2">
-                <RoomCard
-                  checkInDate={checkIn}
-                  checkOutDate={checkOut}
-                  room={room}
-                  index={index}
-                  key={room.id}
-                />
+                <RoomCard room={room} index={index} key={room.id} />
               </div>
             ))
           ) : (

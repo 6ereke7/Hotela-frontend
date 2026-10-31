@@ -1,4 +1,4 @@
-import { ThemeContext } from "@/app/providers";
+import { ThemeContext } from "@/app/contexts";
 import { useContext, type ReactNode } from "react";
 import {
   BookBookmarkIcon,

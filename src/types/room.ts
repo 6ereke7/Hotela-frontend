@@ -8,4 +8,6 @@ export type Room = {
   pricePerNight: number;
   amenities: string[];
   images: string[];
+  isActive: boolean;
+  status: "available" | "occupied" | "maintenance";
 };

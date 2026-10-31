@@ -8,7 +8,7 @@ import {
   type SubmitEvent,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { mainContext, type Guest } from "@/app/providers";
+import { mainContext, type Guest } from "@/app/contexts";
 import { buildBookingSummary } from "../utils";
 import { requestOtp, verifyOtp } from "../api";
 import styles from "./BookingFlow.module.css";

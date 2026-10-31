@@ -7,6 +7,9 @@ import { ManagerDashboard, ReceptionistDashboard } from "@/modules/staff";
 import { GuestCheckout } from "@/modules/bookings/pages/GuestCheckout";
 import { OtpVerificationStep } from "@/modules/bookings";
 import PaymentStep from "@/modules/bookings/pages/PaymentStep";
+import { ManagerOverview } from "@/modules/staff/manager/pages/ManagerOverview";
+import { ManagerRoomsSection } from "@/modules/staff/manager/pages/ManagerRoomsSection";
+import { ManagerTeamSection } from "@/modules/staff/manager/pages/ManagerTeamSection";
 
 export function Router() {
   return (
@@ -20,10 +23,14 @@ export function Router() {
           <Route path="payment" element={<PaymentStep />} />
           <Route path="success" element={<div>Booking successful!</div>} />
         </Route>
-        <Route path="/catalog" element={<HomePage />} />
+        <Route path="catalog" element={<HomePage />} />
         <Route path="staff" element={<AuthProvider />}>
           <Route index element={<StaffLoginPage />} />
-          <Route path="manager" element={<ManagerDashboard />} />
+          <Route path="manager" element={<ManagerDashboard />}>
+            <Route index element={<ManagerOverview />} />
+            <Route path="rooms" element={<ManagerRoomsSection />} />
+            <Route path="team" element={<ManagerTeamSection />} />
+          </Route>
           <Route path="reception" element={<ReceptionistDashboard />} />
         </Route>
         <Route path="*" element={<FallBackRoute />} />

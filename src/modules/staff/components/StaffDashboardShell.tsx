@@ -2,14 +2,12 @@ import { useContext, type ReactNode } from "react";
 import { LucideLogOut } from "lucide-react";
 import shellStyles from "./StaffDashboardShell.module.css";
 import commonStyles from "./StaffDashboardCommon.module.css";
-import { authContext } from "@/app/providers";
+import { authContext } from "@/app/contexts";
 
 type StaffDashboardShellProps = {
   staffTitle: string;
   sidebarLabel: string;
   navigationLabel: string;
-  breadcrumb: ReactNode;
-  liveStatus: string;
   navigation: ReactNode;
   children: ReactNode;
 };
@@ -18,18 +16,11 @@ export function StaffDashboardShell({
   staffTitle,
   sidebarLabel,
   navigationLabel,
-  breadcrumb,
-  liveStatus,
   navigation,
   children,
 }: StaffDashboardShellProps) {
   const auth = useContext(authContext);
-  const currentDate = new Intl.DateTimeFormat("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  }).format(new Date());
+
   const staff = auth?.staff;
   const initials = staff?.name
     ?.split(" ")
@@ -75,26 +66,6 @@ export function StaffDashboardShell({
       </aside>
 
       <section className={`${shellStyles.mainPanel} flex-grow-1`}>
-        <header
-          className={`${shellStyles.topbar} d-flex align-items-center justify-content-between bg-white border-bottom`}
-        >
-          <div>
-            <p className={shellStyles.breadcrumb}>{breadcrumb}</p>
-            <p className={shellStyles.currentDate}>{currentDate}</p>
-          </div>
-          <div className={shellStyles.topbarActions}>
-            <span className={shellStyles.liveIndicator}>
-              <i /> {liveStatus}
-            </span>
-            <button
-              className={shellStyles.iconButton}
-              type="button"
-              aria-label="Notifications"
-            >
-              ♧<span className={shellStyles.notificationDot} />
-            </button>
-          </div>
-        </header>
         {children}
       </section>
     </main>

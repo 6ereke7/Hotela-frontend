@@ -1,7 +1,7 @@
 import { useContext, useState, type SubmitEvent } from "react";
 import styles from "./BookingFlow.module.css";
 import { MessageCircleMore } from "lucide-react";
-import { mainContext, type Guest } from "@/app/providers";
+import { mainContext, type Guest } from "@/app/contexts";
 import type { Room } from "@/types/room";
 import { buildBookingSummary } from "../utils";
 import { requestOtp } from "../api";

@@ -3,7 +3,7 @@ import styles from "./StaffLoginPage.module.css";
 
 import * as api from "../api";
 import { useNavigate } from "react-router-dom";
-import { authContext } from "@/app/providers";
+import { authContext } from "@/app/contexts";
 
 export function StaffLoginPage() {
   const context = useContext(authContext);
