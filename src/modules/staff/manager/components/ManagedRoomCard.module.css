@@ -1,0 +1,99 @@
+.managedRoomCard {
+    padding: 0.5em;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1em;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    background-color: #fff;
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    > img {
+        width: 100%;
+        aspect-ratio: 19/6;
+        object-fit: cover;
+        border-radius: 0.5rem;
+    }
+
+    .details {
+        display: grid;
+
+        .amenitiesContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5em;
+            margin-top: 0.5em;
+            .amenity {
+                display: flex;
+                align-items: center;
+                gap: 0.25em;
+                padding: 0.25em 0.5em;
+                background-color: #f5f5f5;
+                border-radius: 0.25rem;
+                font-size: 0.875rem;
+                color: #333;
+            }
+            .amenityIcon {
+                width: 1em;
+                height: 1em;
+                fill: #666;
+            }
+        }
+    }
+    form {
+        display: grid;
+
+        justify-items: stretch;
+
+        padding: 1em;
+        overflow-y: scroll;
+        > label {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+            > p {
+                margin: 0;
+            }
+            font-weight: 500;
+            color: #555;
+            > input {
+                flex: 1;
+            }
+        }
+    }
+}
+
+.header {
+    grid-column: 1/-1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1em;
+
+    button {
+        padding: 0;
+        width: fit-content;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: none;
+        margin-inline: 5px;
+    }
+}
+
+@media (min-width: 750px) {
+    .managedRoomCard {
+        grid-template-columns: 40% 1fr;
+
+        > img {
+            aspect-ratio: 16/9;
+        }
+
+        form {
+            grid-template-columns: 1fr;
+        }
+    }
+}

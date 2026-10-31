@@ -1,0 +1,81 @@
+.receptionistList {
+  display: grid;
+  margin-top: 18px;
+}
+
+.receptionistRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 76px;
+  padding: 12px 4px;
+  border-top: 1px solid var(--line);
+}
+
+.receptionistIdentity {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+  color: var(--ink);
+  font-size: 0.72rem;
+}
+
+.receptionistIdentity span,
+.receptionistIdentity small {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.65rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activeStatus,
+.inactiveStatus {
+  padding: 5px 8px;
+  border-radius: 20px;
+  font-size: 0.62rem;
+  font-weight: 600;
+}
+
+.activeStatus {
+  background: #edf4ee;
+  color: #477451;
+}
+
+.inactiveStatus {
+  background: #f1f1ef;
+  color: #70766f;
+}
+
+.rowActions {
+  display: flex;
+  gap: 12px;
+}
+
+.emptyState,
+.error {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.error {
+  color: #a33b31;
+}
+
+@media (max-width: 680px) {
+  .receptionistRow {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .receptionistRow > .activeStatus,
+  .receptionistRow > .inactiveStatus {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .rowActions {
+    grid-column: 2 / -1;
+  }
+}
