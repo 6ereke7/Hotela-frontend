@@ -1,4 +1,4 @@
-export default function PaymentStep() {
+export function PaymentStep() {
   return (
     <div className="payment-step">
       <h2>Payment</h2>

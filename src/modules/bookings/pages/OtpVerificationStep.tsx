@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { mainContext, type Guest } from "@/app/contexts";
 import { buildBookingSummary } from "../utils";
 import { requestOtp, verifyOtp } from "../api";
-import styles from "./BookingFlow.module.css";
+import styles from "./OtpVerificationStep.module.css";
 
 const CODE_LENGTH = 6;
 const RESEND_SECONDS = 30;
@@ -53,10 +53,10 @@ export function OtpVerificationStep() {
 
   if (!room || !guest) {
     return (
-      <main className={`${styles.page} container-xl px-3`}>
+      <main className={styles.page}>
         <p>No booking details found. Please start over.</p>
         <button
-          className="btn btn-outline-secondary"
+          className={styles.returnBtn}
           onClick={() => navigate("/")}
           type="button"
         >
@@ -156,17 +156,7 @@ export function OtpVerificationStep() {
   };
 
   return (
-    <main className={`${styles.page} container-xl px-3`}>
-      <header className="d-flex align-items-center justify-content-between border-bottom py-3">
-        <a className={styles.wordmark} href="/" aria-label="Hotela home">
-          hotela<span>.</span>
-        </a>
-        <span className={styles.secureLabel}>
-          <span aria-hidden="true">Shield</span> A little security, a lot of
-          peace of mind
-        </span>
-      </header>
-
+    <main className={styles.main}>
       <section className={styles.otpPanel} aria-labelledby="otp-title">
         <button
           className={styles.backLink}
@@ -210,7 +200,7 @@ export function OtpVerificationStep() {
                 <input
                   aria-label={`Verification code digit ${index + 1}`}
                   autoComplete={index === 0 ? "one-time-code" : "off"}
-                  className="form-control text-center"
+                  className={styles.codeInput}
                   inputMode="numeric"
                   key={index}
                   maxLength={CODE_LENGTH}
@@ -226,7 +216,7 @@ export function OtpVerificationStep() {
             </div>
           </fieldset>
           {error && (
-            <p className="alert alert-danger py-2" role="alert">
+            <p className={styles.errorAlert} role="alert">
               {error}
             </p>
           )}
@@ -252,7 +242,7 @@ export function OtpVerificationStep() {
           </p>
 
           <button
-            className="btn btn-success w-100 py-3"
+            className={styles.submitBtn}
             disabled={isVerifying}
             type="submit"
           >

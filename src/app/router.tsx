@@ -4,9 +4,9 @@ import { HomePage } from "@/modules/rooms";
 import { AuthProvider, MainProvider } from "@/app/providers";
 import { StaffLoginPage } from "@/modules/auth";
 import { ManagerDashboard, ReceptionistDashboard } from "@/modules/staff";
-import { GuestCheckout } from "@/modules/bookings/pages/GuestCheckout";
+import { BookingCheckoutStep } from "@/modules/bookings";
 import { OtpVerificationStep } from "@/modules/bookings";
-import PaymentStep from "@/modules/bookings/pages/PaymentStep";
+import { PaymentStep } from "@/modules/bookings/pages/PaymentStep";
 import { ManagerOverview } from "@/modules/staff/manager/pages/ManagerOverview";
 import { ManagerRoomsSection } from "@/modules/staff/manager/pages/ManagerRoomsSection";
 import { ManagerTeamSection } from "@/modules/staff/manager/pages/ManagerTeamSection";
@@ -17,7 +17,7 @@ export function Router() {
       <Routes>
         <Route path="" element={<MainProvider />}>
           <Route index element={<HomePage />} />
-          <Route path="book" element={<GuestCheckout />}></Route>
+          <Route path="book" element={<BookingCheckoutStep />}></Route>
           {/* <Route path="booking/:roomId" element={<BookingCheckoutScreen />} /> */}
           <Route path="otp" element={<OtpVerificationStep />} />
           <Route path="payment" element={<PaymentStep />} />
