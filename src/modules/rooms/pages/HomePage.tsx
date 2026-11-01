@@ -91,28 +91,23 @@ export function HomePage() {
   }, [filter]);
 
   return (
-    <main className={`${styles.home} min-vh-100`}>
+    <main className={styles.home}>
       <section className={styles.hero} aria-labelledby="hero-title">
-        <div className="">
-          <CarouselHero />
-        </div>
+        <CarouselHero />
       </section>
       <section
-        className="container-xl py-5"
+        className={styles.staysSection}
         id="stays"
         aria-labelledby="rooms-title"
       >
         <Filter filter={filter} dispatchFilter={dispatchFilter} />
-        <div className="d-flex align-items-end justify-content-end gap-3 mb-4">
-          <a
-            className="text-success fw-semibold text-decoration-none"
-            href="#stays"
-          >
+        <div className={styles.exploreLink}>
+          <a className={styles.exploreLink} href="#stays">
             Explore all stays <ArrowRight size={20} />
           </a>
         </div>
 
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-4 align-items-center g-0">
+        <div className={styles.roomsGrid}>
           {isLoading ? (
             <p role="status">Loading available rooms...</p>
           ) : loadError ? (
@@ -121,9 +116,7 @@ export function HomePage() {
             </p>
           ) : rooms.length ? (
             rooms.map((room, index) => (
-              <div className="p-2">
-                <RoomCard room={room} index={index} key={room.id} />
-              </div>
+              <RoomCard room={room} index={index} key={room.id} />
             ))
           ) : (
             <p>No rooms are available right now.</p>
@@ -131,27 +124,24 @@ export function HomePage() {
         </div>
       </section>
       <section
-        className="container-xl bg-success-subtle  p-4 p-lg-5 rounded"
+        className={styles.valuesSection}
         id="the-hotela-way"
         aria-labelledby="values-title"
       >
-        <div className="d-flex flex-row align-items-center justify-content-evenly">
+        <div className={styles.benefitsRow}>
           {benefits.map((benefit) => {
             const BenefitIcon = benefit.icon;
 
             return (
-              <article className="flex-fill gap-3" key={benefit.number}>
-                <div className="d-flex align-items-center justify-content-center mb-3">
-                  <span
-                    className="  border rounded-circle p-2 text-success"
-                    aria-hidden="true"
-                  >
+              <article className={styles.benefitCard} key={benefit.number}>
+                <div className={styles.benefitIcon}>
+                  <span className={styles.benefitIconSpan} aria-hidden="true">
                     <BenefitIcon size={40} strokeWidth={1.5} />
                   </span>
                 </div>
 
-                <h3 className="h5 text-center">{benefit.title}</h3>
-                <p className="small text-secondary  text-center mb-0">
+                <h3 className={styles.benefitTitle}>{benefit.title}</h3>
+                <p className={styles.benefitDescription}>
                   {benefit.description}
                 </p>
               </article>
@@ -159,16 +149,12 @@ export function HomePage() {
           })}
         </div>
       </section>
-      <footer className="container-xl d-flex align-items-center justify-content-between gap-3 py-4">
-        <a
-          className="text-success fs-3 fw-bold text-decoration-none"
-          href="/"
-          aria-label="Hotela home"
-        >
+      <footer className={styles.footer}>
+        <a className={styles.footerBrand} href="/" aria-label="Hotela home">
           hotela<span>.</span>
         </a>
-        <p className="text-secondary small mb-0">A softer place to land.</p>
-        <a className="text-body text-decoration-none small" href="/#stays">
+        <p className={styles.footerTagline}>A softer place to land.</p>
+        <a className={styles.footerCta} href="/#stays">
           book now
         </a>
       </footer>

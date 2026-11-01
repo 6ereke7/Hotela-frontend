@@ -1,11 +1,26 @@
 .filterBar {
-  background-color: var(--bg-elevated);
-  overflow-x: scroll;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.5em;
+    background-color: var(--bg-elevated);
+    overflow-x: auto;
+    border-radius: 0.5rem;
+    scrollbar-width: none;
+    > * {
+        margin-inline: 0.2em;
+    }
+    > select.active {
+        background-color: red;
+        color: var(--accent-fg);
+    }
 }
-.filterBar > * {
-  margin-inline: 0.2em;
+.filterBar::-webkit-scrollbar {
+    display: none;
 }
-.filterBar > select.active {
-  background-color: red;
-  color: var(--accent-fg);
+@media (min-width: 768px) {
+    .filterBar {
+        gap: 1rem;
+        padding: 1rem;
+    }
 }

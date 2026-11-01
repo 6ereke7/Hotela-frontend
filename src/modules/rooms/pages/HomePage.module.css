@@ -1,60 +1,140 @@
 .home {
-  color: var(--ink);
-  background-color: var(--bg);
+    color: var(--ink);
+    background-color: var(--bg);
 }
 
 .hero {
-  position: relative;
-  min-height: 52rem;
-  padding-top: h-64;
+    position: relative;
 }
 
-.kicker {
-  color: var(--green);
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-}
+.staysSection {
+    padding: 1rem 0;
+    max-width: 1280px;
+    margin: 0 auto;
 
-.heroTitle {
-  margin: 0;
-  color: var(--ink);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.75rem, 4vw, 5rem);
-  font-weight: 400;
-  letter-spacing: -0.065em;
-  line-height: 0.99;
-}
+    > .exploreLink {
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+        align-items: flex-end;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        margin-left: auto;
+        margin-right: 0;
 
-.heroTitle em {
-  color: var(--green);
-}
+        > a {
+            color: inherit;
+            text-decoration: inherit;
+        }
+    }
 
-.heroImage {
-  min-height: 24rem;
-  background:
-    linear-gradient(180deg, rgb(22 41 31 / 2%), rgb(22 41 31 / 8%)),
-    url("https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=1500&q=90")
-      center / cover;
+    > .roomsGrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        gap: 1rem;
+        align-items: stretch;
+        padding: 0rem 1rem;
+    }
 }
 
 .valuesSection {
-  background: var(--bg);
+    background-color: var(--accent-fg);
+    padding: 1.5rem 2rem;
+    border-radius: 0.5rem;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    > .benefitsRow {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        gap: 1rem;
+
+        > .benefitCard {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+
+            > .benefitIcon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 0.75rem;
+                border-radius: 50%;
+                padding: 0.5rem;
+                color: var(--accent);
+
+                > span.benefitIconSpan {
+                    border: 1px solid var(--accent);
+                    border-radius: 50%;
+                    padding: 0.5rem;
+                    color: var(--accent);
+                }
+            }
+
+            > .benefitTitle {
+                font-size: 1.25rem;
+                text-align: center;
+            }
+
+            > .benefitDescription {
+                font-size: 0.875rem;
+                color: var(--ink-muted);
+                text-align: center;
+                margin-bottom: 0;
+            }
+        }
+    }
 }
 
-@media (max-width: 991.98px) {
-  .hero {
-    min-height: 0;
-    padding-bottom: 7rem;
-  }
+.footer {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    > .footerBrand {
+        color: var(--accent);
+        font-size: 1.75rem;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    > .footerTagline {
+        color: var(--ink-muted);
+        font-size: 0.875rem;
+        margin-bottom: 0;
+    }
+
+    > .footerCta {
+        color: var(--ink);
+        text-decoration: none;
+        font-size: 0.875rem;
+    }
 }
+@media (min-width: 768px) {
+    .staysSection {
+        padding: 3rem 1rem;
+    }
+    .valuesSection {
+        padding: 1rem;
+        > .benefitsRow {
+            flex-direction: row;
+        }
+    }
 
-@media (max-width: 767.98px) {
-  .hero {
-    padding-top: 3rem;
-    padding-bottom: 2rem;
-  }
-
-  .heroImage {
-    min-height: 18rem;
-  }
+    .footer {
+        flex-direction: column;
+        text-align: center;
+    }
 }
