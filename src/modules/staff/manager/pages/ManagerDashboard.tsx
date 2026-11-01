@@ -1,27 +1,29 @@
 import { useContext, useEffect } from "react";
 
-import { StaffDashboardShell } from "../../components/StaffDashboardShell";
-import shellStyles from "../../components/StaffDashboardShell.module.css";
+import {
+  StaffDashboardShell,
+  type NavItem,
+} from "../../components/StaffDashboardShell";
 
 import { authContext } from "@/app/contexts";
 import { Outlet, useNavigate } from "react-router-dom";
 import { LayoutGrid, LucideHouses, Users } from "lucide-react";
 
-const navs = [
+const navs: NavItem[] = [
   {
     label: "Overview",
     icon: LayoutGrid,
-    goto: "/staff/manager",
+    href: "/staff/manager",
   },
   {
     label: "Rooms",
     icon: LucideHouses,
-    goto: "/staff/manager/rooms",
+    href: "/staff/manager/rooms",
   },
   {
     label: "Team",
     icon: Users,
-    goto: "/staff/manager/team",
+    href: "/staff/manager/team",
   },
 ];
 
@@ -33,28 +35,7 @@ export function ManagerDashboard() {
   }, [auth?.staff?.id, navigate]);
 
   return (
-    <StaffDashboardShell
-      navigationLabel="Manager sections"
-      sidebarLabel="HOTEL OPERATIONS"
-      staffTitle="Hotel manager"
-      navigation={
-        <>
-          {navs.map((nav) => (
-            <button
-              className={`btn text-start`}
-              key={nav.label}
-              onClick={() => navigate(nav.goto)}
-              type="button"
-            >
-              <span className={shellStyles.navIcon} aria-hidden="true">
-                <nav.icon size={20} />
-              </span>
-              {nav.label}
-            </button>
-          ))}
-        </>
-      }
-    >
+    <StaffDashboardShell navList={navs}>
       <Outlet />
     </StaffDashboardShell>
   );

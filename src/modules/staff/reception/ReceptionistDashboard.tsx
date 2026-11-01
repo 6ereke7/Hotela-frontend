@@ -1,12 +1,15 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import type { GuestBooking } from "../types";
-import { StaffDashboardShell } from "../components/StaffDashboardShell";
-import shellStyles from "../components/StaffDashboardShell.module.css";
+import {
+  StaffDashboardShell,
+  type NavItem,
+} from "../components/StaffDashboardShell";
 import commonStyles from "../components/StaffDashboardCommon.module.css";
 import receptionStyles from "./ReceptionistDashboard.module.css";
 import { getStaffOperations, updateGuestBooking } from "../api";
 import { useNavigate, Link } from "react-router-dom";
 import { authContext } from "@/app/contexts";
+import { LayoutGridIcon } from "lucide-react";
 
 type RoomFilter = "All rooms" | GuestBooking["roomStatus"];
 
@@ -145,7 +148,13 @@ function BookingTable({
     </div>
   );
 }
-
+const navs: NavItem[] = [
+  {
+    label: "Overview",
+    href: "#overview",
+    icon: LayoutGridIcon,
+  },
+];
 export function ReceptionistDashboard() {
   const auth = useContext(authContext);
   const navigate = useNavigate();
@@ -250,39 +259,7 @@ export function ReceptionistDashboard() {
   });
 
   return (
-    <StaffDashboardShell
-      navigationLabel="Reception navigation"
-      sidebarLabel="FRONT DESK"
-      staffTitle="Front desk"
-      navigation={
-        <>
-          <a className={shellStyles.navActive} href="#guest-activity">
-            <span className={shellStyles.navIcon} aria-hidden="true">
-              ▤
-            </span>
-            Guest activity
-          </a>
-          <a href="#room-status">
-            <span className={shellStyles.navIcon} aria-hidden="true">
-              ⌂
-            </span>
-            Room status
-          </a>
-          <a href="#guest-activity">
-            <span className={shellStyles.navIcon} aria-hidden="true">
-              ◷
-            </span>
-            Arrivals & departures
-          </a>
-          <a href="#booking-history">
-            <span className={shellStyles.navIcon} aria-hidden="true">
-              ↺
-            </span>
-            Booking history
-          </a>
-        </>
-      }
-    >
+    <StaffDashboardShell navList={navs}>
       <div className={`${commonStyles.dashboardContent} container-fluid py-4`}>
         <div
           className={`${commonStyles.pageTitleRow} d-flex align-items-center justify-content-between gap-3 mb-4`}

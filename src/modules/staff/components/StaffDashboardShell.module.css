@@ -1,233 +1,159 @@
-/* Shared staff dashboard shell and workspace styles. */
-.dashboard {
-  --bs-success: var(--green);
-  background: #f7f8f5;
-  color: var(--ink);
-}
-.sidebar {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  border-right: 1px solid var(--line);
-  flex: 0 0 236px;
-}
-.wordmark {
-  align-self: flex-start;
-  margin: 0 0 47px 12px;
-  letter-spacing: -0.09em;
-}
-.wordmark span {
-  color: #c78e63;
-}
-.sidebarLabel {
-  margin: 0 0 12px 12px;
-  color: #9aa199;
-  font-size: 0.59rem;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-}
-.sideNav {
-}
-.sideNav a,
-.sideNav button {
-  width: 100%;
-  min-height: 43px;
-  padding: 0 12px;
-  border: 0;
-  border-radius: 3px;
-  background: transparent;
-  color: #747e75;
-  cursor: pointer;
-  font-size: 0.79rem;
-  text-align: left;
-  text-decoration: none;
-}
-.sideNav a:hover,
-.sideNav button:hover {
-  background: #f6f7f4;
-  color: var(--ink);
-}
-.sideNav .navActive {
-  background: var(--soft-green);
-  color: var(--green);
-  font-weight: 700;
-}
-.navIcon {
-  width: 19px;
-  color: #7f8a80;
-  font-size: 1rem;
-  text-align: center;
-}
-.navActive .navIcon {
-  color: var(--green);
-}
-.sidebarBottom {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: auto;
-  padding: 15px 5px 2px;
-  border-top: 1px solid var(--line);
-}
-.profileText {
-  min-width: 0;
-  display: grid;
-  gap: 4px;
-}
-.profileText strong {
-  overflow: hidden;
-  color: var(--ink);
-  font-size: 0.71rem;
-  font-weight: 600;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.profileText span {
-  color: var(--muted);
-  font-size: 0.64rem;
-}
-.logoutButton,
-.iconButton {
-  position: relative;
-  display: grid;
-  place-items: center;
-  border: 0;
-  background: transparent;
-  color: #7e877e;
-  cursor: pointer;
-}
-.logoutButton {
-  width: 28px;
-  height: 30px;
-  margin-left: auto;
-  transform: rotate(90deg);
-}
-.mainPanel {
-  min-width: 0;
-}
-.topbar {
-  min-height: 74px;
-  gap: 20px;
-  padding: 10px clamp(22px, 4vw, 60px);
-}
-.breadcrumb {
-  margin: 0 0 5px;
-  color: #69746b;
-  font-size: 0.72rem;
-}
-.breadcrumb span {
-  padding-inline: 6px;
-  color: #adb4ac;
-}
-.currentDate {
-  margin: 0;
-  color: #a0a69f;
-  font-size: 0.65rem;
-}
-.topbarActions {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-.liveIndicator {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  color: #68756a;
-  font-size: 0.69rem;
-}
-.liveIndicator i {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #5c9a6a;
-}
-.iconButton {
-  width: 33px;
-  height: 33px;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  font-size: 0.8rem;
-}
-.notificationDot {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #c68a5f;
-}
-@media (max-width: 1120px) {
-.dashboard {
-    --sidebar-width: 205px;
-  }
-  .sidebar {
-    flex-basis: var(--sidebar-width);
-  }
-}
-@media (max-width: 760px) {
-.dashboard {
-    display: block;
-  }
-.sidebar {
-    position: static;
-    height: auto;
+.main {
+    background: var(--bg);
+    position: relative;
+    width: 100%;
     display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 18px !important;
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-  }
-.wordmark {
-    margin: 0;
-    font-size: 1.42rem;
-  }
-.sidebarLabel {
-    display: none;
-  }
-.sidebarBottom {
-    display: flex;
-    grid-column: 1 / -1;
-    margin: 0;
-    padding: 8px 0 0;
-  }
-.sideNav {
-    display: flex;
-    justify-content: end;
-    gap: 2px;
-  }
-.sideNav a,
-  .sideNav button {
-    width: auto;
-    min-height: 36px;
-    gap: 6px;
-    padding: 0 8px;
-    font-size: 0.67rem;
-  }
-.navIcon {
-    width: auto;
-  }
-.topbar {
-    min-height: 65px;
-    padding-inline: 20px;
-  }
+    > .navPanel {
+        background: var(--bg-elevated);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        width: 100%;
+        background-color: #fff;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        > .dNone {
+            display: none;
+        }
+        > .brand {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent);
+            letter-spacing: -0.05em;
+            flex: 1;
+        }
+
+        > .navList {
+            display: flex;
+            flex: 1;
+            justify-content: space-evenly;
+
+            > .navLink {
+                color: var(--text);
+                text-decoration: none;
+                border-radius: 0.375rem;
+                margin-bottom: 0.25rem;
+                transition: background-color 0.2s;
+
+                &:hover {
+                    background-color: var(--bg);
+                }
+
+                &.active {
+                    background-color: var(--accent);
+                    color: var(--ink);
+                }
+            }
+        }
+        > .user {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            > .menuButton {
+                padding: none;
+                margin: none;
+                border: none;
+            }
+            > .avatar {
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                background-color: var(--accent);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 600;
+                font-size: 0.875rem;
+                cursor: pointer;
+            }
+            > .userPopup {
+                position: absolute;
+                top: 100%;
+                right: 0;
+                margin-top: 0.5rem;
+                background: var(--bg-elevated);
+                border: 1px solid var(--border);
+                border-radius: 0.5rem;
+                padding: 0.75rem;
+                min-width: 180px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                z-index: 200;
+                display: none;
+                flex-direction: column;
+                gap: 0.75rem;
+                > .popupName {
+                    font-weight: 600;
+                    color: var(--ink);
+                    font-size: 0.9rem;
+                }
+                > .popupEmail {
+                    color: var(--ink-muted);
+                    font-size: 0.8rem;
+                    word-break: break-all;
+                }
+                > .logoutBtn {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.5rem;
+                    background: transparent;
+                    border: none;
+                    border-radius: 0.375rem;
+                    color: var(--ink);
+                    font-size: 0.875rem;
+                    cursor: pointer;
+                    transition: background-color 0.2s;
+                    &:hover {
+                        background-color: var(--line);
+                    }
+                }
+            }
+            > .userPopup.open {
+                display: flex;
+            }
+        }
+    }
 }
-@media (max-width: 540px) {
-.sideNav a,
-  .sideNav button {
-    gap: 0;
-    font-size: 0.62rem;
-  }
-.navIcon {
-    display: none;
-  }
-.topbarActions {
-    gap: 9px;
-  }
-.liveIndicator {
-    font-size: 0.61rem;
-  }
+@media (min-width: 750px) {
+    .main {
+        grid-template-columns: 20% 1fr;
+        > .navPanel {
+            position: sticky;
+            top: 0;
+            flex-direction: column;
+            height: 100vh;
+            border-right: 1px solid var(--border);
+            border-bottom: none;
+            > .brand {
+                flex: unset;
+                padding-left: 1.5rem;
+            }
+            > .dNone,
+            > .navList {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                padding-top: 2rem;
+                width: 100%;
+                > .navLink {
+                    width: 100%;
+                    padding: 0.5rem 1.5rem;
+                    text-decoration: none;
+                }
+            }
+            > .user {
+                .menuButton {
+                    display: none;
+                }
+                > .userPopup {
+                    display: none !important;
+                }
+            }
+        }
+    }
 }

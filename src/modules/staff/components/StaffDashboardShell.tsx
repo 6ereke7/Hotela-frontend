@@ -1,25 +1,27 @@
-import { useContext, type ReactNode } from "react";
-import { LucideLogOut } from "lucide-react";
+import { useContext, useState, type ReactNode } from "react";
+import { LucideLogOut, MenuIcon, XIcon, type LucideIcon } from "lucide-react";
 import shellStyles from "./StaffDashboardShell.module.css";
-import commonStyles from "./StaffDashboardCommon.module.css";
 import { authContext } from "@/app/contexts";
+import { Link } from "react-router-dom";
+
+export type NavItem = {
+  label: string;
+  href: string;
+  icon?: LucideIcon;
+};
 
 type StaffDashboardShellProps = {
-  staffTitle: string;
-  sidebarLabel: string;
-  navigationLabel: string;
-  navigation: ReactNode;
+  navList: NavItem[];
   children: ReactNode;
 };
 
 export function StaffDashboardShell({
-  staffTitle,
-  sidebarLabel,
-  navigationLabel,
-  navigation,
+  navList,
   children,
 }: StaffDashboardShellProps) {
   const auth = useContext(authContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const staff = auth?.staff;
   const initials = staff?.name
@@ -28,46 +30,62 @@ export function StaffDashboardShell({
     .join("");
 
   return (
-    <main
-      className={`${shellStyles.dashboard} d-flex flex-column flex-md-row min-vh-100`}
-    >
-      <aside
-        className={`${shellStyles.sidebar} d-flex flex-column p-3 bg-white`}
-      >
-        <a
-          className={`${shellStyles.wordmark} text-success fs-3 fw-bold text-decoration-none`}
-          href="/"
-          aria-label="Hotela home"
+    <main className={shellStyles.main}>
+      <aside className={shellStyles.navPanel}>
+        <section className={isMenuOpen ? shellStyles.dNone : shellStyles.brand}>
+          hotela.
+        </section>
+        <section
+          className={isMenuOpen ? shellStyles.navList : shellStyles.dNone}
         >
-          hotela<span>.</span>
-        </a>
-        <p className={shellStyles.sidebarLabel}>{sidebarLabel}</p>
-        <nav
-          className={`${shellStyles.sideNav} d-grid gap-1`}
-          aria-label={navigationLabel}
-        >
-          {navigation}
-        </nav>
-        <div className={shellStyles.sidebarBottom}>
-          <div className={commonStyles.profileAvatar}>{initials}</div>
-          <div className={shellStyles.profileText}>
-            <strong>{staff?.name}</strong>
-            <span>{staffTitle}</span>
-          </div>
+          {navList.map((nav, index) => (
+            <Link key={index} to={nav.href} className={shellStyles.navLink}>
+              {nav.icon && (
+                <span className={shellStyles.navIcon} aria-hidden="true">
+                  <nav.icon size={20} />
+                </span>
+              )}
+              {nav.label}
+            </Link>
+          ))}
+        </section>
+        <section className={shellStyles.user}>
           <button
-            className={shellStyles.logoutButton}
-            onClick={auth?.onLogout}
-            type="button"
-            aria-label="Sign out"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className={shellStyles.menuButton}
+            aria-label="Toggle menu"
           >
-            <LucideLogOut />
+            {isMenuOpen ? <XIcon /> : <MenuIcon />}
           </button>
-        </div>
+          <div
+            className={shellStyles.avatar}
+            onClick={() => setIsPopupOpen(!isPopupOpen)}
+            role="button"
+            aria-label="User menu"
+            tabIndex={0}
+          >
+            {initials}
+          </div>
+          <section
+            className={`${shellStyles.userPopup} ${isPopupOpen ? shellStyles.open : ""}`}
+            aria-hidden={!isPopupOpen}
+          >
+            <div className={shellStyles.popupName}>{staff?.name ?? "User"}</div>
+            <div className={shellStyles.popupEmail}>{staff?.email ?? ""}</div>
+            <button
+              className={shellStyles.logoutBtn}
+              onClick={() => {
+                auth?.onLogout?.();
+                setIsPopupOpen(false);
+              }}
+            >
+              <LucideLogOut size={16} />
+              Logout
+            </button>
+          </section>
+        </section>
       </aside>
-
-      <section className={`${shellStyles.mainPanel} flex-grow-1`}>
-        {children}
-      </section>
+      <section className={shellStyles.mainPanel}>{children}</section>
     </main>
   );
 }
