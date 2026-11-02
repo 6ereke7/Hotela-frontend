@@ -1,6 +1,5 @@
 import { useEffect, useReducer, useState } from "react";
 import {
-  ArrowRight,
   BadgePercent,
   Headset,
   UserRoundCheck,
@@ -10,7 +9,8 @@ import RoomCard from "../components/RoomCard";
 import styles from "./HomePage.module.css";
 import { getRooms, type RoomFilter } from "../api";
 import type { Room } from "../types";
-import { CarouselHero } from "../components/CarouselHero";
+import { HomeHero } from "../components/HomeHero";
+import { Loading } from "@/components/Loading";
 
 const benefits = [
   {
@@ -93,25 +93,31 @@ export function HomePage() {
   return (
     <main className={styles.home}>
       <section className={styles.hero} aria-labelledby="hero-title">
-        <CarouselHero />
+        <HomeHero />
       </section>
       <section
         className={styles.staysSection}
         id="stays"
         aria-labelledby="rooms-title"
       >
-        <Filter filter={filter} dispatchFilter={dispatchFilter} />
-        <div className={styles.exploreLink}>
-          <a className={styles.exploreLink} href="#stays">
-            Explore all stays <ArrowRight size={20} />
-          </a>
+        <div className={styles.sectionHeading}>
+          <p className={styles.eyebrow}>Find your stay</p>
+          <h2 id="rooms-title">Rooms made for your kind of getaway</h2>
+          <p>Explore thoughtful spaces, each with its own little comforts.</p>
         </div>
+        <Filter filter={filter} dispatchFilter={dispatchFilter} />
+
+        {!isLoading && !loadError && (
+          <p className={styles.resultsCount} aria-live="polite">
+            {rooms.length} {rooms.length === 1 ? "room" : "rooms"} available
+          </p>
+        )}
 
         <div className={styles.roomsGrid}>
           {isLoading ? (
-            <p role="status">Loading available rooms...</p>
+            <Loading className={styles.loading} label="Loading available rooms" />
           ) : loadError ? (
-            <p role="alert">
+            <p className={styles.roomMessage} role="alert">
               Rooms could not be loaded. Please try again later.
             </p>
           ) : rooms.length ? (
@@ -119,7 +125,9 @@ export function HomePage() {
               <RoomCard room={room} index={index} key={room.id} />
             ))
           ) : (
-            <p>No rooms are available right now.</p>
+            <p className={styles.roomMessage}>
+              No rooms match these filters. Try changing your selection.
+            </p>
           )}
         </div>
       </section>
@@ -128,6 +136,10 @@ export function HomePage() {
         id="the-hotela-way"
         aria-labelledby="values-title"
       >
+        <div className={styles.sectionHeading}>
+          <p className={styles.eyebrow}>The Hotela way</p>
+          <h2 id="values-title">A little more ease in every stay</h2>
+        </div>
         <div className={styles.benefitsRow}>
           {benefits.map((benefit) => {
             const BenefitIcon = benefit.icon;
@@ -135,9 +147,7 @@ export function HomePage() {
             return (
               <article className={styles.benefitCard} key={benefit.number}>
                 <div className={styles.benefitIcon}>
-                  <span className={styles.benefitIconSpan} aria-hidden="true">
-                    <BenefitIcon size={40} strokeWidth={1.5} />
-                  </span>
+                  <BenefitIcon size={32} strokeWidth={1.5} aria-hidden="true" />
                 </div>
 
                 <h3 className={styles.benefitTitle}>{benefit.title}</h3>
@@ -154,8 +164,8 @@ export function HomePage() {
           hotela<span>.</span>
         </a>
         <p className={styles.footerTagline}>A softer place to land.</p>
-        <a className={styles.footerCta} href="/#stays">
-          book now
+        <a className={styles.footerCta} href="#stays">
+          Browse stays
         </a>
       </footer>
     </main>

@@ -1,140 +1,196 @@
 .home {
-    color: var(--ink);
-    background-color: var(--bg);
-}
+  color: var(--ink);
+  background: var(--bg);
 
-.hero {
+  > .hero {
     position: relative;
-}
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
 
-.staysSection {
-    padding: 1rem 0;
-    max-width: 1280px;
+  .staysSection {
+    display: grid;
+    width: min(100% - 2rem, 80rem);
+    gap: 1.25rem;
     margin: 0 auto;
+    padding: 3rem 0;
+    scroll-margin-top: 1rem;
+  }
 
-    > .exploreLink {
-        color: var(--accent);
-        font-weight: 600;
-        text-decoration: none;
-        display: flex;
-        align-items: flex-end;
-        gap: 0.75rem;
-        margin-bottom: 1rem;
-        margin-left: auto;
-        margin-right: 0;
+  .sectionHeading {
+    max-width: 42rem;
 
-        > a {
-            color: inherit;
-            text-decoration: inherit;
-        }
+    h2 {
+      margin: 0;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.8rem, 6vw, 2.7rem);
+      font-weight: 400;
+      letter-spacing: -0.045em;
+      line-height: 1.1;
     }
 
-    > .roomsGrid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-        gap: 1rem;
-        align-items: stretch;
-        padding: 0rem 1rem;
+    > p:last-child:not(.eyebrow) {
+      margin: 0.65rem 0 0;
+      color: var(--ink-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
     }
-}
+  }
 
-.valuesSection {
-    background-color: var(--accent-fg);
-    padding: 1.5rem 2rem;
+  .eyebrow {
+    margin: 0 0 0.55rem;
+    color: var(--accent);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .roomsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .resultsCount {
+    margin: -0.5rem 0 0;
+    color: var(--ink-muted);
+    font-size: 0.78rem;
+  }
+
+  .roomMessage {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 2rem 1rem;
+    border: 1px solid var(--line);
     border-radius: 0.5rem;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    background: var(--bg-elevated);
+    color: var(--ink-muted);
+    font-size: 0.9rem;
+    text-align: center;
+  }
 
-    > .benefitsRow {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-evenly;
-        gap: 1rem;
+  .loading {
+    grid-column: 1 / -1;
+    min-height: 12rem;
+  }
 
-        > .benefitCard {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-
-            > .benefitIcon {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-bottom: 0.75rem;
-                border-radius: 50%;
-                padding: 0.5rem;
-                color: var(--accent);
-
-                > span.benefitIconSpan {
-                    border: 1px solid var(--accent);
-                    border-radius: 50%;
-                    padding: 0.5rem;
-                    color: var(--accent);
-                }
-            }
-
-            > .benefitTitle {
-                font-size: 1.25rem;
-                text-align: center;
-            }
-
-            > .benefitDescription {
-                font-size: 0.875rem;
-                color: var(--ink-muted);
-                text-align: center;
-                margin-bottom: 0;
-            }
-        }
-    }
-}
-
-.footer {
-    max-width: 1280px;
+  .valuesSection {
+    width: min(100% - 2rem, 80rem);
     margin: 0 auto;
     padding: 2rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    border-radius: 0.6rem;
+    background: var(--accent-fg);
+
+    > .sectionHeading {
+      margin: 0 auto 1.5rem;
+      text-align: center;
+    }
+  }
+
+  .benefitsRow {
+    display: grid;
     gap: 1.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+  }
 
-    > .footerBrand {
-        color: var(--accent);
-        font-size: 1.75rem;
-        font-weight: bold;
-        text-decoration: none;
+  .benefitCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+    text-align: center;
+
+    .benefitIcon {
+      display: grid;
+      width: 3.75rem;
+      aspect-ratio: 1;
+      place-items: center;
+      margin-bottom: 0.25rem;
+      border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+      border-radius: 50%;
+      color: var(--accent);
     }
 
-    > .footerTagline {
-        color: var(--ink-muted);
-        font-size: 0.875rem;
-        margin-bottom: 0;
+    .benefitTitle {
+      margin: 0;
+      color: var(--ink);
+      font-size: 1.05rem;
+      font-weight: 600;
     }
 
-    > .footerCta {
-        color: var(--ink);
-        text-decoration: none;
-        font-size: 0.875rem;
+    .benefitDescription {
+      max-width: 22rem;
+      margin: 0;
+      color: var(--ink-muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
     }
-}
-@media (min-width: 768px) {
+  }
+
+  .footer {
+    display: flex;
+    width: min(100% - 2rem, 80rem);
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+    padding: 2rem 0;
+    text-align: center;
+  }
+
+  .footerBrand {
+    color: var(--accent);
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+
+  .footerTagline {
+    margin: 0;
+    color: var(--ink-muted);
+    font-size: 0.85rem;
+  }
+
+  .footerCta {
+    margin-top: 0.25rem;
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+  }
+
+  @media (min-width: 48rem) {
     .staysSection {
-        padding: 3rem 1rem;
+      gap: 1.5rem;
+      padding: 4.5rem 0;
     }
+
     .valuesSection {
-        padding: 1rem;
-        > .benefitsRow {
-            flex-direction: row;
-        }
+      padding: 3rem;
+    }
+
+    .benefitsRow {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2rem;
     }
 
     .footer {
-        flex-direction: column;
-        text-align: center;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 2rem 0;
+      text-align: left;
     }
+
+    .footerCta {
+      margin: 0;
+    }
+  }
 }

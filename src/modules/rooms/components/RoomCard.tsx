@@ -1,73 +1,89 @@
-import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight, UsersRound } from "lucide-react";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { mainContext } from "@/app/contexts";
 import type { Room } from "../types";
 import styles from "./RoomCard.module.css";
-import { ArrowRight } from "lucide-react";
-import { useContext } from "react";
-import { mainContext } from "@/app/contexts";
 
-type RoomCard = {
+type RoomCardProps = {
   room: Room;
   index?: number;
 };
 
-export default function RoomCard({ room, index }: RoomCard) {
+const priceFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 2,
+});
+
+export default function RoomCard({ room, index = 0 }: RoomCardProps) {
   const { setRoom } = useContext(mainContext) ?? {};
-  const navigate = useNavigate();
+  const image = room.images[0];
+  const selectRoom = () => setRoom?.(room);
 
   return (
-    <article className={`${styles.roomcard} ${styles.card}`} key={room.id}>
-      <a
-        className={`${styles.roomImageLink} ${styles.imageWrapper}`}
-        aria-label={`Book ${room.roomNumber}`}
-        onClick={(e) => {
-          e.preventDefault();
-          if (setRoom) {
-            setRoom(room);
-            navigate("/book");
-          }
-        }}
+    <article className={styles.roomCard}>
+      <Link
+        className={styles.imageLink}
+        to="/book"
+        onClick={selectRoom}
+        aria-label={`View and book room ${room.roomNumber}`}
       >
-        <img
-          className={`${styles.roomImage} ${styles.cardImageTop}`}
-          src={room.images[0]}
-          alt={`${room.type} room ${room.roomNumber}`}
-          loading={index === 0 ? "eager" : "lazy"}
-        />
-      </a>
+        {image ? (
+          <img
+            className={styles.roomImage}
+            src={image}
+            alt={`${room.type} room ${room.roomNumber}`}
+            loading={index === 0 ? "eager" : "lazy"}
+            decoding="async"
+          />
+        ) : (
+          <span
+            className={styles.imageFallback}
+            role="img"
+            aria-label={`No photo available for room ${room.roomNumber}`}
+          >
+            Photo coming soon
+          </span>
+        )}
+        <span className={styles.roomType}>{room.type}</span>
+      </Link>
+
       <div className={styles.cardBody}>
         <div className={styles.roomHeader}>
-          <h3 className={styles.roomNumber}>{room.roomNumber}</h3>
+          <div>
+            <p className={styles.roomLabel}>Room</p>
+            <h3 className={styles.roomNumber}>{room.roomNumber}</h3>
+          </div>
           <p className={styles.roomPrice}>
-            ${room.pricePerNight}
-            <span className={styles.roomPriceSuffix}> / night</span>
+            <strong>{priceFormatter.format(room.pricePerNight)}</strong>
+            <span>per night</span>
           </p>
         </div>
-        <p className={styles.roomDetails}>
-          {room.type} · Floor {room.floor}
-        </p>
-        <ul
-          className={styles.roomAmenities}
-          aria-label={`${room.bedType} amenities`}
-        >
-          {room.amenities.map((amenity) => (
-            <li className={`${styles.amenties} ${styles.badge}`} key={amenity}>
-              {amenity}
-            </li>
-          ))}
-        </ul>
+
+        <div className={styles.roomDetails}>
+          <span>{room.bedType} bed</span>
+          <span aria-hidden="true">·</span>
+          <span>Floor {room.floor}</span>
+          <span aria-hidden="true">·</span>
+          <span className={styles.capacity}>
+            <UsersRound size={15} aria-hidden="true" />
+            Sleeps {room.capacity}
+          </span>
+        </div>
+
+        {room.amenities.length > 0 && (
+          <ul className={styles.amenities} aria-label="Room amenities">
+            {room.amenities.map((amenity) => (
+              <li key={amenity}>{amenity}</li>
+            ))}
+          </ul>
+        )}
+
+        <Link className={styles.bookLink} to="/book" onClick={selectRoom}>
+          View room <ArrowRight size={18} aria-hidden="true" />
+        </Link>
       </div>
-      <Link
-        className={styles.bookLink}
-        to={`/booking/${room.id}`}
-        onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
-          e.preventDefault();
-          if (setRoom) {
-            setRoom(room);
-          }
-        }}
-      >
-        Book this room <ArrowRight size={20} />
-      </Link>
     </article>
   );
 }
