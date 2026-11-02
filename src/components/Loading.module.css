@@ -1,0 +1,51 @@
+.loading {
+  display: grid;
+  min-height: 8rem;
+  place-items: center;
+  color: var(--accent);
+}
+
+.inlineLoading {
+  display: inline-grid;
+  width: 1.15em;
+  height: 1.15em;
+  place-items: center;
+  vertical-align: -0.15em;
+  color: currentColor;
+}
+
+.spinner {
+  width: 2rem;
+  aspect-ratio: 1;
+  border: 3px solid color-mix(in srgb, currentColor 22%, transparent);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 750ms linear infinite;
+}
+
+.inlineLoading .spinner {
+  width: 1em;
+  border-width: 2px;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.8s;
+  }
+}
