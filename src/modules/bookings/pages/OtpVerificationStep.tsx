@@ -12,6 +12,7 @@ import { mainContext, type Guest } from "@/app/contexts";
 import { buildBookingSummary } from "../utils";
 import { requestOtp, verifyOtp } from "../api";
 import styles from "./OtpVerificationStep.module.css";
+import { MailCheckIcon } from "lucide-react";
 
 const CODE_LENGTH = 6;
 const RESEND_SECONDS = 30;
@@ -166,7 +167,7 @@ export function OtpVerificationStep() {
           <span aria-hidden="true">Back</span> Back to your details
         </button>
         <div className={styles.mailMark} aria-hidden="true">
-          Mail
+          <MailCheckIcon />
         </div>
         <p className={styles.eyebrow}>Guest checkout · Step 2 of 2</p>
         <h1 id="otp-title">Check your inbox.</h1>

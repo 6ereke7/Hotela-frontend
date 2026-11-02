@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { Loading } from "@/components/Loading";
 import type { Room } from "../../../types/room";
 import type { GuestBookingDetails } from "../types";
 import { buildBookingSummary } from "../utils";
@@ -220,10 +221,18 @@ export function GuestCheckoutStep({
             <button
               className="btn btn-success w-100 py-3"
               disabled={isSubmitting}
+              aria-label={
+                isSubmitting ? "Requesting verification code" : undefined
+              }
               type="submit"
             >
-              {isSubmitting ? "Requesting code..." : "Send verification code"}{" "}
-              <MessageCircleMore size={20} />
+              {isSubmitting ? (
+                <Loading inline label="Requesting verification code" />
+              ) : (
+                <>
+                  Send verification code <MessageCircleMore size={20} />
+                </>
+              )}
             </button>
             <p className="text-center text-secondary small col-12">
               Your details are only used to manage this reservation.

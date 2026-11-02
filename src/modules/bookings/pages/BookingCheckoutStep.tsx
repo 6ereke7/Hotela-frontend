@@ -6,6 +6,7 @@ import type { Room } from "@/types/room";
 import { buildBookingSummary } from "../utils";
 import { requestOtp } from "../api";
 import { useNavigate } from "react-router-dom";
+import { Loading } from "@/components/Loading";
 
 function dateOffset(days: number) {
   const date = new Date();
@@ -207,10 +208,18 @@ export function BookingCheckoutStep() {
           <button
             className={styles.submitBtn}
             disabled={isSubmitting}
+            aria-label={
+              isSubmitting ? "Requesting verification code" : undefined
+            }
             type="submit"
           >
-            {isSubmitting ? "Requesting code..." : "Send verification code"}{" "}
-            <MessageCircleMore size={20} />
+            {isSubmitting ? (
+              <Loading inline label="Requesting verification code" />
+            ) : (
+              <>
+                Send verification code <MessageCircleMore size={20} />
+              </>
+            )}
           </button>
         </form>
         <p className={styles.privacyNote}>
