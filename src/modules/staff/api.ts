@@ -109,8 +109,21 @@ export async function createManagedRoom(room: {
   };
 }
 
-export async function updateManagedRoomRate(id: string, rate: number) {
-  await api.patch(`/rooms/${id}`, { price: rate });
+export async function updateManagedRoom(
+  id: string,
+  changes: {
+    type: string;
+    pricePerNight: number;
+    capacity: number;
+    floor: number;
+    isActive: boolean;
+    amenities: string[];
+  },
+) {
+  await api.patch(`/rooms/${id}`, {
+    ...changes,
+    price: changes.pricePerNight,
+  });
 }
 
 export async function removeManagedRoom(id: string) {

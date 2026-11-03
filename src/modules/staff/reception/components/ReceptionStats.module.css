@@ -1,0 +1,58 @@
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+
+  .statCard {
+    min-width: 0;
+    padding: 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 0.5rem;
+    background: var(--bg-elevated);
+
+    > strong {
+      display: block;
+      margin: 0.8rem 0 0.3rem;
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.6rem, 7vw, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.04em;
+    }
+
+    > p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.68rem;
+    }
+  }
+
+  .cardTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    color: var(--ink-muted);
+    font-size: 0.72rem;
+
+    > span:last-child {
+      color: var(--muted);
+    }
+  }
+
+  .unit {
+    color: var(--ink-muted);
+    font-family: inherit;
+    font-size: 0.82rem;
+    letter-spacing: 0;
+  }
+
+  @media (min-width: 40rem) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+
+    .statCard {
+      padding: 1.1rem;
+    }
+  }
+}

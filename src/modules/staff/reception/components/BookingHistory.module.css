@@ -1,0 +1,52 @@
+.panel {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: var(--bg-elevated);
+}
+
+.panelHeading {
+  margin-bottom: 1rem;
+
+  h2 {
+    margin: 0;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+  }
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--ink-muted);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.countBadge {
+  display: inline-grid;
+  min-width: 1.4rem;
+  height: 1.3rem;
+  place-items: center;
+  margin-left: 0.25rem;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--green) 10%, var(--bg-elevated));
+  color: var(--ink-muted);
+  font-family: inherit;
+  font-size: 0.68rem;
+  vertical-align: 0.15rem;
+}
+
+.loading {
+  min-height: 9rem;
+}
+
+@media (min-width: 40rem) {
+  .panel {
+    padding: 1.25rem;
+  }
+}

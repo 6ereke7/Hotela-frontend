@@ -13,7 +13,7 @@ const navs: NavItem[] = [
   {
     label: "Overview",
     icon: LayoutGrid,
-    href: "/staff/manager",
+    href: "/staff/manager/dashboard",
   },
   {
     label: "Rooms",

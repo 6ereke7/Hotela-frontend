@@ -1,8 +1,15 @@
 import { useContext, useState, type ReactNode } from "react";
-import { LucideLogOut, MenuIcon, XIcon, type LucideIcon } from "lucide-react";
+import {
+  LucideLogOut,
+  LucideMoonStar,
+  LucideSunMedium,
+  MenuIcon,
+  XIcon,
+  type LucideIcon,
+} from "lucide-react";
 import shellStyles from "./StaffDashboardShell.module.css";
-import { authContext } from "@/app/contexts";
-import { Link } from "react-router-dom";
+import { authContext, ThemeContext } from "@/app/contexts";
+import { NavLink } from "react-router-dom";
 
 export type NavItem = {
   label: string;
@@ -20,6 +27,8 @@ export function StaffDashboardShell({
   children,
 }: StaffDashboardShellProps) {
   const auth = useContext(authContext);
+  const themeContext = useContext(ThemeContext);
+  const isDark = themeContext?.theme === "dark";
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -27,53 +36,87 @@ export function StaffDashboardShell({
   const initials = staff?.name
     ?.split(" ")
     .map((part) => part[0])
-    .join("");
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
   return (
     <main className={shellStyles.main}>
       <aside className={shellStyles.navPanel}>
-        <section className={isMenuOpen ? shellStyles.dNone : shellStyles.brand}>
-          hotela.
-        </section>
-        <section
-          className={isMenuOpen ? shellStyles.navList : shellStyles.dNone}
+        <div className={shellStyles.brandRow}>
+          <a className={shellStyles.brand} href="/" aria-label="Hotela home">
+            hotela<span>.</span>
+          </a>
+          <button
+            className={shellStyles.themeToggle}
+            type="button"
+            onClick={() =>
+              themeContext?.setTheme?.(isDark ? "light" : "dark")
+            }
+            aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
+            aria-pressed={isDark}
+          >
+            {isDark ? (
+              <LucideSunMedium size={19} aria-hidden="true" />
+            ) : (
+              <LucideMoonStar size={19} aria-hidden="true" />
+            )}
+          </button>
+        </div>
+        <nav
+          className={`${shellStyles.navList} ${isMenuOpen ? shellStyles.navListOpen : ""}`}
+          id="staff-navigation"
+          aria-label="Staff navigation"
         >
-          {navList.map((nav, index) => (
-            <Link key={index} to={nav.href} className={shellStyles.navLink}>
+          {navList.map((nav) => (
+            <NavLink
+              key={nav.href}
+              to={nav.href}
+              className={({ isActive }) =>
+                `${shellStyles.navLink} ${isActive ? shellStyles.navLinkActive : ""}`
+              }
+              onClick={() => setIsMenuOpen(false)}
+            >
               {nav.icon && (
                 <span className={shellStyles.navIcon} aria-hidden="true">
                   <nav.icon size={20} />
                 </span>
               )}
               {nav.label}
-            </Link>
+            </NavLink>
           ))}
-        </section>
+        </nav>
         <section className={shellStyles.user}>
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className={shellStyles.menuButton}
-            aria-label="Toggle menu"
+            aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={isMenuOpen}
+            aria-controls="staff-navigation"
+            type="button"
           >
             {isMenuOpen ? <XIcon /> : <MenuIcon />}
           </button>
-          <div
+          <button
             className={shellStyles.avatar}
             onClick={() => setIsPopupOpen(!isPopupOpen)}
-            role="button"
-            aria-label="User menu"
-            tabIndex={0}
+            aria-label="Toggle user menu"
+            aria-expanded={isPopupOpen}
+            aria-controls="staff-user-menu"
+            type="button"
           >
-            {initials}
-          </div>
+            {initials ?? "U"}
+          </button>
           <section
             className={`${shellStyles.userPopup} ${isPopupOpen ? shellStyles.open : ""}`}
-            aria-hidden={!isPopupOpen}
+            id="staff-user-menu"
+            aria-label="User menu"
           >
             <div className={shellStyles.popupName}>{staff?.name ?? "User"}</div>
             <div className={shellStyles.popupEmail}>{staff?.email ?? ""}</div>
             <button
               className={shellStyles.logoutBtn}
+              type="button"
               onClick={() => {
                 auth?.onLogout?.();
                 setIsPopupOpen(false);

@@ -1,99 +1,239 @@
-.managedRoomCard {
-    padding: 0.5em;
+.card {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1em;
-    align-items: center;
-    border: 1px solid #ddd;
-    border-radius: 0.5rem;
-    background-color: #fff;
-    transition: box-shadow 0.2s ease;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    background: var(--bg-elevated);
+    color: var(--ink);
 
-    &:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    > img {
+    > .image {
         width: 100%;
-        aspect-ratio: 19/6;
+        height: 12rem;
         object-fit: cover;
-        border-radius: 0.5rem;
+        background: var(--bg);
     }
 
-    .details {
-        display: grid;
+    > .details,
+    > .form {
+        min-width: 0;
+        padding: 1rem;
+    }
 
-        .amenitiesContainer {
+    > .details {
+        > .header {
+            margin-bottom: 1rem;
+
+            > div > .eyebrow {
+                margin: 0 0 0.25rem;
+                color: var(--ink-muted);
+                font-size: 0.7rem;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+            }
+
+            > div > h2 {
+                margin: 0;
+                font-family: Georgia, "Times New Roman", serif;
+                font-size: 1.375rem;
+                font-weight: 400;
+            }
+        }
+
+        > .facts {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.875rem;
+            margin: 0;
+
+            > div > dt {
+                margin-bottom: 0.25rem;
+                color: var(--ink-muted);
+                font-size: 0.75rem;
+            }
+
+            > div > dd {
+                margin: 0;
+                font-size: 0.875rem;
+                font-weight: 600;
+                text-transform: capitalize;
+                overflow-wrap: anywhere;
+            }
+
+            > div > .available {
+                color: var(--accent);
+            }
+
+            > div > .inactive {
+                color: var(--ink-muted);
+            }
+        }
+
+        > .amenities {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5em;
-            margin-top: 0.5em;
-            .amenity {
-                display: flex;
-                align-items: center;
-                gap: 0.25em;
-                padding: 0.25em 0.5em;
-                background-color: #f5f5f5;
-                border-radius: 0.25rem;
-                font-size: 0.875rem;
-                color: #333;
-            }
-            .amenityIcon {
-                width: 1em;
-                height: 1em;
-                fill: #666;
+            gap: 0.5rem;
+            margin: 1rem 0 0;
+            padding: 0;
+            list-style: none;
+
+            > li {
+                padding: 0.35rem 0.625rem;
+                border-radius: 999px;
+                background: var(--bg);
+                color: var(--ink-muted);
+                font-size: 0.75rem;
             }
         }
     }
-    form {
+
+    > .form {
         display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-content: start;
+        gap: 0.875rem;
 
-        justify-items: stretch;
+        > .header,
+        > .wideField,
+        > .activeField,
+        > .error,
+        > .saveButton {
+            grid-column: 1 / -1;
+        }
 
-        padding: 1em;
-        overflow-y: scroll;
         > label {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-            > p {
-                margin: 0;
-            }
-            font-weight: 500;
-            color: #555;
+            gap: 0.375rem;
+            color: var(--ink-muted);
+            font-size: 0.78rem;
+            font-weight: 600;
+
             > input {
-                flex: 1;
+                box-sizing: border-box;
+                width: 100%;
+                min-width: 0;
+                min-height: 2.75rem;
+                margin: 0;
+                padding: 0.625rem 0.75rem;
+                border: 1px solid var(--border);
+                border-radius: 0.375rem;
+                background: var(--bg);
+                color: var(--ink);
+                font: inherit;
+                font-weight: 400;
+
+                &:focus {
+                    border-color: var(--accent);
+                    outline: 2px solid color-mix(in srgb, var(--accent) 18%, transparent);
+                    outline-offset: 1px;
+                }
+            }
+        }
+
+        > .activeField {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 2.75rem;
+
+            > input {
+                width: 1rem;
+                min-height: 1rem;
+                accent-color: var(--accent);
+            }
+        }
+
+        > .error {
+            margin: 0;
+            color: #b42318;
+            font-size: 0.85rem;
+        }
+
+        > .saveButton {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-height: 2.875rem;
+            margin: 0;
+            padding: 0.625rem 1rem;
+            border: 0;
+            border-radius: 0.375rem;
+            background: var(--accent);
+            color: #fff;
+            font: inherit;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+
+            &:hover:not(:disabled) {
+                filter: none;
+                background: color-mix(in srgb, var(--accent) 85%, black);
+            }
+
+            &:focus-visible {
+                outline: 3px solid var(--accent);
+                outline-offset: 2px;
+            }
+
+            &:disabled {
+                opacity: 0.7;
+                cursor: not-allowed;
             }
         }
     }
-}
 
-.header {
-    grid-column: 1/-1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1em;
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
 
-    button {
-        padding: 0;
-        width: fit-content;
-        aspect-ratio: 1;
-        border-radius: 50%;
-        border: none;
-        margin-inline: 5px;
-    }
-}
-
-@media (min-width: 750px) {
-    .managedRoomCard {
-        grid-template-columns: 40% 1fr;
-
-        > img {
-            aspect-ratio: 16/9;
+        > h2 {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 600;
         }
 
-        form {
-            grid-template-columns: 1fr;
+        > .iconButton {
+            display: grid;
+            flex: 0 0 2.75rem;
+            width: 2.75rem;
+            height: 2.75rem;
+            margin: 0;
+            padding: 0;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            background: var(--bg);
+            color: var(--ink);
+            cursor: pointer;
+            place-items: center;
+
+            &:hover {
+                filter: none;
+                border-color: var(--accent);
+                color: var(--accent);
+            }
+
+            &:focus-visible {
+                outline: 3px solid var(--accent);
+                outline-offset: 2px;
+            }
+        }
+    }
+
+    @media (min-width: 42rem) {
+        grid-template-columns: minmax(12rem, 0.85fr) minmax(0, 1.15fr);
+
+        > .image {
+            height: 100%;
+            min-height: 17rem;
+        }
+
+        > .details,
+        > .form {
+            align-self: center;
+            padding: 1.25rem;
         }
     }
 }

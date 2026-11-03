@@ -1,20 +1,17 @@
 import { useEffect, useState, type FormEvent } from "react";
+import { Loading } from "@/components/Loading";
 import {
   createReceptionist,
   getReceptionists,
   updateReceptionist,
 } from "../../api";
 import type { Receptionist } from "../../types";
-import commonStyles from "../../components/StaffDashboardCommon.module.css";
-import teamStyles from "./ManagerTeamSection.module.css";
+import styles from "./ManagerTeamSection.module.css";
 
-type ReceptionistForm = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  password: string;
-};
+type ReceptionistForm = Pick<
+  Receptionist,
+  "firstName" | "lastName" | "email" | "phoneNumber"
+> & { password: string };
 
 const emptyForm: ReceptionistForm = {
   firstName: "",
@@ -25,40 +22,20 @@ const emptyForm: ReceptionistForm = {
 };
 
 export function ManagerTeamSection() {
-  const [receptionists, setReceptionists] = useState<Receptionist[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [team, setTeam] = useState<Receptionist[]>([]);
+  const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [form, setForm] = useState<ReceptionistForm>(emptyForm);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
     getReceptionists()
-      .then(setReceptionists)
-      .catch(() => setError("Receptionists could not be loaded."))
+      .then(setTeam)
+      .catch(() => setError("Team members could not be loaded."))
       .finally(() => setIsLoading(false));
   }, []);
-
-  const openCreateForm = () => {
-    setEditingId(null);
-    setForm(emptyForm);
-    setError("");
-    setIsFormOpen(true);
-  };
-
-  const openEditForm = (receptionist: Receptionist) => {
-    setEditingId(receptionist.id);
-    setForm({
-      firstName: receptionist.firstName,
-      lastName: receptionist.lastName,
-      email: receptionist.email,
-      phoneNumber: receptionist.phoneNumber,
-      password: "",
-    });
-    setError("");
-    setIsFormOpen(true);
-  };
 
   const closeForm = () => {
     setIsFormOpen(false);
@@ -66,7 +43,20 @@ export function ManagerTeamSection() {
     setForm(emptyForm);
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const editMember = (member: Receptionist) => {
+    setEditingId(member.id);
+    setForm({
+      firstName: member.firstName,
+      lastName: member.lastName,
+      email: member.email,
+      phoneNumber: member.phoneNumber,
+      password: "",
+    });
+    setError("");
+    setIsFormOpen(true);
+  };
+
+  const submitForm = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSaving(true);
     setError("");
@@ -78,38 +68,33 @@ export function ManagerTeamSection() {
     };
 
     try {
-      if (editingId) {
-        const updated = await updateReceptionist(editingId, {
-          ...profile,
-          ...(form.password ? { password: form.password } : {}),
-        });
-        setReceptionists((current) =>
-          current.map((item) => (item.id === updated.id ? updated : item)),
-        );
-      } else {
-        const created = await createReceptionist({
-          ...profile,
-          password: form.password,
-        });
-        setReceptionists((current) => [...current, created]);
-      }
+      const saved = editingId
+        ? await updateReceptionist(editingId, {
+            ...profile,
+            ...(form.password ? { password: form.password } : {}),
+          })
+        : await createReceptionist({ ...profile, password: form.password });
+
+      setTeam((current) =>
+        editingId
+          ? current.map((member) => (member.id === saved.id ? saved : member))
+          : [...current, saved],
+      );
       closeForm();
     } catch {
-      setError(
-        "Could not save. Check the details and ensure email and phone are unique.",
-      );
+      setError("Could not save. Check the details and unique email/phone.");
     } finally {
       setIsSaving(false);
     }
   };
 
-  const toggleActive = async (receptionist: Receptionist) => {
+  const toggleActive = async (member: Receptionist) => {
     setError("");
     try {
-      const updated = await updateReceptionist(receptionist.id, {
-        isActive: !receptionist.isActive,
+      const updated = await updateReceptionist(member.id, {
+        isActive: !member.isActive,
       });
-      setReceptionists((current) =>
+      setTeam((current) =>
         current.map((item) => (item.id === updated.id ? updated : item)),
       );
     } catch {
@@ -118,48 +103,42 @@ export function ManagerTeamSection() {
   };
 
   return (
-    <section
-      className={`${commonStyles.panelCard} card p-3`}
-      aria-labelledby="team-list-title"
-    >
-      <div className={commonStyles.panelHeading}>
+    <section className={styles.team} aria-labelledby="team-title">
+      <header className={styles.header}>
         <div>
-          <p className={commonStyles.eyebrow}>PEOPLE & PERMISSIONS</p>
-          <h2 id="team-list-title">
-            Receptionists{" "}
-            <span className={commonStyles.countBadge}>
-              {receptionists.length}
-            </span>
-          </h2>
+          <p className={styles.eyebrow}>People & permissions</p>
+          <h1 id="team-title">Receptionists</h1>
         </div>
-        <button
-          className="btn btn-success btn-sm"
-          onClick={openCreateForm}
-          type="button"
-        >
-          + Add receptionist
-        </button>
-      </div>
+        <div className={styles.headerActions}>
+          <span>{team.length} team members</span>
+          <button
+            className={styles.primaryButton}
+            onClick={() => {
+              setEditingId(null);
+              setForm(emptyForm);
+              setError("");
+              setIsFormOpen(true);
+            }}
+            type="button"
+          >
+            Add receptionist
+          </button>
+        </div>
+      </header>
 
       {error && (
-        <p className={teamStyles.error} role="alert">
+        <p className={styles.error} role="alert">
           {error}
         </p>
       )}
 
       {isFormOpen && (
-        <form
-          className="row g-3 my-3 p-3 border bg-light"
-          onSubmit={handleSubmit}
-        >
-          <h3 className="col-12 h5 mb-0">
-            {editingId ? "Edit receptionist" : "Create receptionist"}
-          </h3>
-          <label className="col-md-6">
-            <span>First name</span>
+        <form className={styles.form} onSubmit={submitForm}>
+          <h2>{editingId ? "Edit receptionist" : "Create receptionist"}</h2>
+          <label>
+            First name
             <input
               autoComplete="given-name"
-              className="form-control form-control-sm"
               maxLength={100}
               onChange={(event) =>
                 setForm({ ...form, firstName: event.target.value })
@@ -168,11 +147,10 @@ export function ManagerTeamSection() {
               value={form.firstName}
             />
           </label>
-          <label className="col-md-6">
-            <span>Last name</span>
+          <label>
+            Last name
             <input
               autoComplete="family-name"
-              className="form-control form-control-sm"
               maxLength={100}
               onChange={(event) =>
                 setForm({ ...form, lastName: event.target.value })
@@ -181,11 +159,10 @@ export function ManagerTeamSection() {
               value={form.lastName}
             />
           </label>
-          <label className="col-md-6">
-            <span>Work email</span>
+          <label>
+            Work email
             <input
               autoComplete="email"
-              className="form-control form-control-sm"
               onChange={(event) =>
                 setForm({ ...form, email: event.target.value })
               }
@@ -194,11 +171,10 @@ export function ManagerTeamSection() {
               value={form.email}
             />
           </label>
-          <label className="col-md-6">
-            <span>Phone number</span>
+          <label>
+            Phone number
             <input
               autoComplete="tel"
-              className="form-control form-control-sm"
               maxLength={20}
               onChange={(event) =>
                 setForm({ ...form, phoneNumber: event.target.value })
@@ -208,13 +184,10 @@ export function ManagerTeamSection() {
               value={form.phoneNumber}
             />
           </label>
-          <label className="col-md-6">
-            <span>
-              {editingId ? "New password (optional)" : "Temporary password"}
-            </span>
+          <label>
+            {editingId ? "New password (optional)" : "Temporary password"}
             <input
               autoComplete="new-password"
-              className="form-control form-control-sm"
               minLength={8}
               onChange={(event) =>
                 setForm({ ...form, password: event.target.value })
@@ -224,20 +197,36 @@ export function ManagerTeamSection() {
               value={form.password}
             />
           </label>
-          <div className="col-12 d-flex align-items-center gap-2">
+          <div className={styles.formActions}>
             <button
-              className="btn btn-success btn-sm"
+              className={styles.primaryButton}
               disabled={isSaving}
+              aria-label={
+                isSaving
+                  ? editingId
+                    ? "Saving receptionist changes"
+                    : "Creating receptionist account"
+                  : undefined
+              }
               type="submit"
             >
               {isSaving
-                ? "Saving..."
+                ? (
+                    <Loading
+                      inline
+                      label={
+                        editingId
+                          ? "Saving receptionist changes"
+                          : "Creating receptionist account"
+                      }
+                    />
+                  )
                 : editingId
                   ? "Save changes"
                   : "Create account"}
             </button>
             <button
-              className="btn btn-outline-secondary btn-sm"
+              className={styles.secondaryButton}
               onClick={closeForm}
               type="button"
             >
@@ -248,50 +237,45 @@ export function ManagerTeamSection() {
       )}
 
       {isLoading ? (
-        <p role="status">Loading receptionists...</p>
-      ) : receptionists.length === 0 ? (
-        <p className={teamStyles.emptyState}>No receptionist accounts yet.</p>
+        <Loading className={styles.loading} label="Loading receptionists" />
+      ) : team.length === 0 ? (
+        <p className={styles.message}>No receptionist accounts yet.</p>
       ) : (
-        <div className={teamStyles.receptionistList}>
-          {receptionists.map((receptionist) => (
-            <article
-              className={teamStyles.receptionistRow}
-              key={receptionist.id}
-            >
-              <div className={commonStyles.profileAvatar} aria-hidden="true">
-                {receptionist.firstName[0]}
-                {receptionist.lastName[0]}
-              </div>
-              <div className={teamStyles.receptionistIdentity}>
+        <div className={styles.list}>
+          {team.map((member) => (
+            <article className={styles.member} key={member.id}>
+              <span className={styles.avatar} aria-hidden="true">
+                {member.firstName[0]}
+                {member.lastName[0]}
+              </span>
+              <div className={styles.identity}>
                 <strong>
-                  {receptionist.firstName} {receptionist.lastName}
+                  {member.firstName} {member.lastName}
                 </strong>
-                <span>{receptionist.email}</span>
-                <small>{receptionist.phoneNumber}</small>
+                <span>{member.email}</span>
+                <small>{member.phoneNumber}</small>
               </div>
               <span
                 className={
-                  receptionist.isActive
-                    ? teamStyles.activeStatus
-                    : teamStyles.inactiveStatus
+                  member.isActive ? styles.activeStatus : styles.inactiveStatus
                 }
               >
-                {receptionist.isActive ? "Active" : "Inactive"}
+                {member.isActive ? "Active" : "Inactive"}
               </span>
-              <div className={teamStyles.rowActions}>
+              <div className={styles.memberActions}>
                 <button
-                  className={commonStyles.panelLink}
-                  onClick={() => openEditForm(receptionist)}
+                  className={styles.textButton}
+                  onClick={() => editMember(member)}
                   type="button"
                 >
                   Edit
                 </button>
                 <button
-                  className={commonStyles.panelLink}
-                  onClick={() => void toggleActive(receptionist)}
+                  className={styles.textButton}
+                  onClick={() => void toggleActive(member)}
                   type="button"
                 >
-                  {receptionist.isActive ? "Deactivate" : "Reactivate"}
+                  {member.isActive ? "Deactivate" : "Reactivate"}
                 </button>
               </div>
             </article>

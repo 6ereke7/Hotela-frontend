@@ -1,0 +1,194 @@
+.tableWrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.bookingTable {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+
+    thead {
+        display: none;
+    }
+
+    tbody {
+        display: grid;
+        gap: 0.75rem;
+    }
+
+    tr {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        border: 1px solid var(--line);
+        border-radius: 0.4rem;
+        background: var(--bg-elevated);
+    }
+
+    th {
+        padding: 0.7rem;
+        border-bottom: 1px solid var(--line);
+        color: var(--ink-muted);
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    td {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+        padding: 0.65rem 0.55rem;
+        color: var(--ink-muted);
+        font-size: 0.72rem;
+        overflow-wrap: anywhere;
+
+        &::before {
+            color: var(--muted);
+            content: attr(data-label);
+            font-size: 0.58rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        > strong {
+            color: var(--ink);
+            font-size: 0.76rem;
+            font-weight: 600;
+        }
+
+        > small {
+            color: var(--muted);
+            font-size: 0.65rem;
+        }
+    }
+
+    .actionCell {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        justify-content: flex-end;
+        border-top: 1px solid var(--line);
+
+        &::before {
+            margin-right: auto;
+            content: "";
+        }
+    }
+
+    @media (min-width: 48rem) {
+        white-space: nowrap;
+
+        thead {
+            display: table-header-group;
+        }
+
+        tbody {
+            display: table-row-group;
+        }
+
+        tr {
+            display: table-row;
+            border: 0;
+            border-radius: 0;
+        }
+
+        th {
+            background: color-mix(in srgb, var(--ink) 3%, var(--bg-elevated));
+        }
+
+        td {
+            display: table-cell;
+            padding: 0.8rem 0.7rem;
+            border-bottom: 1px solid var(--line);
+            overflow-wrap: normal;
+
+            &::before {
+                content: none;
+            }
+
+            > strong,
+            > small {
+                display: block;
+            }
+
+            > small {
+                margin-top: 0.25rem;
+            }
+        }
+
+        .actionCell {
+            text-align: right;
+        }
+    }
+}
+
+.missedBookingRow {
+    background: color-mix(in srgb, #bd704b 7%, var(--bg-elevated));
+    box-shadow: inset 3px 0 #bd704b;
+}
+
+.statusMissed {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.45rem;
+    border-radius: 1rem;
+    background: #f8e8dd;
+    color: #a24f32;
+    font-size: 0.62rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.actionButton {
+    min-height: 2rem;
+    padding: 0.35rem 0.65rem;
+    border: 1px solid var(--green);
+    border-radius: 0.3rem;
+    background: var(--green);
+    color: var(--ink);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.68rem;
+    font-weight: 600;
+
+    &:hover {
+        filter: brightness(0.94);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--green);
+        outline-offset: 2px;
+    }
+}
+
+.secondaryButton {
+    background: transparent;
+    color: var(--green);
+}
+
+.completedText {
+    color: var(--muted);
+    font-size: 0.68rem;
+}
+
+.emptyState {
+    margin: 0;
+    padding: 2rem 0.75rem;
+    color: var(--muted);
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+.visuallyHidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+}
