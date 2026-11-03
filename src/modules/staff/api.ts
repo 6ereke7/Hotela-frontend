@@ -60,7 +60,7 @@ function mapBooking(
 
 export async function getStaffOperations() {
   const [roomResponse, bookingResponse] = await Promise.all([
-    api.get<ApiResponse<ApiRoom[]>>("/rooms"),
+    api.get<ApiResponse<ApiRoom[]>>("/rooms/inventory"),
     api.get<ApiResponse<ApiBooking[]>>("/bookings"),
   ]);
 

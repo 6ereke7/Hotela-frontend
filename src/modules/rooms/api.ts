@@ -15,8 +15,21 @@ export type RoomFilter = {
 export async function getRooms(
   search: RoomFilter = {},
 ): Promise<Room[] | undefined> {
+  return getRoomList("/rooms", search);
+}
+
+export async function getRoomInventory(
+  search: RoomFilter = {},
+): Promise<Room[] | undefined> {
+  return getRoomList("/rooms/inventory", search);
+}
+
+async function getRoomList(
+  path: string,
+  search: RoomFilter,
+): Promise<Room[] | undefined> {
   try {
-    const response = await api.get<ApiResponse<Room[]>>("/rooms", {
+    const response = await api.get<ApiResponse<Room[]>>(path, {
       params: search,
       paramsSerializer: (params) => {
         return QueryString.stringify(params, { arrayFormat: "repeat" });

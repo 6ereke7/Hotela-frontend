@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { api, type ApiResponse } from "@/lib/api";
 import { Loading } from "@/components/Loading";
-import { getRooms } from "@/modules/rooms/api";
+import { getRoomInventory } from "@/modules/rooms/api";
 import ManagerRevenue from "../components/ManagerRevenue";
 import styles from "./ManagerOverview.module.css";
 
@@ -23,7 +23,7 @@ export function ManagerOverview() {
     const controller = new AbortController();
 
     Promise.all([
-      getRooms(),
+      getRoomInventory(),
       api.get<ApiResponse<BookingStats>>("/stats/bookings", {
         signal: controller.signal,
       }),

@@ -3,7 +3,7 @@ import { Loading } from "@/components/Loading";
 import { ManagedRoomCard, type RoomChanges } from "../components/ManagedRoomCard";
 import sectionStyles from "./ManagerRoomsSection.module.css";
 import type { Room } from "@/types/room";
-import { getRooms } from "@/modules/rooms/api";
+import { getRoomInventory } from "@/modules/rooms/api";
 import { updateManagedRoom } from "@/modules/staff/api";
 
 export function ManagerRoomsSection() {
@@ -12,7 +12,7 @@ export function ManagerRoomsSection() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getRooms()
+    getRoomInventory()
       .then((data) => {
         if (!data) throw new Error("Could not load rooms");
         setRooms(data);
