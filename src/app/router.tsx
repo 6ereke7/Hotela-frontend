@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { FallBackRoute } from "./FallBackRoute";
 import { HomePage } from "@/modules/rooms";
 import { AuthProvider, MainProvider } from "@/app/providers";
@@ -27,13 +27,17 @@ export function Router() {
         <Route path="staff" element={<AuthProvider />}>
           <Route index element={<StaffLoginPage />} />
           <Route path="manager" element={<ManagerDashboard />}>
-            <Route index element={<ManagerOverview />} />
+            <Route
+              index
+              element={<Navigate to="/staff/manager/dashboard" replace />}
+            />
+            <Route index path="dashboard" element={<ManagerOverview />} />
             <Route path="rooms" element={<ManagerRoomsSection />} />
             <Route path="team" element={<ManagerTeamSection />} />
           </Route>
           <Route path="reception" element={<ReceptionistDashboard />} />
         </Route>
-        <Route path="*" element={<FallBackRoute />} />
+        <Route path="*" element={<FallBackRoute redirectTo="/" />} />
       </Routes>
     </BrowserRouter>
   );

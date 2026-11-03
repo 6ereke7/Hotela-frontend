@@ -1,71 +1,50 @@
-import { ThemeContext } from "@/app/contexts";
 import { useContext, type ReactNode } from "react";
-import {
-  BookBookmarkIcon,
-  HotelIcon,
-  Image,
-  LucideMoonStar,
-  LucideSunMedium,
-} from "lucide-react";
+import { LucideMoonStar, LucideSunMedium } from "lucide-react";
+import { ThemeContext } from "@/app/contexts";
 import "@/components/Wraper.css";
 
-const navLinks = [
-  {
-    link: "/services",
-    icon: HotelIcon,
-    label: "services",
-  },
-  {
-    link: "/images",
-    icon: Image,
-    label: "Images",
-  },
-  {
-    link: "/explore",
-    icon: BookBookmarkIcon,
-    label: "explore",
-  },
-];
-export default function Wraper({ children }: { children: ReactNode }) {
-  const themeCtx = useContext(ThemeContext);
-  const { theme, setTheme } = themeCtx ?? {};
+type WraperProps = {
+  children: ReactNode;
+};
+
+export default function Wraper({ children }: WraperProps) {
+  const themeContext = useContext(ThemeContext);
+  const theme = themeContext?.theme ?? "light";
+  const isDark = theme === "dark";
+
   return (
     <>
-      <header className="header">
-        <div
-          className={` container-xl d-flex align-items-center justify-content-between py-2 `}
-        >
-          <a
-            className="text-success fs-3 fw-bold text-decoration-none"
-            href="/"
-            aria-label="Hotela home"
-          >
+      <header className="site-header">
+        <div className="site-header__inner">
+          <a className="site-header__brand" href="/" aria-label="Hotela home">
             hotela<span>.</span>
           </a>
-          <nav
-            className="d-flex align-items-center justify-content-around gap-2 gap-md-4 small"
-            aria-label="Main navigation"
-          >
-            {navLinks.map((nav, index) => (
-              <a
-                className={`text-body text-decoration-none ${index === 1 ? "d-none d-md-inline" : ""}`}
-                href={nav.link}
-                key={nav.label}
-              >
-                <nav.icon style={{ color: "var(--ink)" }} />
-              </a>
-            ))}
-            <div
+          <nav className="site-nav" aria-label="Main navigation">
+            <a className="site-nav__link" href="#stays">
+              Stays
+            </a>
+            <a className="site-nav__link" href="#the-hotela-way">
+              Our approach
+            </a>
+            <button
+              className="site-nav__theme-toggle"
+              type="button"
               onClick={() =>
-                setTheme ? setTheme(theme === "dark" ? "light" : "dark") : 1
+                themeContext?.setTheme?.(isDark ? "light" : "dark")
               }
+              aria-label={`Switch to ${isDark ? "light" : "dark"} theme`}
+              aria-pressed={isDark}
             >
-              {theme === "light" ? <LucideMoonStar /> : <LucideSunMedium />}
-            </div>
+              {isDark ? (
+                <LucideSunMedium size={19} aria-hidden="true" />
+              ) : (
+                <LucideMoonStar size={19} aria-hidden="true" />
+              )}
+              <span>{isDark ? "Light" : "Dark"}</span>
+            </button>
           </nav>
         </div>
       </header>
-
       {children}
     </>
   );

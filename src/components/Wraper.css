@@ -1,10 +1,125 @@
-.header {
+.site-header {
   position: sticky;
   z-index: 1000;
   top: 0;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg-elevated) 94%, transparent);
+  backdrop-filter: blur(14px);
+
+  .site-header__inner {
+    display: flex;
+    width: min(100% - 2rem, 80rem);
+    min-height: 4.25rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 auto;
+  }
+
+  .site-header__brand {
+    color: var(--accent);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.07em;
+    text-decoration: none;
+
+    span {
+      color: var(--ink);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.75rem, 3vw, 2rem);
+  }
+
+  .site-nav__link {
+    color: var(--ink-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 140ms ease;
+
+    &:hover {
+      color: var(--accent);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+  }
+
+  .site-nav__theme-toggle {
+    display: inline-flex;
+    min-height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0.4rem 0.65rem;
+    border: 1px solid var(--line);
+    border-radius: 2rem;
+    background: var(--bg-elevated);
+    color: var(--ink);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.75rem;
+    transition:
+      background-color 140ms ease,
+      border-color 140ms ease;
+
+    &:hover {
+      border-color: var(--accent);
+      filter: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+  }
+
+  @media (max-width: 24rem) {
+    .site-header__inner {
+      width: min(100% - 1.25rem, 80rem);
+    }
+
+    .site-nav {
+      gap: 0.6rem;
+    }
+
+    .site-nav__link {
+      font-size: 0.72rem;
+    }
+
+    .site-nav__theme-toggle {
+      width: 2.5rem;
+      padding: 0;
+
+      span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        clip-path: inset(50%);
+      }
+    }
+  }
 }
-[data-theme="dark"] .header {
-  background: rgba(38, 42, 50);
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header .site-nav__link,
+  .site-header .site-nav__theme-toggle {
+    transition: none;
+  }
 }
