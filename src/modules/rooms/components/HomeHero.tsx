@@ -21,7 +21,6 @@ export function HomeHero() {
           alt="Warm, inviting hotel room with a neatly made bed"
           fetchPriority="high"
         />
-        <span className={styles.imageCaption}>Thoughtful stays, made simple</span>
       </div>
     </div>
   );
