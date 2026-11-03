@@ -1,91 +1,183 @@
 .loginPage {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 1rem;
   background:
-    radial-gradient(ellipse at 50% 42%, rgb(224 231 220 / 45%), transparent 48%),
-    #fbfaf7;
+    radial-gradient(
+      ellipse at 50% 42%,
+      rgb(224 231 220 / 45%),
+      transparent 48%
+    ),
+    var(--bg);
   color: var(--ink);
-}
 
-.wordmark {
-  color: var(--green);
-  font-size: 1.65rem;
-  font-weight: 700;
-  letter-spacing: -0.09em;
-  text-decoration: none;
-}
+  > .brandBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: min(100%, 80rem);
+    margin: 0 auto;
 
-.wordmark span {
-  color: #c78e63;
-}
+    > .wordmark {
+      color: var(--accent);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.09em;
+      text-decoration: none;
 
-.guestLink {
-  color: var(--muted);
-  font-size: 0.78rem;
-  text-decoration: none;
-}
+      > span {
+        color: #c78e63;
+      }
 
-.guestLink span {
-  margin-left: 5px;
-  color: var(--green);
-}
+      &:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 4px;
+      }
+    }
 
-.loginCard {
-  max-width: 430px;
-  border: 1px solid var(--line);
-  background: rgb(255 255 255 / 92%);
-  box-shadow: 0 18px 70px rgb(39 54 44 / 6%);
-}
+    > .guestLink {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      min-height: 2.75rem;
+      color: var(--ink-muted);
+      font-size: 0.8rem;
+      text-decoration: none;
 
-.loginMark {
-  width: 46px;
-  height: 46px;
-  display: grid;
-  place-items: center;
-  margin-bottom: 27px;
-  border-radius: 50%;
-  background: #edf2ec;
-  color: var(--green);
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 1.4rem;
-  font-weight: 700;
-}
+      > span {
+        color: var(--accent);
+      }
 
-.eyebrow {
-  margin: 0 0 11px;
-  color: var(--green);
-  font-size: 0.67rem;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-}
+      &:hover {
+        color: var(--accent);
+      }
 
-.loginCard h1 {
-  margin: 0;
-  color: var(--ink);
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 2.8rem;
-  font-weight: 400;
-  letter-spacing: -0.06em;
-}
+      &:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
+      }
+    }
+  }
 
-.description {
-  margin: 12px 0 24px;
-  color: var(--muted);
-  font-size: 0.87rem;
-  line-height: 1.65;
-}
+  > .loginCard {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 27rem;
+    margin: auto;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--bg-elevated) 94%, transparent);
+    box-shadow: 0 1.125rem 4.375rem rgb(39 54 44 / 0.08);
 
-.field {
-  display: grid;
-  gap: 8px;
-}
+    > .loginForm {
+      display: grid;
+      gap: 1rem;
 
-.field span {
-  font-size: 0.76rem;
-  font-weight: 600;
-}
+      > .field {
+        display: grid;
+        gap: 0.45rem;
 
-@media (max-width: 520px) {
-  .loginPage {
-    padding-inline: 1rem;
+        > span {
+          color: var(--ink);
+          font-size: 0.8rem;
+          font-weight: 600;
+        }
+
+        > .input {
+          box-sizing: border-box;
+          width: 100%;
+          min-height: 2.875rem;
+          margin: 0;
+          padding: 0.65rem 0.75rem;
+          border: 1px solid var(--border);
+          border-radius: 0.375rem;
+          background: var(--bg);
+          color: var(--ink);
+          font: inherit;
+          font-size: 0.9rem;
+          transition:
+            border-color 0.2s,
+            box-shadow 0.2s;
+
+          &:focus {
+            border-color: var(--accent);
+            outline: 0;
+            box-shadow: 0 0 0 3px
+              color-mix(in srgb, var(--accent) 16%, transparent);
+          }
+        }
+      }
+
+      > .errorAlert {
+        margin: 0;
+        padding: 0.75rem;
+        border-radius: 0.375rem;
+        background: rgb(180 35 24 / 0.1);
+        color: #b42318;
+        font-size: 0.85rem;
+        line-height: 1.5;
+      }
+
+      > .submitButton {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        width: 100%;
+        min-height: 3rem;
+        margin: 0.25rem 0 0;
+        padding: 0.75rem 1rem;
+        border: 0;
+        border-radius: 0.375rem;
+        background: var(--accent);
+        color: #fff;
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover:not(:disabled) {
+          filter: none;
+          background: color-mix(in srgb, var(--accent) 85%, black);
+        }
+
+        &:focus-visible {
+          outline: 3px solid var(--accent);
+          outline-offset: 3px;
+        }
+
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+
+  @media (min-width: 40rem) {
+    padding: 1.5rem 2rem;
+
+    > .brandBar > .wordmark {
+      font-size: 1.65rem;
+    }
+
+    > .loginCard {
+      padding: 2.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    > .loginCard > .loginForm {
+      > .field > .input,
+      > .submitButton {
+        transition: none;
+      }
+    }
   }
 }
